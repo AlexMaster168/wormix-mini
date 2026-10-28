@@ -39,7 +39,7 @@ class GameTest {
         assertEquals(listOf(0,2,1,3,0),ids)
     }
     @Test fun realTimeoutAdvancesTurn() {
-        val g=Game(againstBot=false);repeat(1802) {g.update()}
+        val g=Game(againstBot=false);repeat(3542) {g.update()}
         assertEquals(2,g.turn);assertEquals(1,g.active.team)
     }
     @Test fun oneAttackPerTurnAndAmmoConsumedOnce() {
@@ -107,6 +107,7 @@ class GameTest {
     }
     @Test fun sniperCannotShootThroughTerrain() {
         val g=Game();g.active.x=400f;g.active.y=640f
+        g.terrain.addGirder(600f,450f,90f,500f)
         val enemy=g.fighters[2];enemy.x=900f;enemy.y=635f
         g.select(Weapon.SNIPER);g.angle=0f;g.fire();assertEquals(110f,enemy.hp,0f)
     }

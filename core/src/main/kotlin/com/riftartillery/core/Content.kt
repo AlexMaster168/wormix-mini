@@ -6,7 +6,9 @@ enum class Arena(val title:String,val subtitle:String,val gravity:Float) {
     ORBIT("Станция «Титан»", "Астероиды и низкая гравитация",180f),
     CHEMICAL("Завод «Химпром»", "Цистерны, трубы и кислота",290f),
     ARCTIC("База «Полюс»", "Ледяные гроты и скользкие склоны",290f),
-    SCRAP("Кладбище мехов", "Остовы машин и магнитный кран",290f)
+    SCRAP("Кладбище мехов", "Остовы машин и магнитный кран",290f),
+    CANYON("Песчаный каньон", "Красные скалы и каменные уступы",300f),
+    HARBOR("Затопленный порт", "Причалы, контейнеры и мостки",290f)
 }
 enum class Race(val title:String,val hp:Int,val resist:Float) {
     DRAGON("Драконид",100,.10f), CYBORG("Киборг",110,.15f), MUTANT("Мутант",95,0f),
@@ -64,7 +66,7 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     METEOR("Метеоритный дождь",45f,110f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Восемь падающих метеоритов"),
     QUAKE("Землетрясение",0f,0f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Четыре секунды трясёт бойцов"),
     FLOOD("Потоп",0f,0f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Поднимает опасную границу на 90"),
-    ROPE("Ниндзя-канат",0f,0f,-1,0f,0f,Category.GADGET,Kind.UTILITY,"Крюк, раскачка и обход углов"),
+    ROPE("Ниндзя-канат",0f,0f,-1,0f,0f,Category.GADGET,Kind.UTILITY,"Автоподтяжка; ↑ быстрее, ↓ выпуск троса"),
     JETPACK("Реактивный ранец",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"100 топлива; ↑ тяга, ← → движение"),
     BOOTS("Гравитационные ботинки",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Тройной прыжок до конца хода"),
     TELEKINESIS("Телекинез",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Выбери объект, затем место переноса"),
@@ -74,9 +76,12 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     DEFENDER("Защитник",0f,65f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Дрон: поглощает 40 урона, 2 хода"),
     SWITCH("Смена персонажа",0f,0f,3,0f,0f,Category.GADGET,Kind.UTILITY,"Дополнительная смена бойца без выстрела"),
     PARACHUTE("Парашют",0f,0f,3,0f,0f,Category.GADGET,Kind.UTILITY,"Безопасное падение до конца хода"),
-    AIM_SIGHT("Усиленный прицел",0f,0f,3,0f,0f,Category.GADGET,Kind.UTILITY,"Удлинённый прогноз траектории");
+    AIM_SIGHT("Усиленный прицел",0f,0f,3,0f,0f,Category.GADGET,Kind.UTILITY,"Удлинённый прогноз траектории"),
+    PLASMA_RIFLE("Плазменная винтовка",42f,48f,4,1050f,0f,Category.GUN,Kind.IMPACT,"Быстрый заряд; электрический взрыв"),
+    CLUSTER_ROCKET("Кассетная ракета",24f,62f,2,760f,0f,Category.BALLISTIC,Kind.IMPACT,"При ударе выпускает шесть суббоеприпасов"),
+    VORTEX("Граната «Сингулярность»",38f,180f,2,610f,2.5f,Category.GRENADE,Kind.BOUNCE,"Взрыв стягивает бойцов к центру");
     val targeted get()=this in setOf(TELEPORT,HOMING,BUNKER,ION,AIRSTRIKE,NAPALM,GIRDER,TELEKINESIS)
-    val damageType get()=when(this) {FLAME,MOLOTOV,NAPALM->DamageType.FIRE;GAS,SKUNK->DamageType.POISON;TESLA,ION,STICKY,LASER,REPULSOR->DamageType.ELECTRIC;ACID->DamageType.ACID;else->if(kind==Kind.BEAM) DamageType.BULLET else if(kind==Kind.MELEE) DamageType.MELEE else DamageType.EXPLOSION}
+    val damageType get()=when(this) {FLAME,MOLOTOV,NAPALM->DamageType.FIRE;GAS,SKUNK->DamageType.POISON;TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX->DamageType.ELECTRIC;ACID->DamageType.ACID;else->if(kind==Kind.BEAM) DamageType.BULLET else if(kind==Kind.MELEE) DamageType.MELEE else DamageType.EXPLOSION}
 }
 enum class GameMode(val title:String) { DUEL("Дуэль"), BOSS("Охота на босса"), ROPE_RACE("Испытание каната") }
 enum class Boss(val title:String,val hp:Int,val arena:Arena,val race:Race,val briefing:String) {

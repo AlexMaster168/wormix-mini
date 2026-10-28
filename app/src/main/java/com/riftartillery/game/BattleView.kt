@@ -43,7 +43,8 @@ class BattleView(context: Context) : View(context) {
     private val bossArt=BitmapFactory.decodeStream(context.assets.open("bosses-atlas.png"))
     private var cameraX=500f
     private var cameraY=850f
-    private var zoom=.75f
+    private var zoom=1.05f
+    private var drawingWorld=false
     private var overview=false
     private var cameraTurn= -1
     private var cameraManual=false
@@ -56,6 +57,7 @@ class BattleView(context: Context) : View(context) {
     private var game: Game? = null
     private val saveFile = AtomicFile(File(context.filesDir,"battle-v1.bin"))
     private var savedGame: Game? = readSavedGame()
+    private var terrainUpgradeHint=prefs.getInt("terrainLayout",0)<1 && savedGame!=null
     private var lastSavedTurn = -1
     private var paused = false
     private var help = false
@@ -130,11 +132,12 @@ class BattleView(context: Context) : View(context) {
         lastNanos=0;accumulator=0f;clearInput();beep()
     }
     private fun start() {
+        terrainUpgradeHint=false;prefs.edit().putInt("terrainLayout",1).apply()
         matchSeed++;prefs.edit().putInt("seed",matchSeed).apply()
         if(gameMode==GameMode.BOSS) arena=selectedBoss.arena
         game=Game(arena,if(gameMode==GameMode.BOSS) true else bot,matchSeed,gameMode,selectedBoss,squad);mode="battle";paused=false;arsenal=false;help=false
         if(gameMode==GameMode.ROPE_RACE) game?.select(Weapon.ROPE)
-        cameraTurn= -1;cameraManual=false;overview=false;zoom=.75f
+        cameraTurn= -1;cameraManual=false;overview=false;zoom=1.05f
         terrainBitmap?.recycle();terrainBitmap=null;terrainRevision=-1;resultSaved=false;lastShots=0
         accumulator=0f;lastNanos=0;clearInput();beep()
         checkpoint()
@@ -188,17 +191,29 @@ class BattleView(context: Context) : View(context) {
     }
     private fun circle(c:Canvas,x:Float,y:Float,r:Float,color:Int) {paint.color=color;paint.shader=null;c.drawCircle(x,y,r,paint)}
     private fun text(c:Canvas,s:String,x:Float,y:Float,size:Float=20f,color:Int=white,type:Typeface=font) {
-        paint.color=color;paint.textSize=size;paint.typeface=type;paint.shader=null;paint.style=Paint.Style.FILL;c.drawText(s,x,y,paint)
+        paint.color=color;paint.textSize=if(drawingWorld) size else max(22f,size);paint.typeface=type;paint.shader=null;paint.style=Paint.Style.FILL;c.drawText(s,x,y,paint)
+    }
+    private fun fittedText(c:Canvas,s:String,x:Float,y:Float,width:Float,size:Float=24f,color:Int=white,type:Typeface=font) {
+        paint.typeface=type;paint.textSize=max(22f,size)
+        var label=s
+        while(label.length>1 && paint.measureText(label)>width) label=label.dropLast(1)
+        if(label!=s) label=label.dropLast(1)+"…"
+        text(c,label,x,y,size,color,type)
     }
     private fun button(c:Canvas,label:String,x:Float,y:Float,w:Float,h:Float,fill:Int=panel,ink:Int=white,action:()->Unit) {
         rect(c,x,y,w,h,fill,12f)
-        paint.typeface=font;paint.textSize=18f
-        text(c,label,x+(w-paint.measureText(label))/2,y+h/2+6,18f,ink)
+        paint.typeface=font;paint.textSize=32f
+        val labelSize=(32f*(w-20)/paint.measureText(label).coerceAtLeast(1f)).coerceIn(22f,32f)
+        paint.textSize=labelSize
+        var visible=label
+        while(visible.length>1 && paint.measureText(visible)>w-19) visible=visible.dropLast(1)
+        if(visible!=label) visible=visible.dropLast(1)+"…"
+        text(c,visible,x+(w-paint.measureText(visible))/2,y+h/2+labelSize*.34f,labelSize,ink)
         val accessible=when(label) {"←"->if(arsenal) "Предыдущая страница" else "Шаг влево";"→"->if(arsenal) "Следующая страница" else "Шаг вправо";"↑"->"Подтянуть канат или тяга ранца";"↓"->"Удлинить канат";else->label}
         buttons+=Button(RectF(x,y,x+w,y+h),action,accessible)
     }
     private fun background(c:Canvas,a:Arena) {
-        val top=when(a) { Arena.NEON -> Color.rgb(11,22,38);Arena.VOLCANO -> Color.rgb(34,20,32);Arena.ORBIT -> Color.rgb(15,18,43);Arena.CHEMICAL->Color.rgb(18,38,32);Arena.ARCTIC->Color.rgb(20,39,59);Arena.SCRAP->Color.rgb(38,30,25) }
+        val top=when(a) { Arena.NEON -> Color.rgb(11,22,38);Arena.VOLCANO -> Color.rgb(34,20,32);Arena.ORBIT -> Color.rgb(15,18,43);Arena.CHEMICAL->Color.rgb(18,38,32);Arena.ARCTIC->Color.rgb(20,39,59);Arena.SCRAP->Color.rgb(38,30,25);Arena.CANYON->Color.rgb(82,43,43);Arena.HARBOR->Color.rgb(15,45,59) }
         paint.shader=LinearGradient(0f,0f,0f,750f,top,bg,Shader.TileMode.CLAMP)
         c.drawRect(0f,0f,1440f,810f,paint);paint.shader=null
         for(i in 0..55) {
@@ -229,6 +244,24 @@ class BattleView(context: Context) : View(context) {
         } else if(a==Arena.SCRAP) {
             for(i in 0..7) {val x=i*230f;rect(c,x,440f+(i%2)*60,160f,210f,Color.rgb(52,44,37),20f);circle(c,x+80,440f,52f,Color.rgb(64,51,42));rect(c,x+35,420f,90f,18f,Color.rgb(86,75,51),4f);line(c,x+20,510f,x-70,600f,Color.rgb(62,50,40),30f)}
             line(c,1100f,200f,1100f,560f,Color.rgb(70,57,44),16f);line(c,880f,210f,1330f,210f,Color.rgb(70,57,44),16f);line(c,970f,210f,970f,380f,muted,2f)
+        } else if(a==Arena.CANYON) {
+            circle(c,1120f,220f,74f,Color.rgb(206,128,77))
+            for(i in 0..8) {
+                val x=i*190f-40;val y=350f+(i%3)*55
+                val p=Path();p.moveTo(x-50,680f);p.lineTo(x+15,y+70);p.lineTo(x+32,y);p.lineTo(x+110,y);p.lineTo(x+145,y+75);p.lineTo(x+220,680f);p.close()
+                paint.color=Color.rgb(94+i%3*9,58,48);c.drawPath(p,paint)
+                for(j in 1..3) line(c,x+22,y+j*45,x+125,y+j*45,Color.argb(110,173,104,66),4f)
+            }
+        } else if(a==Arena.HARBOR) {
+            for(i in 0..5) {
+                val x=i*285f
+                rect(c,x,490f,230f,160f,Color.rgb(28,63,73),5f)
+                for(j in 0..8) line(c,x+j*26,500f,x+j*26,635f,Color.rgb(42,79,87),3f)
+                line(c,x+65,480f,x+65,230f,Color.rgb(52,78,85),11f)
+                line(c,x+65,230f,x+235,295f,Color.rgb(67,91,95),9f)
+                line(c,x+220,292f,x+220,420f,Color.rgb(83,109,112),2f)
+            }
+            for(i in 0..15) line(c,i*100f,665f,i*100f+60,665f,Color.argb(100,66,147,166),3f)
         } else {
             paint.color=Color.rgb(37,42,68);paint.style=Paint.Style.STROKE;paint.strokeWidth=2f
             c.drawOval(700f,180f,1370f,480f,paint);paint.style=Paint.Style.FILL
@@ -240,7 +273,7 @@ class BattleView(context: Context) : View(context) {
         rect(c,58f,45f,38f,38f,lime,10f);text(c,"R",68f,73f,27f,bg,titleFont)
         text(c,"RIFT / ARTILLERY",111f,72f,20f,white,mono)
         text(c,"ЛОКАЛЬНЫЕ СРАЖЕНИЯ",111f,96f,11f,muted,mono)
-        button(c,if(musicEnabled) "Музыка: вкл" else "Музыка: выкл",725f,45f,190f,42f) {toggleMusic()}
+        button(c,if(musicEnabled) "Музыка: вкл" else "Музыка: выкл",620f,45f,190f,42f) {toggleMusic()}
         button(c,if(sound) "Звук: вкл" else "Звук: выкл",1130f,45f,142f,42f) {toggleSound()}
         button(c,"?",1290f,45f,70f,42f) {help=true}
         text(c,"ПРИЦЕЛЬСЯ. ВЫСТРЕЛИ. ВЫЖИВИ.",62f,168f,14f,lime,mono)
@@ -259,34 +292,41 @@ class BattleView(context: Context) : View(context) {
         for(i in 0..17) {val t=i/17f;circle(c,980+280*t,310-100*sin(t*PI).toFloat()+110*t,2.4f,Color.argb(170,177,241,112))}
         text(c,"01 / ВЫБЕРИ АРЕНУ",62f,414f,14f,muted,mono)
         Arena.entries.forEachIndexed {i,a ->
-            val x=62f+(i%3)*238;val y=430f+(i/3)*66
+            val x=62f+(i%4)*177;val y=430f+(i/4)*66
             val selected=a==arena
-            rect(c,x,y,222f,58f,if(selected) Color.rgb(39,57,55) else panel,12f)
+            rect(c,x,y,165f,58f,if(selected) Color.rgb(39,57,55) else panel,12f)
             if(selected) rect(c,x,y+10,3f,38f,lime,1f)
-            text(c,a.title,x+13,y+25,16f)
-            text(c,"2880 × 1440 / ${if(a==Arena.ORBIT) "0.6" else "1.0"} G",x+13,y+45,10f,muted,mono)
-            buttons+=Button(RectF(x,y,x+222,y+58),{arena=a;beep()},a.title)
+            paint.typeface=font;paint.textSize=22f
+            val lines=mutableListOf("")
+            val cardTitle=when(a) {Arena.NEON->"Мегаполис";Arena.VOLCANO->"Храм драконов";Arena.CHEMICAL->"Химпром";else->a.title}
+            for(word in cardTitle.split(" ")) {
+                val candidate=(lines.last()+" "+word).trim()
+                if(paint.measureText(candidate)>139 && lines.last().isNotEmpty()) lines.add(word) else lines[lines.lastIndex]=candidate
+            }
+            lines.take(2).forEachIndexed {row,label->text(c,label,x+13,y+(if(lines.size==1) 37 else 24+row*26),22f)}
+            buttons+=Button(RectF(x,y,x+165,y+58),{arena=a;beep()},a.title)
         }
         text(c,"02 / РЕЖИМ БОЯ",62f,587f,14f,muted,mono)
         button(c,if(bot) "Дуэль / ИИ" else "Дуэль / вдвоём",62f,606f,220f,50f,if(gameMode==GameMode.DUEL) lime else panel,if(gameMode==GameMode.DUEL) bg else white) {if(gameMode==GameMode.DUEL) bot=!bot;gameMode=GameMode.DUEL}
+        if(terrainUpgradeHint) fittedText(c,"Новые карты доступны в новом бою.",62f,680f,700f,22f,cyan)
         button(c,"Охота на босса",294f,606f,220f,50f,if(gameMode==GameMode.BOSS) lime else panel,if(gameMode==GameMode.BOSS) bg else white) {gameMode=GameMode.BOSS}
         button(c,"Канатная гонка",526f,606f,234f,50f,if(gameMode==GameMode.ROPE_RACE) lime else panel,if(gameMode==GameMode.ROPE_RACE) bg else white) {gameMode=GameMode.ROPE_RACE}
         button(c,"Отряд / кузница",850f,505f,510f,50f) {loadoutOpen=true}
         button(c,"Босс: ${selectedBoss.title}  →",850f,571f,510f,50f,if(gameMode==GameMode.BOSS) Color.rgb(53,38,44) else panel) {selectedBoss=Boss.entries[(selectedBoss.ordinal+1)%Boss.entries.size];gameMode=GameMode.BOSS}
-        text(c,if(gameMode==GameMode.BOSS) selectedBoss.briefing else "7 рас • ${Weapon.entries.size} оружия и инструментов • 6 арен",850f,650f,15f,muted)
+        fittedText(c,if(gameMode==GameMode.BOSS) selectedBoss.briefing else "7 рас · ${Weapon.entries.size} предметов · ${Arena.entries.size} арен",850f,650f,510f,22f,muted)
         if(savedGame==null) button(c,"НАЧАТЬ БОЙ  →",62f,686f,500f,66f,lime,bg) {start()}
         else {
             button(c,"НОВЫЙ БОЙ  →",62f,686f,244f,66f,lime,bg) {start()}
             button(c,"ПРОДОЛЖИТЬ",318f,686f,244f,66f,Color.rgb(37,65,58),lime) {continueSaved()}
         }
-        text(c,"30 сек / ход",590f,715f,16f,white,mono)
-        text(c,"${Weapon.entries.size} оружия и инструментов",590f,742f,13f,muted)
+        text(c,"59 сек / ход",590f,715f,24f,white,mono)
+        text(c,"${Weapon.entries.size} предметов",590f,745f,22f,muted)
         line(c,833f,689f,1360f,689f,Color.rgb(42,59,73))
         text(c,"ТВОЙ ПОСЛУЖНОЙ СПИСОК",840f,721f,12f,muted,mono)
         text(c,"${prefs.getInt("wins",0)} ПОБЕД",840f,758f,26f,lime,titleFont)
         text(c,"${prefs.getInt("matches",0)} завершённых боёв",1050f,755f,16f,muted)
-        text(c,"RIFT  /  0.2.1",62f,792f,11f,muted,mono)
-        text(c,"ОФЛАЙН • БЕЗ РЕКЛАМЫ • БЕЗ ПОКУПОК",1030f,792f,11f,muted,mono)
+        text(c,"RIFT  /  0.2.2",62f,792f,22f,muted,mono)
+        text(c,"ОФЛАЙН · БЕЗ ПОКУПОК",1030f,792f,22f,muted,mono)
     }
     private fun fighter(c:Canvas,x:Float,y:Float,team:Int,race:Race,active:Boolean,s:Float=1f) {
         c.save();c.translate(x,y);c.scale(s,s)
@@ -311,7 +351,7 @@ class BattleView(context: Context) : View(context) {
             val patchW=right-left+1;val patchH=bottom-top+1
             if(patchW<=0 || patchH<=0) {terrainRevision=g.terrain.revision;return terrainBitmap!!}
             val pixels=IntArray(patchW*patchH)
-            val ground=when(g.arena) {Arena.NEON->Color.rgb(48,63,73);Arena.VOLCANO->Color.rgb(69,45,43);Arena.ORBIT->Color.rgb(51,53,78);Arena.CHEMICAL->Color.rgb(49,66,48);Arena.ARCTIC->Color.rgb(96,132,159);Arena.SCRAP->Color.rgb(79,64,52)}
+            val ground=when(g.arena) {Arena.NEON->Color.rgb(48,63,73);Arena.VOLCANO->Color.rgb(69,45,43);Arena.ORBIT->Color.rgb(51,53,78);Arena.CHEMICAL->Color.rgb(49,66,48);Arena.ARCTIC->Color.rgb(96,132,159);Arena.SCRAP->Color.rgb(79,64,52);Arena.CANYON->Color.rgb(135,82,51);Arena.HARBOR->Color.rgb(52,83,88)}
             val edge=when(g.arena) {Arena.VOLCANO->coral;Arena.ARCTIC->white;Arena.CHEMICAL->lime;else->cyan}
             for(y in top..bottom) for(x in left..right) {
                 val i=y*WORLD_W+x
@@ -332,16 +372,19 @@ class BattleView(context: Context) : View(context) {
     private fun drawBattle(c:Canvas) {
         val g=game ?: return
         background(c,g.arena)
-        if(cameraTurn!=g.turn) {cameraTurn=g.turn;cameraManual=false}
+        if(cameraTurn!=g.turn) {cameraTurn=g.turn;cameraManual=false;cameraX=g.active.x;cameraY=g.active.y-110}
         if(overview) {zoom=.42f;cameraX=WORLD_W/2f;cameraY=WORLD_H/2f}
         else if(!cameraManual) {
             val shot=g.shots.firstOrNull()
             val tx=shot?.x ?: g.active.x;val ty=(shot?.y ?: g.active.y)-110
             val halfW=720/zoom;val halfH=306/zoom
             cameraX+=(tx.coerceIn(halfW,WORLD_W-halfW)-cameraX)*.15f
-            cameraY+=(ty.coerceIn(halfH,WORLD_H-halfH)-cameraY)*.15f
+            if(abs(ty-cameraY)>90) cameraY+=((ty-sign(ty-cameraY)*90).coerceIn(halfH,WORLD_H-halfH)-cameraY)*.12f
+            cameraX=cameraX.coerceIn(halfW,WORLD_W-halfW)
+            cameraY=cameraY.coerceIn(halfH,WORLD_H-halfH)
         }
-        c.save();c.clipRect(0f,105f,1440f,718f)
+        drawingWorld=true
+        c.save();c.clipRect(0f,105f,1440f,688f)
         c.translate(720f,411f);c.scale(zoom,zoom);c.translate(-cameraX,-cameraY)
         if(g.shake>0 && !paused) c.translate(sin(ambient*100)*g.shake,cos(ambient*90)*g.shake*.5f)
         paint.color=Color.WHITE;c.drawBitmap(terrainImage(g),0f,0f,paint)
@@ -391,10 +434,6 @@ class BattleView(context: Context) : View(context) {
             } else fighter(c,f.x,f.y-3,f.team,f.race,active,bossScale)
             val crowded=g.fighters.any {it.alive && it.id<f.id && abs(it.x-f.x)<72 && abs(it.y-f.y)<60}
             val labelY=f.y-(if(crowded) 35f else 0f)-(bossScale-1)*80
-            text(c,f.name,f.x-30,labelY-95,12f,if(f.team==0) lime else coral,mono)
-            rect(c,f.x-27,labelY-87,54f,5f,bg,2f);rect(c,f.x-27,labelY-87,54*f.hp/f.maxHp,5f,if(f.team==0) lime else coral,2f)
-            text(c,"${ceil(f.hp).toInt()}",f.x-10,labelY-73,11f,white,mono)
-            if(f.effects.any {it>0}) text(c,Effect.entries.filter {f.effects[it.ordinal]>0}.joinToString(" ") {when(it) {Effect.BURN->"ОГОНЬ";Effect.POISON->"ЯД";Effect.FREEZE->"ЛЁД";Effect.STUN->"СТАН";else->"!"}},f.x-25,labelY-112,10f,coral)
             if(f.loadout.hat!=Hat.NONE) rect(c,f.x-10,f.y-72,20f,7f,if(f.loadout.hat==Hat.CROWN) lime else cyan,2f)
             val bossShield=g.mode==GameMode.BOSS && g.boss==Boss.GENERAL && f.id==2 && g.devices.any {it.kind==DeviceKind.GENERATOR && it.hp>0}
             if(f.shield>0 || bossShield) {paint.color=cyan;paint.style=Paint.Style.STROKE;paint.strokeWidth=2f;c.drawOval(f.x-if(bossShield) 115f else 39f,f.y-if(bossShield) 245f else 84f,f.x+if(bossShield) 115f else 39f,f.y+28,paint);paint.style=Paint.Style.FILL}
@@ -403,14 +442,43 @@ class BattleView(context: Context) : View(context) {
             if(active) {val y=labelY-77+sin(ambient*4)*3;val p=Path();p.moveTo(f.x-6,y);p.lineTo(f.x+6,y);p.lineTo(f.x,y+7);p.close();paint.color=lime;c.drawPath(p,paint)}
         }
         for(s in g.shots) {
-            circle(c,s.x,s.y,if(s.weapon==Weapon.ROCKET) 5f else 7f,if(s.weapon==Weapon.DYNAMITE) coral else lime)
-            if(s.weapon==Weapon.ROCKET) line(c,s.x,s.y,s.x-s.vx*.035f,s.y-s.vy*.035f,coral,3f)
-            else text(c,"${ceil(s.fuse.coerceAtLeast(0f)).toInt()}",s.x-4,s.y-15,13f,white,mono)
+            val color=when(s.weapon) {Weapon.PLASMA_RIFLE->cyan;Weapon.VORTEX->Color.rgb(193,126,255);Weapon.DYNAMITE,Weapon.CLUSTER_ROCKET->coral;else->lime}
+            if(s.weapon==Weapon.PLASMA_RIFLE || s.weapon==Weapon.VORTEX) circle(c,s.x,s.y,15f,Color.argb(65,Color.red(color),Color.green(color),Color.blue(color)))
+            circle(c,s.x,s.y,if(s.weapon==Weapon.ROCKET || s.weapon==Weapon.CLUSTER_ROCKET) 5f else 7f,color)
+            if(s.weapon in setOf(Weapon.ROCKET,Weapon.CLUSTER_ROCKET,Weapon.PLASMA_RIFLE)) line(c,s.x,s.y,s.x-s.vx*.035f,s.y-s.vy*.035f,color,3f)
+            else text(c,"${ceil(s.fuse.coerceAtLeast(0f)).toInt()}",s.x-8,s.y-20,26f,white,mono)
         }
         for(p in g.particles) circle(c,p.x,p.y,if(p.kind==0) 3f else 2f,if(p.kind==2) cyan else if(p.life>.5f) lime else coral)
         g.texts.forEach {text(c,it.text,it.x-14,it.y,22f,white,mono)}
         if(g.beamLife>0) g.lastBeam?.let {line(c,it[0],it[1],it[2],it[3],cyan,4f)}
         g.beams.forEach {line(c,it.x,it.y,it.x2,it.y2,if(g.weapon==Weapon.LASER) cyan else lime,3f)}
+        c.restore()
+        drawingWorld=false
+        c.save();c.clipRect(0f,205f,1440f,688f)
+        val labels=mutableListOf<RectF>()
+        for(f in g.fighters.filter {it.alive}) {
+            val sx=720+(f.x-cameraX)*zoom;val sy=411+(f.y-cameraY)*zoom
+            val boss=g.mode==GameMode.BOSS && f.id==2
+            var top=sy-(if(boss) 235f else 90f)*zoom
+            if(sx !in -120f..1560f || top !in 180f..690f) continue
+            val color=if(f.team==0) lime else coral
+            val name=if(boss) f.name else "${f.name} · ${ceil(f.hp).toInt()}"
+            paint.typeface=font;paint.textSize=24f
+            val labelWidth=min(300f,paint.measureText(name)+20)
+            val labelX=(sx-labelWidth/2).coerceIn(8f,1432f-labelWidth)
+            val preferred=top.coerceIn(245f,630f)
+            val positions=listOf(0f,-84f,84f,-168f,168f,-252f,252f,-336f,336f)
+            top=positions.map {preferred+it}.firstOrNull {candidate ->
+                candidate in 245f..630f && labels.none {RectF.intersects(it,RectF(labelX,candidate-54,labelX+labelWidth,candidate+if(boss) 60 else 26))}
+            } ?: preferred
+            labels+=RectF(labelX,top-54,labelX+labelWidth,top+if(boss) 60 else 26)
+            if(abs(top-preferred)>8) line(c,sx,sy-80*zoom,sx,top+24,Color.argb(100,Color.red(color),Color.green(color),Color.blue(color)),1f)
+            rect(c,labelX,top-28,labelWidth,38f,Color.argb(220,10,18,28),8f)
+            fittedText(c,name,labelX+10,top,labelWidth-20,24f,color)
+            rect(c,sx-40,top+14,80f,7f,bg,3f);rect(c,sx-40,top+14,80*f.hp/f.maxHp,7f,color,3f)
+            if(boss) text(c,"${ceil(f.hp).toInt()} HP",sx-55,top+48,24f,white)
+            if(f.effects.any {it>0}) fittedText(c,Effect.entries.filter {f.effects[it.ordinal]>0}.joinToString(" · ") {when(it) {Effect.BURN->"ОГОНЬ";Effect.POISON->"ЯД";Effect.FREEZE->"ЛЁД";Effect.STUN->"СТАН";Effect.BLEED->"КРОВЬ";Effect.BLIND->"СЛЕПОТА";Effect.CORROSION->"КИСЛОТА"}},sx-90,top-38,240f,22f,coral)
+        }
         c.restore()
         // Battle HUD.
         rect(c,0f,0f,1440f,105f,Color.rgb(13,23,37))
@@ -433,41 +501,46 @@ class BattleView(context: Context) : View(context) {
         text(c,timer,1010f,67f,34f,if(g.timeLeft<6) coral else white,mono)
         button(c,"?",1158f,25f,58f,50f) {help=true;clearInput()}
         button(c,"II  Пауза",1230f,25f,182f,50f) {paused=true;clearInput()}
-        rect(c,24f,119f,if(g.message.length>70) 1150f else 920f,35f,Color.argb(200,13,23,37),9f)
-        text(c,g.message,38f,142f,15f,if(g.humanTurn) white else coral)
-        button(c,if(overview) "К бойцу" else "Обзор",24f,163f,110f,40f) {overview=!overview;if(!overview) {zoom=.9f;cameraManual=false}}
+        rect(c,24f,119f,1392f,35f,Color.argb(200,13,23,37),9f)
+        fittedText(c,g.message,38f,144f,1360f,22f,if(g.humanTurn) white else coral)
+        button(c,if(overview || cameraManual) "К бойцу" else "Обзор",24f,163f,110f,40f) {if(overview || cameraManual) {overview=false;cameraManual=false;zoom=1.05f} else overview=true}
         button(c,"−",145f,163f,50f,40f) {overview=false;zoom=(zoom-.15f).coerceAtLeast(.5f)}
-        button(c,"+",205f,163f,50f,40f) {overview=false;zoom=(zoom+.15f).coerceAtMost(1.25f)}
+        button(c,"+",205f,163f,50f,40f) {overview=false;zoom=(zoom+.15f).coerceAtMost(1.6f)}
         button(c,if(cameraManual) "Камера: ручная" else "Следить",266f,163f,180f,40f) {cameraManual=!cameraManual}
         button(c,"Сменить бойца ↔",458f,163f,196f,40f) {val next=g.fighters.firstOrNull {it.alive && it.team==g.active.team && it.id!=g.active.id};if(next!=null && g.switchFighter(next.id)) {cameraManual=false;clearInput()}}
-        if(g.mode==GameMode.BOSS) {rect(c,670f,163f,746f,40f,panel,8f);text(c,g.bossWarning.take(85),683f,188f,12f,coral)}
+        if(g.mode==GameMode.BOSS) {rect(c,670f,163f,746f,40f,panel,8f);fittedText(c,g.bossWarning,683f,191f,720f,22f,coral)}
         if(g.mode==GameMode.ROPE_RACE) text(c,"ТОЧКИ ${g.checkpoints}/5  •  ${g.raceElapsed.toInt()} с",1040f,188f,17f,lime)
         if(g.active.fuel>0) text(c,"ТОПЛИВО ${g.active.fuel.toInt()}",30f,230f,14f,cyan)
         if(g.active.drillFuel>0) text(c,"БУР ${g.active.drillFuel.toInt()}% / прицел + движение",30f,252f,14f,lime)
-        paint.color=Color.WHITE;paint.isFilterBitmap=true;c.drawBitmap(terrainImage(g),null,RectF(1100f,610f,1416f,705f),paint)
-        g.fighters.filter {it.alive}.forEach {circle(c,1100+it.x/WORLD_W*316,610+it.y/WORLD_H*95,3f,if(it.team==0) lime else coral)}
+        val enemy=g.fighters.filter {it.alive && it.team!=g.active.team}.minByOrNull {abs(it.x-g.active.x)}
+        if(!overview && enemy!=null && abs((enemy.x-cameraX)*zoom)>690) {
+            val right=enemy.x>cameraX
+            button(c,if(right) "Противник →" else "← Противник",if(right) 1160f else 24f,218f,256f,48f,Color.rgb(65,39,40),coral) {overview=false;cameraManual=true;cameraX=enemy.x;cameraY=enemy.y-110;clearInput()}
+        }
+        paint.color=Color.WHITE;paint.isFilterBitmap=true;c.drawBitmap(terrainImage(g),null,RectF(1100f,580f,1416f,675f),paint)
+        g.fighters.filter {it.alive}.forEach {circle(c,1100+it.x/WORLD_W*316,580+it.y/WORLD_H*95,3f,if(it.team==0) lime else coral)}
         drawControls(c,g)
         if(arsenal) drawArsenal(c,g)
         if(paused) drawPause(c)
         if(g.phase==Phase.ENDED) drawResult(c,g)
     }
     private fun drawControls(c:Canvas,g:Game) {
-        rect(c,0f,718f,1440f,92f,Color.rgb(13,23,37))
-        line(c,0f,718f,1440f,718f,Color.rgb(47,64,76))
+        rect(c,0f,688f,1440f,122f,Color.rgb(13,23,37))
+        line(c,0f,688f,1440f,688f,Color.rgb(47,64,76))
         val enabled=g.canControl && !paused
-        button(c,"←",22f,737f,66f,55f,if(enabled) panel else bg) {if(g.canControl) g.active.vx= -210f}
-        button(c,"→",96f,737f,66f,55f,if(enabled) panel else bg) {if(g.canControl) g.active.vx=210f}
-        button(c,"Прыжок",176f,737f,112f,55f) {g.jump()}
-        button(c,if(g.anchor==null) "Канат" else "Отцепить",300f,737f,118f,55f,if(g.anchor!=null) Color.rgb(45,70,59) else panel) {g.rope()}
-        button(c,"↑",430f,737f,46f,55f) {g.anchor?.let {it.length=(it.length-40).coerceAtLeast(35f)};if(g.active.fuel>0) g.active.vy-=100f}
-        button(c,"↓",482f,737f,46f,55f) {g.anchor?.let {it.length=(it.length+40).coerceAtMost(900f)}}
+        button(c,"←",22f,706f,66f,90f,if(enabled) panel else bg) {if(g.canControl) g.active.vx= -210f}
+        button(c,"→",96f,706f,66f,90f,if(enabled) panel else bg) {if(g.canControl) g.active.vx=210f}
+        button(c,"Прыжок",176f,706f,112f,90f) {g.jump()}
+        button(c,if(g.anchor==null) "Канат" else "Отцепить",300f,706f,118f,90f,if(g.anchor!=null) Color.rgb(45,70,59) else panel) {g.rope()}
+        button(c,"↑",430f,706f,46f,90f) {g.anchor?.let {it.length=(it.length-40).coerceAtLeast(75f)};if(g.active.fuel>0) g.active.vy-=100f}
+        button(c,"↓",482f,706f,46f,90f) {g.anchor?.let {it.length=(it.length+40).coerceAtMost(900f)}}
         text(c,"УГОЛ ${g.angle.toInt()}°",554f,744f,11f,muted,mono)
         slider(c,555f,767f,166f,(g.angle+180f)/360f,cyan)
         text(c,"СИЛА ${(g.power*100).toInt()}%",750f,744f,11f,muted,mono)
         slider(c,750f,767f,145f,g.power,lime)
-        button(c,g.weapon.title.take(16),925f,737f,160f,55f) {if(g.phase==Phase.AIM && g.humanTurn) {arsenalCategory=g.weapon.category;arsenalPage=0;arsenal=true;clearInput()}}
-        button(c,"Навык",1097f,737f,100f,55f,if(g.active.abilityUsed) bg else panel,if(g.active.abilityUsed) muted else cyan) {g.ability()}
-        button(c,if(g.weapon.targeted) "ЦЕЛЬ НА КАРТЕ" else "ОГОНЬ  ↗",1210f,737f,206f,55f,if(g.phase==Phase.AIM && g.humanTurn) lime else panel,if(g.phase==Phase.AIM && g.humanTurn) bg else muted) {if(g.humanTurn) g.fire()}
+        button(c,g.weapon.title.take(16),925f,706f,160f,90f) {if(g.phase==Phase.AIM && g.humanTurn) {arsenalCategory=g.weapon.category;arsenalPage=0;arsenal=true;clearInput()}}
+        button(c,"Навык",1097f,706f,100f,90f,if(g.active.abilityUsed) bg else panel,if(g.active.abilityUsed) muted else cyan) {g.ability()}
+        button(c,if(g.weapon.targeted) "ЦЕЛЬ НА КАРТЕ" else "ОГОНЬ  ↗",1210f,706f,206f,90f,if(g.phase==Phase.AIM && g.humanTurn) lime else panel,if(g.phase==Phase.AIM && g.humanTurn) bg else muted) {if(g.humanTurn) g.fire()}
     }
     private fun slider(c:Canvas,x:Float,y:Float,w:Float,value:Float,color:Int) {
         rect(c,x,y,w,5f,panel,3f);rect(c,x,y,w*value.coerceIn(0f,1f),5f,color,3f);circle(c,x+w*value.coerceIn(0f,1f),y+2,8f,color)
@@ -486,7 +559,7 @@ class BattleView(context: Context) : View(context) {
             val x=198f+(i%2)*540;val y=290f+(i/2)*94
             val ammo=g.active.ammo.getValue(w)
             button(c,"${w.title}   ${if(ammo<0) "∞" else "×$ammo"}",x,y,510f,54f,if(g.weapon==w) lime else Color.rgb(31,46,63),if(g.weapon==w) bg else if(ammo==0) muted else white) {g.select(w);arsenal=false;beep()}
-            text(c,w.description,x+4,y+77,14f,muted)
+            fittedText(c,w.description,x+4,y+80,502f,22f,muted)
         }
         button(c,"←",198f,633f,65f,48f) {arsenalPage=(arsenalPage-1+pageCount)%pageCount}
         text(c,"${arsenalPage+1}/$pageCount",280f,664f,17f,muted,mono)
@@ -533,7 +606,7 @@ class BattleView(context: Context) : View(context) {
         button(c,"Сохранить и в меню",520f,486f,400f,54f) {checkpoint();mode="menu";paused=false;clearInput()}
         button(c,if(musicEnabled) "Музыка: вкл" else "Музыка: выкл",520f,553f,192f,44f) {toggleMusic()}
         button(c,if(sound) "Звук: вкл" else "Звук: выкл",728f,553f,192f,44f) {toggleSound()}
-        text(c,"Бой можно продолжить из главного меню.",520f,635f,15f,muted)
+        text(c,"Сохранение доступно в меню.",520f,635f,22f,muted)
     }
     private fun drawResult(c:Canvas,g:Game) {
         dim(c);rect(c,403f,194f,634f,433f,panel,24f)
@@ -551,12 +624,12 @@ class BattleView(context: Context) : View(context) {
         val entries=listOf(
             "01  ПРИЦЕЛ" to "Коснись поля для направления. Ползунки внизу меняют угол и силу.",
             "02  ВЫСТРЕЛ" to "Открой арсенал, выбери оружие и нажми «Огонь». Учитывай ветер.",
-            "03  ПОЗИЦИЯ" to "Удерживай ← → для ходьбы. Прыжок помогает преодолевать кратеры.",
-            "04  КАНАТ" to "Направь прицел в скалу или платформу и нажми «Канат». ↑↓ — длина.",
-            "05  ВЫЖИВАНИЕ" to "После выстрела есть 3 с на отход. Падение за линию опасности смертельно.",
+            "03  ПОЗИЦИЯ" to "Удерживай ← →. «Прыжок» — короткий прыжок вперёд.",
+            "04  КАНАТ" to "Зацепись за опору: трос подтянет сам. ↑ быстрее, ↓ отпустить.",
+            "05  ВЫЖИВАНИЕ" to "59 с на ход, 3 с на отход. Не падай за линию опасности.",
             "06  ПОБЕДА" to "Уничтожь обоих врагов. У каждой расы свой навык — один раз за бой."
         )
-        entries.forEachIndexed {i,e ->val y=222f+i*60;text(c,e.first,288f,y,13f,lime,mono);text(c,e.second,288f,y+25,17f,white)}
+        entries.forEachIndexed {i,e ->val y=222f+i*62;text(c,e.first,288f,y,22f,lime,mono);fittedText(c,e.second,288f,y+30,864f,24f,white)}
         text(c,"Вдвоём: передавайте устройство, когда сменится отряд.",288f,601f,16f,muted)
         button(c,"Понятно. В бой!",288f,625f,864f,46f,lime,bg) {help=false;lastNanos=0}
     }
@@ -571,22 +644,22 @@ class BattleView(context: Context) : View(context) {
                 if(event.pointerCount==2 && mode=="battle" && !paused && !help && !arsenal && y(0) in 210f..600f && y(1) in 210f..600f) {
                     clearInput();pinchDistance=hypot(x(0)-x(1),y(0)-y(1));overview=false;cameraManual=true;return true
                 }
-                if(py<215f || paused || help || arsenal || loadoutOpen || mode=="menu" || g?.phase==Phase.ENDED) {
+                if(py<215f || paused || help || arsenal || loadoutOpen || mode=="menu" || g?.phase==Phase.ENDED || py in 215f..300f && buttons.any {it.rect.contains(px,py)}) {
                     val hit=buttons.lastOrNull {it.rect.contains(px,py)}
                     if(hit!=null) {hit.action();invalidate();return true}
                 }
-                if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && g!=null && py in 215f..705f && px in 1100f..1416f && py>610) {
-                    overview=false;cameraManual=true;cameraX=(px-1100)/316*WORLD_W;cameraY=(py-610)/95*WORLD_H;return true
+                if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && g!=null && py in 580f..675f && px in 1100f..1416f) {
+                    overview=false;cameraManual=true;cameraX=(px-1100)/316*WORLD_W;cameraY=(py-580)/95*WORLD_H;return true
                 }
                 if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && cameraManual && g!=null && !g.weapon.targeted && py in 215f..700f) {
                     cameraPointer=id;panX=px;panY=py;return true
                 }
                 if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && g?.canControl==true) {
                     when {
-                        py in 730f..805f && px in 22f..162f -> {movePointer=id;g.move=if(px<90) -1f else 1f;return true}
-                        py in 730f..805f && px in 430f..528f -> {reelPointer=id;g.reel=if(px<479) -1f else 1f;return true}
-                        py in 730f..805f && px in 544f..730f -> {dragPointer=id;dragControl="angle";g.angle=((px-555)/166*360-180).coerceIn(-180f,180f);return true}
-                        py in 730f..805f && px in 739f..908f -> {dragPointer=id;dragControl="power";g.power=((px-750)/145).coerceIn(0f,1f);return true}
+                        py in 700f..805f && px in 22f..162f -> {movePointer=id;g.move=if(px<90) -1f else 1f;return true}
+                        py in 700f..805f && px in 430f..528f -> {reelPointer=id;g.reel=if(px<479) -1f else 1f;return true}
+                        py in 700f..805f && px in 544f..730f -> {dragPointer=id;dragControl="angle";g.angle=((px-555)/166*360-180).coerceIn(-180f,180f);return true}
+                        py in 700f..805f && px in 739f..908f -> {dragPointer=id;dragControl="power";g.power=((px-750)/145).coerceIn(0f,1f);return true}
                         py in 215f..700f && g.phase==Phase.AIM -> {
                             val world=worldPoint(px,py)
                             if(g.weapon.targeted) g.fire(world.first,world.second)
@@ -600,7 +673,7 @@ class BattleView(context: Context) : View(context) {
             MotionEvent.ACTION_MOVE -> {
                 if(pinchDistance>0 && event.pointerCount==2) {
                     val distance=hypot(x(0)-x(1),y(0)-y(1))
-                    zoom=(zoom*distance/pinchDistance.coerceAtLeast(1f)).coerceIn(.42f,1.25f);pinchDistance=distance;return true
+                    zoom=(zoom*distance/pinchDistance.coerceAtLeast(1f)).coerceIn(.42f,1.6f);pinchDistance=distance;return true
                 }
                 for(i in 0 until event.pointerCount) if(event.getPointerId(i)==cameraPointer) {
                     cameraX=(cameraX-(x(i)-panX)/zoom).coerceIn(0f,WORLD_W.toFloat());cameraY=(cameraY-(y(i)-panY)/zoom).coerceIn(0f,WORLD_H.toFloat());panX=x(i);panY=y(i);return true

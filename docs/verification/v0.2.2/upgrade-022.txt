@@ -1,0 +1,5 @@
+PASS: Signed APK 0.2.1 -> 0.2.2 installed with adb install -r on API26.
+Old game created through native UI, paused and saved.
+Continue control remains after upgrade; native touch opens old battle, pauses and saves again.
+No uninstall between 0.2.1 and 0.2.2.
+Save v2 -> v3 additionally covered by ExpansionTest fixture and roundtrip test.

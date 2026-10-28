@@ -118,16 +118,40 @@ class SmokeInstrumentation : Instrumentation() {
                 click(a.title);verify("Arena selected: $a") {field("arena")==a}
                 waitFor("Distinct looping music for $a") {music().currentArena==a && music().isPlaying && music().looping && music().lastError==null}
             }
+            for(a in listOf(Arena.CANYON,Arena.HARBOR)) {
+                click(a.title);newBattle()
+                waitFor("New arena starts with safe spawns: $a") {game().arena==a && game().fighters.all {it.alive && it.grounded}}
+                click("II  Пауза");click("Сохранить и в меню")
+            }
+            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX)) {
+                newBattle();waitFor("Ready to test $w") {game().active.grounded}
+                tap(1000f,765f);click(w.category.title)
+                repeat(Weapon.entries.filter {it.category==w.category}.indexOf(w)/6) {click("Следующая страница")}
+                click(w.title,true);verify("New weapon selected through arsenal: $w") {game().weapon==w}
+                val stock=game().active.ammo.getValue(w);tap(1300f,765f)
+                verify("New weapon fires and consumes one round: $w") {game().active.ammo.getValue(w)==stock-1 && game().phase!=Phase.AIM}
+                click("II  Пауза");click("Сохранить и в меню")
+            }
             click("Отряд / кузница");verify("Loadout opens") {field("loadoutOpen")==true}
             click("Фантом");click("Сохранить отряд");verify("Race selection persists") {(field("squad") as Loadout).race==Race.PHANTOM}
             click(Arena.ORBIT.title)
             if(field("bot")==true) click("Дуэль / ИИ")
             newBattle();verify("Large orbit hotseat starts") {game().arena==Arena.ORBIT && !game().againstBot && WORLD_W==2880}
             waitFor("All fighters survive large arena spawn") {game().fighters.all {it.alive && it.grounded}}
+            verify("New turn has 59 seconds") {game().timeLeft in 55f..59f}
+            tap(1290f,242f);verify("Touch enemy locator moves camera") {field("cameraManual")==true && (field("cameraX") as Float)>1700}
+            click("К бойцу");verify("Locator return follows active fighter") {field("cameraManual")==false}
+            val jumpX=game().active.x
+            tap(230f,765f);waitFor("Jump button launches forward immediately (x=${game().active.x}, vy=${game().active.vy}, grounded=${game().active.grounded})",2000) {game().active.x>jumpX+5 && game().active.vy<0}
+            waitFor("Short jump lands") {game().active.grounded}
+            hold(125f,765f,1000);tap(596.5f,770f)
+            val ropeY=game().active.y;tap(355f,765f)
+            waitFor("Rope button automatically pulls fighter upward") {game().anchor!=null && game().active.y<ropeY-90}
+            click("Отцепить");verify("Rope button detaches") {game().anchor==null}
             click("Обзор");verify("Overview camera enabled") {field("overview")==true}
             click("К бойцу");verify("Follow camera restored") {field("overview")==false}
             click("+");verify("Camera zoom responds") {(field("zoom") as Float)> .9f}
-            pinch();verify("Two finger pinch zooms and clamps") {field("cameraManual")==true && field("zoom")==1.25f}
+            pinch();verify("Two finger pinch zooms and clamps") {field("cameraManual")==true && field("zoom")==1.6f}
             val cameraX=field("cameraX") as Float;val panDown=SystemClock.uptimeMillis()
             event(MotionEvent.ACTION_DOWN,700f,400f,panDown);event(MotionEvent.ACTION_MOVE,800f,400f,panDown)
             verify("Manual camera pans") {(field("cameraX") as Float)<cameraX-50}

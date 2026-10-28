@@ -46,5 +46,21 @@
     "style": "industrial",
     "seconds": 35.556,
     "file": "scrap.ogg"
+  },
+  {
+    "arena": "canyon",
+    "title": "Красные горизонты",
+    "bpm": 100,
+    "style": "desert plucks",
+    "seconds": 38.4,
+    "file": "canyon.ogg"
+  },
+  {
+    "arena": "harbor",
+    "title": "Огни причала",
+    "bpm": 104,
+    "style": "harbor bells",
+    "seconds": 36.923,
+    "file": "harbor.ogg"
   }
 ]

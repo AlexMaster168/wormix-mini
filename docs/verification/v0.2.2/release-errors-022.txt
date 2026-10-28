@@ -1,0 +1,1 @@
+adb logcat -d -b crash: no entries during signed release review.

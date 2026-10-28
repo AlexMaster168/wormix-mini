@@ -1,4 +1,4 @@
-"""Render six original, deterministic, seamless instrumental arena loops.
+"""Render eight original, deterministic, seamless instrumental arena loops.
 
 Requires numpy and FFmpeg; no samples, downloaded music or runtime synthesis.
 """
@@ -17,6 +17,8 @@ THEMES = [
     ("chemical", "Кислотный контур", 120, 36, "minor", "acid groove"),
     ("arctic", "Северное сияние", 80, 50, "major", "bells and ambient"),
     ("scrap", "Пульс машин", 108, 30, "minor", "industrial"),
+    ("canyon", "Красные горизонты", 100, 43, "minor", "desert plucks"),
+    ("harbor", "Огни причала", 104, 41, "major", "harbor bells"),
 ]
 
 
@@ -69,7 +71,8 @@ def compose(index, name, bpm, root, mode):
 
     motifs = [[0, 2, 4, 6, 4, 2, 1, 2], [0, 4, 3, 2, 0, 2, 4, 6],
               [0, 2, 6, 4, 2, 1, 4, 2], [0, 1, 4, 2, 6, 4, 1, 2],
-              [4, 2, 0, 6, 4, 5, 2, 0], [0, 0, 4, 3, 2, 0, 6, 4]]
+              [4, 2, 0, 6, 4, 5, 2, 0], [0, 0, 4, 3, 2, 0, 6, 4],
+              [0, 4, 1, 3, 6, 3, 1, 4], [0, 2, 5, 4, 2, 6, 4, 1]]
     for bar in range(16):
         degree = [0, 5, 2, 6][bar % 4]
         start = bar*4
@@ -83,7 +86,7 @@ def compose(index, name, bpm, root, mode):
         positions = [0, 1.5, 2.5] if name == "arctic" else ([.5, 2, 3.5] if name == "orbit" else list(np.arange(0, 4, .5)))
         for k, pos in enumerate(positions):
             d = motifs[index][(k+bar//4*2) % 8]
-            put(voice(note(degree+d)+24, 1.6 if name in ("arctic", "orbit") else .7, "bell" if name in ("arctic", "orbit") else "pluck"), start+pos, .09 if name != "chemical" else .065, np.sin(k+bar)*.45)
+            put(voice(note(degree+d)+24, 1.6 if name in ("arctic", "orbit", "harbor") else .7, "bell" if name in ("arctic", "orbit", "harbor") else "pluck"), start+pos, .09 if name != "chemical" else .065, np.sin(k+bar)*.45)
         kick_times = [0, 2] if name == "volcano" else [0, 1, 2, 3]
         if name in ("arctic", "orbit"):
             kick_times = [0] if bar % 2 == 0 else []

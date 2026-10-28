@@ -1,0 +1,9 @@
+PASS: Signed release 0.2.2 native UI review on API26.
+APK SHA256: 8d3b057e6abdc6fb2b090f1d124b67a68056dcd0aaa7113eda469d2f6b5186f0
+Old 0.2.1 party remains accessible after update; pause and save work.
+Native adb touch: select Canyon/Harbor, new battle, overview, arsenal categories and pagination.
+Native touch: walk under Orbit platform, aim -90 degrees, attach rope. Fighter rises to platform; detach available and used.
+Menu music button unobstructed; nearby labels separated.
+Phone viewport 1280x720 and tablet viewport 1280x800 reviewed. Raw compositor PNGs remain 1920x1080.
+Ten screenshots captured after final tests; file hashes and timestamps in screenshots/manifest-v022.json.
+No crash-buffer entries during this release review.

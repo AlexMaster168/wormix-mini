@@ -1,0 +1,88 @@
+{
+  "version": "0.2.2",
+  "apkSha256": "8d3b057e6abdc6fb2b090f1d124b67a68056dcd0aaa7113eda469d2f6b5186f0",
+  "testsCompletedUtc": "2026-10-28T23:55:39.6171336Z",
+  "captureDevice": "Android 8 API26 emulator",
+  "images": [
+    {
+      "file": "v022-01-menu.png",
+      "sha256": "df2f956bdf7728cc6a5584c049a30585ac95237bbd15ee3e43df894c86b8b350",
+      "capturedUtc": "2026-10-28T23:55:46.1777822Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-02-canyon.png",
+      "sha256": "48507159e3ac8cefec63cbcf7938e14c9db0feb2a6f6620aed1b5d5cc79bc6e1",
+      "capturedUtc": "2026-10-28T23:55:53.1059877Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-03-canyon-overview.png",
+      "sha256": "fab55173b05eda027873b8da46a4b49ac3516bbf391c9418cd10db1c95e441a8",
+      "capturedUtc": "2026-10-28T23:55:58.8144190Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-04-harbor.png",
+      "sha256": "e0344c8e1881a436672b389bebf398f0c5cb0d4715a99824667efb230ee731b0",
+      "capturedUtc": "2026-10-28T23:56:15.1712386Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-05-plasma.png",
+      "sha256": "13d64b0aa5df2b67c471b5f6c89c517b4034bdff6f5852519e646b6daf53a5e6",
+      "capturedUtc": "2026-10-28T23:56:22.2719227Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-06-singularity.png",
+      "sha256": "b9ed28257b78eed9d15bbd19fedfca8456c529762bb73c0c8b3490b46885cb89",
+      "capturedUtc": "2026-10-28T23:56:28.5647904Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-07-cluster.png",
+      "sha256": "56e4160745cc367e3459969af08a9d8c68608437b57330093257e884bae6b737",
+      "capturedUtc": "2026-10-28T23:56:34.7345099Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-08-rope.png",
+      "sha256": "07e017f058ab1ba9564ec40dff4c55eeb981769f2d6c62c2767fadade5238d5e",
+      "capturedUtc": "2026-10-28T23:57:00.5235009Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1920x1080"
+    },
+    {
+      "file": "v022-09-phone.png",
+      "sha256": "582f9c316a810b3bf8fc6c0f59e0d46d30b919f5fa8e81dfc753d9025621a160",
+      "capturedUtc": "2026-10-28T23:57:20.0621854Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1280x720"
+    },
+    {
+      "file": "v022-10-tablet.png",
+      "sha256": "5cd21d8422bf28beb105748ed12848a8caefc3b8ebd23d79a7fb2237c17482a4",
+      "capturedUtc": "2026-10-28T23:57:36.5613331Z",
+      "pngWidth": 1920,
+      "pngHeight": 1080,
+      "logicalViewport": "1280x800"
+    }
+  ]
+}

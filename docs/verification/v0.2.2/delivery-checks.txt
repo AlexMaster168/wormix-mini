@@ -1,0 +1,39 @@
+PASS: all local Markdown links resolve
+PASS: all 60 catalog items documented
+PASS: SHA256 RIFT-Artillery-0.2.1.aab
+PASS: SHA256 RIFT-Artillery-0.2.1.apk
+PASS: SHA256 RIFT-Artillery-0.2.2.aab
+PASS: SHA256 RIFT-Artillery-0.2.2.apk
+PASS: distributed APK equals signed build
+PASS: eight arena recordings packaged
+PASS: eight recordings decode and pass audio metrics
+PASS: audio hash neon
+PASS: audio hash volcano
+PASS: audio hash orbit
+PASS: audio hash chemical
+PASS: audio hash arctic
+PASS: audio hash scrap
+PASS: audio hash canyon
+PASS: audio hash harbor
+PASS: TEST-com.riftartillery.core.ContentTest.xml
+PASS: TEST-com.riftartillery.core.ExpansionTest.xml
+PASS: TEST-com.riftartillery.core.GameTest.xml
+PASS: TEST-com.riftartillery.core.MovementTest.xml
+PASS: 74 passing core tests
+PASS: 96 Android checks: api26
+PASS: 96 Android checks: api35
+PASS: 96 Android checks: tablet
+PASS: Lint debug
+PASS: Lint release
+PASS: screenshot manifest identifies distributed APK
+PASS: ten final screenshots
+PASS: final screenshot after tests: v022-01-menu.png
+PASS: final screenshot after tests: v022-02-canyon.png
+PASS: final screenshot after tests: v022-03-canyon-overview.png
+PASS: final screenshot after tests: v022-04-harbor.png
+PASS: final screenshot after tests: v022-05-plasma.png
+PASS: final screenshot after tests: v022-06-singularity.png
+PASS: final screenshot after tests: v022-07-cluster.png
+PASS: final screenshot after tests: v022-08-rope.png
+PASS: final screenshot after tests: v022-09-phone.png
+PASS: final screenshot after tests: v022-10-tablet.png

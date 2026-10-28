@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.GameTest" tests="35" skipped="0" failures="0" errors="0" timestamp="2026-10-28T23:36:47" hostname="ALEXCOMP" time="2.146">
+  <properties/>
+  <testcase name="jumpRequiresGroundContact" classname="com.riftartillery.core.GameTest" time="0.008"/>
+  <testcase name="explosionCarvesTerrainAndAppliesDamage" classname="com.riftartillery.core.GameTest" time="0.044"/>
+  <testcase name="dynamiteAllowsEscapeBeforeDetonation" classname="com.riftartillery.core.GameTest" time="0.007"/>
+  <testcase name="saveRejectsUnknownVersion" classname="com.riftartillery.core.GameTest" time="0.024"/>
+  <testcase name="oneAttackPerTurnAndAmmoConsumedOnce" classname="com.riftartillery.core.GameTest" time="0.009"/>
+  <testcase name="waterEliminatesAndCanEndGame" classname="com.riftartillery.core.GameTest" time="0.007"/>
+  <testcase name="botShootsAndHandsControlBack" classname="com.riftartillery.core.GameTest" time="0.025"/>
+  <testcase name="longSimulationRemainsFiniteAndBounded" classname="com.riftartillery.core.GameTest" time="1.052"/>
+  <testcase name="fighterCanStandOnAnotherWithoutFallingThrough" classname="com.riftartillery.core.GameTest" time="0.005"/>
+  <testcase name="ropeAttachesDetachesAndPreservesVelocity" classname="com.riftartillery.core.GameTest" time="0.005"/>
+  <testcase name="fightersDoNotOverlapAfterKnockback" classname="com.riftartillery.core.GameTest" time="0.003"/>
+  <testcase name="destroyingRopeAnchorReleasesRope" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="outsideWorldIsNeverSolid" classname="com.riftartillery.core.GameTest" time="0.002"/>
+  <testcase name="movementWorksFromSpawnOnEveryArena" classname="com.riftartillery.core.GameTest" time="0.341"/>
+  <testcase name="emptyAmmoRejectsWithoutConsumingTurn" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="realTimeoutAdvancesTurn" classname="com.riftartillery.core.GameTest" time="0.044"/>
+  <testcase name="timeoutAlternatesTeamsAndRotatesFighters" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="raceAbilityIsOnlyUsableOncePerBattle" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="fullHealthDoesNotWasteMedkit" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="craterRemovesOnlyCircleAndUpdatesRevision" classname="com.riftartillery.core.GameTest" time="0.005"/>
+  <testcase name="sniperDamagesEnemyAndShieldAbsorbsDamage" classname="com.riftartillery.core.GameTest" time="0.006"/>
+  <testcase name="sniperCannotShootThroughTerrain" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="rejectsVariableOversizedTick" classname="com.riftartillery.core.GameTest" time="0.005"/>
+  <testcase name="terrainSeedIsReproducible" classname="com.riftartillery.core.GameTest" time="0.02"/>
+  <testcase name="orbitalGravityProducesSlowerFall" classname="com.riftartillery.core.GameTest" time="0.007"/>
+  <testcase name="allArenasSpawnLivingGroundedTeams" classname="com.riftartillery.core.GameTest" time="0.298"/>
+  <testcase name="saveRestoresCraterRopeShieldAndInventory" classname="com.riftartillery.core.GameTest" time="0.036"/>
+  <testcase name="saveRestoresFlightAndFutureSimulationExactly" classname="com.riftartillery.core.GameTest" time="0.077"/>
+  <testcase name="saveRejectsForeignFormat" classname="com.riftartillery.core.GameTest" time="0.0"/>
+  <testcase name="saveRejectsTruncatedData" classname="com.riftartillery.core.GameTest" time="0.025"/>
+  <testcase name="teleportRejectsGroundWaterAndOccupiedLocations" classname="com.riftartillery.core.GameTest" time="0.006"/>
+  <testcase name="deterministicInputsProduceIdenticalBattles" classname="com.riftartillery.core.GameTest" time="0.043"/>
+  <testcase name="simultaneousEliminationIsDraw" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="ropeMissDoesNotCreateAnchor" classname="com.riftartillery.core.GameTest" time="0.004"/>
+  <testcase name="clusterSpawnsFiveIndependentFragments" classname="com.riftartillery.core.GameTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

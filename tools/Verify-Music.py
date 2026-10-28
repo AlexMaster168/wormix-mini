@@ -7,7 +7,7 @@ import numpy as np
 
 root = Path(__file__).resolve().parents[1] / "app/src/main/assets/music"
 manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
-assert {m["arena"] for m in manifest} == {"neon", "volcano", "orbit", "chemical", "arctic", "scrap"}
+assert {m["arena"] for m in manifest} == {"neon", "volcano", "orbit", "chemical", "arctic", "scrap", "canyon", "harbor"}
 hashes = set()
 reports = []
 for track in manifest:

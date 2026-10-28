@@ -1,0 +1,15 @@
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 38.6 MB/s (1419328 bytes in 0.035s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 31.8 MB/s (777913 bytes in 0.023s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 37.9 MB/s (780544 bytes in 0.020s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 37.0 MB/s (911762 bytes in 0.024s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 29.3 MB/s (356604 bytes in 0.012s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 23.8 MB/s (302692 bytes in 0.012s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 27.3 MB/s (302314 bytes in 0.011s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 41.5 MB/s (1060989 bytes in 0.024s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 50.2 MB/s (862231 bytes in 0.016s)
+/sdcard/rift-final.png: 1 file pulled, 0 skipped. 28.2 MB/s (692014 bytes in 0.023s)
+PASS: release upgrade and native UI gallery captured.

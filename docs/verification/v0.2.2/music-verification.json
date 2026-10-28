@@ -1,0 +1,69 @@
+{
+  "result": "PASS",
+  "tracks": [
+    {
+      "arena": "neon",
+      "seconds": 34.28571875,
+      "rms": 0.14312,
+      "peak": 0.81137,
+      "seam": 0.01515,
+      "sha256": "dd5705e7059d7417f4546250653277c646c4971a9af8fdbe13d97badd88ece11"
+    },
+    {
+      "arena": "volcano",
+      "seconds": 40.0,
+      "rms": 0.17003,
+      "peak": 0.79075,
+      "seam": 0.01327,
+      "sha256": "0f7f1a3f4a9a0ca5ba1ebc78dc4c8f61165962cc21536736c3d4de6a64968792"
+    },
+    {
+      "arena": "orbit",
+      "seconds": 43.636375,
+      "rms": 0.19245,
+      "peak": 0.78715,
+      "seam": 0.0264,
+      "sha256": "e570ffe1081af655c35cba3efe8fe59d5edef6392c715d80ef294c35ae9636f7"
+    },
+    {
+      "arena": "chemical",
+      "seconds": 32.0,
+      "rms": 0.17007,
+      "peak": 0.78815,
+      "seam": 0.00064,
+      "sha256": "77f42cb9b9b223dc1f4e85cdd36d79129d56e8929234f9063807b04cdb3484c4"
+    },
+    {
+      "arena": "arctic",
+      "seconds": 48.0,
+      "rms": 0.16407,
+      "peak": 0.79121,
+      "seam": 0.03279,
+      "sha256": "a97ff23f9a28204f295ef227212801f3257b37a5c7b87a5dd623bc9b880c15f2"
+    },
+    {
+      "arena": "scrap",
+      "seconds": 35.5555625,
+      "rms": 0.17601,
+      "peak": 0.78445,
+      "seam": 0.01439,
+      "sha256": "222ecb1d03e16d989b25ba9182e8104f1004dedbe986f7b9e915c81c4138d1e4"
+    },
+    {
+      "arena": "canyon",
+      "seconds": 38.4,
+      "rms": 0.14189,
+      "peak": 0.79162,
+      "seam": 0.00497,
+      "sha256": "1c0233708e1eb0374cdf65b10434b076388dbb5818209f504f91c5b76f83eddd"
+    },
+    {
+      "arena": "harbor",
+      "seconds": 36.9230625,
+      "rms": 0.14941,
+      "peak": 0.77045,
+      "seam": 0.01224,
+      "sha256": "910dbfb663710aef5a3170a6048312e39ab213a3c3081c8ed78bcc26065f9381"
+    }
+  ]
+}
