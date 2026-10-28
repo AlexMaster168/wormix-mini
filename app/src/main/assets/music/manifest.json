@@ -1,0 +1,50 @@
+[
+  {
+    "arena": "neon",
+    "title": "Неоновые крыши",
+    "bpm": 112,
+    "style": "synthwave",
+    "seconds": 34.286,
+    "file": "neon.ogg"
+  },
+  {
+    "arena": "volcano",
+    "title": "Сердце обсидиана",
+    "bpm": 96,
+    "style": "cinematic drums",
+    "seconds": 40.0,
+    "file": "volcano.ogg"
+  },
+  {
+    "arena": "orbit",
+    "title": "Тихая орбита",
+    "bpm": 88,
+    "style": "space ambient",
+    "seconds": 43.636,
+    "file": "orbit.ogg"
+  },
+  {
+    "arena": "chemical",
+    "title": "Кислотный контур",
+    "bpm": 120,
+    "style": "acid groove",
+    "seconds": 32.0,
+    "file": "chemical.ogg"
+  },
+  {
+    "arena": "arctic",
+    "title": "Северное сияние",
+    "bpm": 80,
+    "style": "bells and ambient",
+    "seconds": 48.0,
+    "file": "arctic.ogg"
+  },
+  {
+    "arena": "scrap",
+    "title": "Пульс машин",
+    "bpm": 108,
+    "style": "industrial",
+    "seconds": 35.556,
+    "file": "scrap.ogg"
+  }
+]

@@ -1,0 +1,5 @@
+PASS: 58 core tests, no failures/errors/skips
+PASS: four Android profiles, 54 checks each
+PASS: debug and release lint
+PASS: all documentation links and images exist
+PASS: APK, AAB and all 11 screenshots match recorded hashes

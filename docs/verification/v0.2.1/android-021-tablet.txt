@@ -1,0 +1,9 @@
+Performing Streamed Install
+Success
+Performing Streamed Install
+Success
+
+PASS: 74 Android integration checks
+API=35 VIEW=1212x800 DURATION_MS=39228
+FRAME_COUNT=1097 PIPELINE_P95_MS=53.70 PIPELINE_OVER_16_7_PERCENT=98.63
+

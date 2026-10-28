@@ -1,0 +1,2 @@
+PASS: signed release starts and enters battle
+PASS: pause, save, force-stop, restart and continue available

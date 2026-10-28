@@ -1,0 +1,1 @@
+PASS: final signed release on Android 15: tablet duel, squad, arsenal pages, ally switch, drill shaft, defender, General, Inferno, pause/save, sapper belt danger radius after a real opposing-team mine deployment and ally switch. Native adb touch input; no reflected state changes. No AndroidRuntime errors during final capture.

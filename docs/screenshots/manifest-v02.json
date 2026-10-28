@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "apkSha256": "3f9176544133a64848e89c63efd18549d9b9bdf5407aa7363ae053c5b186bcba",
+  "verificationCompletedUtc": "2026-10-28T19:05:33.3779597Z",
+  "source": "Signed release APK, Android emulator, native screencap",
+  "images": [
+    {
+      "file": "v02-01-menu.png",
+      "sha256": "14fbe49044cb3d59ad6b1eb05699fbe056ff9f8b9983bb3fff55b12d8969cf99",
+      "capturedUtc": "2026-10-28T19:06:14.8230793Z"
+    },
+    {
+      "file": "v02-02-squad.png",
+      "sha256": "64553c9a33f95c2703cb171bdaf9d51b24aa8d16d113a6fbf7a1fe2302cffb7a",
+      "capturedUtc": "2026-10-28T19:06:18.9862737Z"
+    },
+    {
+      "file": "v02-03-orbit.png",
+      "sha256": "fa8c283d2d75c874eec93efae1a8807d463f9592be9342da04fd2f457d9a7390",
+      "capturedUtc": "2026-10-28T19:06:35.2352026Z"
+    },
+    {
+      "file": "v02-04-guns.png",
+      "sha256": "bbddb6e708970b2bedccbb3fc59f6a86e520041ae08bd815cfa1b0351885c70f",
+      "capturedUtc": "2026-10-28T19:06:57.0878325Z"
+    },
+    {
+      "file": "v02-05-guns-extra.png",
+      "sha256": "3ef525410605ce59bedbc4763bd8656733e2f25c46148373f4c64effe04e0256",
+      "capturedUtc": "2026-10-28T19:07:01.0637069Z"
+    },
+    {
+      "file": "v02-06-drill-defender.png",
+      "sha256": "f2d0c50f65a5a148ab2a3cdeb7118f08394451270cd360e98a6ff08b52d136ae",
+      "capturedUtc": "2026-10-28T19:07:21.6355171Z"
+    },
+    {
+      "file": "v02-07-general.png",
+      "sha256": "329b7e7e7e198958bb072bc40bdc7dd2ca8b04eee6a7e33587c24a9e15ca5bc9",
+      "capturedUtc": "2026-10-28T19:07:46.0396604Z"
+    },
+    {
+      "file": "v02-08-inferno.png",
+      "sha256": "432beb454e264d856303572a8a8156afc6986e2d76668e38d57bc4288f650a36",
+      "capturedUtc": "2026-10-28T19:08:04.4425282Z"
+    },
+    {
+      "file": "v02-09-tablet.png",
+      "sha256": "66e2e9fbec0d1e054de0c8be93999de98ccfb282aef7af440d9f3af4c51ff348",
+      "capturedUtc": "2026-10-28T19:06:05.1370968Z"
+    },
+    {
+      "file": "v02-10-drill-shaft.png",
+      "sha256": "62d7b284ae751b70948336d43e250d1eba326e7a3fd758c483647aea13f4093b",
+      "capturedUtc": "2026-10-28T19:08:34.0267682Z"
+    },
+    {
+      "file": "v02-11-sapper.png",
+      "sha256": "9a41dbf80716a84be5d82462caea129344fefb4e6a6baf6f37466b4d7c4854ae",
+      "capturedUtc": "2026-10-28T19:09:17.2125379Z"
+    }
+  ]
+}

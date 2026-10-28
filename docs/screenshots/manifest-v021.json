@@ -1,0 +1,17 @@
+{
+  "version": "0.2.1",
+  "apkSha256": "ebdf6354c789c03dc1fcd66e6562b27d341543869768aa947d406440b81ef330",
+  "testsCompletedUtc": "2026-10-28T20:05:40.5868788Z",
+  "images": [
+    {
+      "file": "v021-01-menu.png",
+      "sha256": "a8044162680e694c087990e084326708aa65ca98f5e69e3decec1a413dbbc571",
+      "capturedUtc": "2026-10-28T20:06:50.4875758Z"
+    },
+    {
+      "file": "v021-02-pause.png",
+      "sha256": "58b4e04eeb97637a46ac409b92fb49a22dd544f8d049d4259b3f974c3b497439",
+      "capturedUtc": "2026-10-28T20:07:01.2254102Z"
+    }
+  ]
+}

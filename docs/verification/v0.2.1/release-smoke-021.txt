@@ -1,0 +1,1 @@
+PASS: signed release starts music, exposes independent controls, pauses, and persists mute across process restart

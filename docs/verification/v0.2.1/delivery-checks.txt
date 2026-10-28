@@ -1,0 +1,5 @@
+PASS: 6 distinct Ogg loops decoded and verified
+PASS: 74 Android checks on each of 3 profiles
+PASS: native signed upgrade preserves old save
+PASS: native release audio playback and pause recorded
+PASS: documentation links, screenshot times, audio and APK hashes
