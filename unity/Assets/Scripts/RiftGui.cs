@@ -34,7 +34,7 @@ namespace Rift {
             GUI.enabled=!Modal;
             if(battle) DrawBattle();else DrawMenu();
             GUI.enabled=true;
-            if(musicPanel) DrawMusic();else if(help) DrawHelp();else if(aimPanel) DrawAim();else if(arsenal) DrawArsenal();else if(forge) DrawForge();else if(paused) DrawPause();
+            if(shop) DrawShop();else if(musicPanel) DrawMusic();else if(help) DrawHelp();else if(aimPanel) DrawAim();else if(arsenal) DrawArsenal();else if(forge) DrawForge();else if(paused) DrawPause();
             if(!string.IsNullOrEmpty(toast)) Text(toast,30,780,1250,Coral,smallStyle);
         }
         Color ArenaColor(int id) {Color[] colors={new Color(.05f,.11f,.18f),new Color(.22f,.09f,.13f),new Color(.08f,.09f,.22f),new Color(.07f,.2f,.13f),new Color(.1f,.23f,.32f),new Color(.2f,.15f,.1f),new Color(.33f,.15f,.13f),new Color(.05f,.2f,.26f),new Color(.03f,.22f,.13f),new Color(.24f,.19f,.22f),new Color(.1f,.13f,.24f),new Color(.2f,.1f,.3f)};return colors[id%colors.Length];}
@@ -45,7 +45,7 @@ namespace Rift {
         }
         void Hero(Rect rect,int id,int team=0) {if(heroes==null) {Fill(rect,Lime);return;}GUI.DrawTextureWithTexCoords(rect,heroes,new Rect(id/7f,team==0?.5f:0,1/7f,.5f),true);}
         void DrawMenu() {
-            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.3.1 · 12 КАРТ · 100 ПРЕДМЕТОВ",58,105,900,Muted);
+            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.4.0 · 12 КАРТ · 120 ПРЕДМЕТОВ",58,105,900,Muted);
             if(B(musicEnabled?"Музыка: вкл":"Музыка: выкл",1020,35,180,46)) {musicEnabled=!musicEnabled;PlayerPrefs.SetInt("music",musicEnabled?1:0);}
             if(B("Треки",1212,35,165,46)) musicPanel=true;
             if(B(Screen.fullScreen?"Оконный / F11":"На весь экран / F11",1020,92,357,46)) ToggleFullscreen();
@@ -57,7 +57,8 @@ namespace Rift {
             if(B("Охота на босса",344,545,250,58,mode==1)) mode=1;
             if(B("Канатная гонка",610,545,250,58,mode==2)) mode=2;
             if(B("Босс: "+catalog.bosses[boss].name,58,620,800,58,mode==1)) {boss=(boss+1)%catalog.bosses.Length;mode=1;}
-            if(B("Отряд / кузница",1020,550,350,60)) forge=true;
+            if(B("Отряд / кузница",1020,550,170,60)) forge=true;
+            if(B("Магазин",1200,550,170,60,true)) OpenShop();
             if(B("НАЧАТЬ БОЙ",58,710,380,65,true)) NewBattle();
             if(state.saveExists && B("ПРОДОЛЖИТЬ",454,710,350,65)) {Act("load");battle=true;resultRecorded=false;lastTurn=-1;}
             if(B("Правила",1030,640,160,50)) help=true;if(B("Выход",1210,640,160,50)) Application.Quit();
@@ -71,14 +72,20 @@ namespace Rift {
             foreach(var h in state.hazards) Circle(W(h.x,h.y),h.radius*zoom,new Color(h.effect==1?.5f:1,h.effect==0?.3f:.65f,h.effect==2?1:.2f,.22f));
             foreach(var warning in state.mineWarnings) Circle(W(warning.x,warning.y),warning.radius*zoom,new Color(1,.3f,.2f,.16f));
             foreach(var point in state.trajectory) Circle(W(point.x,point.y),2,Lime);
-            foreach(var d in state.devices) {Vector2 p=W(d.x,d.y);if(d.kind==3) Circle(p,135*zoom,new Color(.3f,.9f,1,.12f));Fill(new Rect(p.x-17*zoom,p.y-24*zoom,34*zoom,36*zoom),d.kind==5?Cyan:Muted);}
+            foreach(var d in state.devices) {
+                Vector2 p=W(d.x,d.y);uint tint=unchecked((uint)d.tint);Color color=new Color32((byte)(tint>>16),(byte)(tint>>8),(byte)tint,255);
+                if(d.interactive) {Circle(p,28*zoom,new Color(color.r,color.g,color.b,.25f));Text(d.label+(d.kind==11?" ×"+d.charges:""),p.x-70,p.y-55,240,d.timer>0?Muted:color,new GUIStyle(smallStyle){fontSize=18});}
+                if(d.kind==3) Circle(p,135*zoom,new Color(.3f,.9f,1,.12f));
+                Fill(new Rect(p.x-17*zoom,p.y-24*zoom,34*zoom,36*zoom),d.kind>=9?color:d.kind==5?Cyan:Muted);
+                if(d.kind>=9) Text(d.kind==11?"+":d.kind==14?"O":d.kind==12?"↑":d.kind==13?"=":d.kind==16?"!":"■",p.x-10*zoom,p.y-24*zoom,70,Bg,new GUIStyle(textStyle){fontSize=Mathf.Max(12,Mathf.RoundToInt(24*zoom))});
+            }
             if(state.mode==2) {int i=0;foreach(var target in state.targets) {var p=W(target.x,target.y);Circle(p,45*zoom,new Color(.5f,1,.3f,.2f));Text((++i).ToString(),p.x-10,p.y-15,50,Lime);}}
             foreach(var beam in state.beams) Line(W(beam.x,beam.y),W(beam.x2,beam.y2),Cyan,3);
             foreach(var shot in state.shots) {Vector2 p=W(shot.x,shot.y);Circle(p,6*zoom,shot.fragment?Coral:Lime);if(shot.fuse>0) Text(Mathf.CeilToInt(shot.fuse).ToString(),p.x+8,p.y-30,40,Color.white,smallStyle);}
             if(state.rope.Length>0) {Vector2 from=W(Active.x,Active.y-24);for(int i=state.rope.Length-1;i>=0;i--) {var p=W(state.rope[i].x,state.rope[i].y);Line(from,p,Color.white,2);from=p;}}
             labelCount=0;
             foreach(var f in state.fighters.Where(f=>f.alive)) {
-                Vector2 p=W(f.x,f.y);bool big=state.mode==1 && f.id==2;float width=big?210:72,height=big?245:95;
+                Vector2 p=W(f.x,f.y);if(f.team==0) {Line(new Vector2(p.x-22*zoom,p.y+12*zoom),new Vector2(p.x+22*zoom,p.y+12*zoom),AuraColor(),3);}bool big=state.mode==1 && f.id==2;float width=big?210:72,height=big?245:95;
                 Rect rect=new Rect(p.x-width*zoom/2,p.y-(height-17)*zoom,width*zoom,height*zoom);
                 if(rect.xMax<0 || rect.xMin>1440 || rect.yMax<0 || rect.yMin>483) continue;
                 if(big && bossArt!=null) GUI.DrawTextureWithTexCoords(rect,bossArt,new Rect(state.boss/4f,0,.25f,1),true);else Hero(rect,f.race,f.team);
@@ -101,10 +108,12 @@ namespace Rift {
             if(B(overview||manual?"К бойцу":"Обзор",20,165,145,40)) {if(overview||manual) {overview=manual=false;zoom=1.05f;} else overview=true;}
             if(B("−",180,165,50,40)) {overview=false;zoom=Mathf.Max(.42f,zoom-.15f);}if(B("+",240,165,50,40)) {overview=false;zoom=Mathf.Min(1.6f,zoom+.15f);}
             if(B("Сменить бойца",310,165,240,40)) {var ally=state.fighters.FirstOrDefault(f=>f.alive && f.team==Active.team && f.id!=state.active);if(ally!=null) Act("switch",",\"id\":"+ally.id);}
-            if(state.mode==1) Text(state.bossWarning,570,170,830,Coral,smallStyle);
+            if(!string.IsNullOrEmpty(state.interactLabel)) {if(B("F / "+state.interactLabel,570,165,560,40,true)) Act("interact");}
+            else if(state.mode==1) Text(state.bossWarning,570,170,830,Coral,smallStyle);
             var enemy=state.fighters.Where(f=>f.alive && f.team!=Active.team).OrderBy(f=>Mathf.Abs(f.x-Active.x)).FirstOrDefault();
             if(!overview && enemy!=null && Mathf.Abs((enemy.x-cameraX)*zoom)>690 && B("Противник →",1160,220,255,50)) {manual=true;overview=false;cameraX=enemy.x;cameraY=enemy.y-110;}
             if(terrain!=null) GUI.DrawTexture(new Rect(1100,580,316,95),terrain,ScaleMode.StretchToFill,true);
+            foreach(var d in state.devices.Where(d=>d.interactive)) Circle(new Vector2(1100+d.x/2880*316,580+d.y/1440*95),2,Cyan);
             foreach(var f in state.fighters.Where(f=>f.alive)) Circle(new Vector2(1100+f.x/2880*316,580+f.y/1440*95),3,f.team==0?Lime:Coral);
             Fill(new Rect(0,690,1440,120),Bg);Hold("→",95,710,65);Hold("←",20,710,65);Hold("↓",470,710,45);Hold("↑",420,710,45);
             if(B("Прыжок",175,710,110,78)) Act("jump");if(B(state.rope.Length>0?"Отцепить":"Канат",295,710,115,78)) Act("rope");
@@ -142,6 +151,6 @@ namespace Rift {
             for(int i=0;i<catalog.upgrades.Length;i++) if(B(catalog.upgrades[i].name,200+i*350,575,335,50,upgrade==i) && Buy("ownedUpgrades",i,60)) upgrade=i;
             if(B("Сохранить отряд",200,660,1040,55,true)) {PlayerPrefs.SetInt("race",race);PlayerPrefs.SetInt("hat",hat);PlayerPrefs.SetInt("artifact",artifact);PlayerPrefs.SetInt("upgrade",upgrade);PlayerPrefs.Save();forge=false;}
         }
-        void DrawHelp() {PanelBox("УПРАВЛЕНИЕ");string[] lines={"A / D, стрелки ← → или кнопки — движение; пробел — прыжок.","Мышь / ↑ ↓ — прицел; колесо / + − — сила; Enter — огонь.","Кнопка «Прицел» — длинные ползунки, шаг 1° и 5°.","Q — канат; W / S — длина троса и тяга леталки; E — навык.","R — арсенал; Tab — союзник; правая кнопка мыши — камера.","Телепорт и аптечка расходуют запас, но оставляют атаку.","На ход 59 секунд. После атаки — три секунды на отход.","F11 / Alt+Enter — полный экран; Esc — пауза. Shift+колесо — масштаб."};for(int i=0;i<lines.Length;i++) Text(lines[i],200,210+i*53,1040,Color.white);if(B("Понятно",200,665,1040,55,true)) help=false;}
+        void DrawHelp() {PanelBox("УПРАВЛЕНИЕ");string[] lines={"A / D, стрелки ← → или кнопки — движение; пробел — прыжок.","Мышь / ↑ ↓ — прицел; колесо / + − — сила; Enter — огонь.","Кнопка «Прицел» — длинные ползунки, шаг 1° и 5°.","Q — канат; W / S — тяга; E — навык; F — объект рядом.","R — арсенал; Tab — союзник; правая кнопка мыши — камера.","Телепорт и аптечка расходуют запас, но оставляют атаку.","На ход 59 секунд. После атаки — три секунды на отход.","F11 / Alt+Enter — полный экран; Esc — пауза. Shift+колесо — масштаб."};for(int i=0;i<lines.Length;i++) Text(lines[i],200,210+i*53,1040,Color.white);if(B("Понятно",200,665,1040,55,true)) help=false;}
     }
 }

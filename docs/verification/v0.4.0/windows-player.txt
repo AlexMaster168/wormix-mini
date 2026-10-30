@@ -1,0 +1,245 @@
+Mono path[0] = 'C:/Projects/wormix-mini/.tmp/pc040/RIFT-Artillery_Data/Managed'
+Mono config path = 'C:/Projects/wormix-mini/.tmp/pc040/MonoBleedingEdge/etc'
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+Initialize engine version: 6000.0.77f1 (88f89d0d8b31)
+[Subsystems] Discovering subsystems at path C:/Projects/wormix-mini/.tmp/pc040/RIFT-Artillery_Data/UnitySubsystems
+kGfxThreadingModeSplitJobs is not supported on Direct3D 11. Reverting to kGfxThreadingModeClientWorkerJobs instead.
+GfxDevice: creating device client; kGfxThreadingModeClientWorkerJobs
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon(TM) Graphics (ID=0x1681)
+    Vendor:   ATI
+    VRAM:     7010 MB
+    Driver:   32.0.21030.5005
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.258 seconds
+- Finished resetting the current domain, in  0.005 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+<RI> Initializing input.
+
+<RI> Input initialized.
+
+D3D11 device created for Microsoft Media Foundation video decoding.
+Direct3D: detected that IDXGISwapChain::GetFrameStatistics is broken (it does not return proper timestamps). Delta time will now be calculated using cpu-side time stampling until the game window is moved.
+UnloadTime: 34.558300 ms
+RIFT_SMOKE PASS 1: Bridge starts in Windows player
+RIFT_SMOKE PASS 2: 120 weapons and 12 arenas
+RIFT_SMOKE PASS 3: Hero and boss atlases load
+RIFT_SMOKE PASS 4: Exactly one active AudioListener routes sound to output
+RIFT_SMOKE PASS 5: Audio output is enabled and music is not positional
+RIFT_SMOKE PASS 6: Music resource: neon
+RIFT_SMOKE PASS 7: Music resource: volcano
+RIFT_SMOKE PASS 8: Music resource: orbit
+RIFT_SMOKE PASS 9: Music resource: chemical
+RIFT_SMOKE PASS 10: Music resource: arctic
+RIFT_SMOKE PASS 11: Music resource: scrap
+RIFT_SMOKE PASS 12: Music resource: canyon
+RIFT_SMOKE PASS 13: Music resource: harbor
+RIFT_SMOKE PASS 14: Music resource: jungle
+RIFT_SMOKE PASS 15: Music resource: ruins
+RIFT_SMOKE PASS 16: Music resource: storm
+RIFT_SMOKE PASS 17: Music resource: crystal
+RIFT_SMOKE PASS 18: Music resource: rush
+RIFT_SMOKE PASS 19: Music resource: nocturne
+RIFT_SMOKE PASS 20: Music resource: retro
+RIFT_SMOKE PASS 21: Music resource: boss
+RIFT_SMOKE PASS 22: Shop catalog has 14 supply packs and 5 permanent auras
+RIFT_SMOKE PASS 23: Shop purchase debits wallet and stores pack
+RIFT_SMOKE PASS 24: New battle consumes pack and grants ammunition
+RIFT_SMOKE PASS 25: Permanent aura purchased and equipped
+RIFT_SMOKE PASS 26: Owned aura equips for free
+RIFT_SMOKE PASS 27: Unaffordable purchase does not mutate stock
+RIFT_SMOKE PASS 28: World supply crate grants stock without spending attack
+RIFT_SMOKE PASS 29: Portal interaction moves the fighter
+RIFT_SMOKE PASS 30: Arena starts: Неоновый мегаполис
+RIFT_SMOKE PASS 31: Arena starts: Храм древних драконов
+RIFT_SMOKE PASS 32: Arena starts: Станция «Титан»
+RIFT_SMOKE PASS 33: Arena starts: Завод «Химпром»
+RIFT_SMOKE PASS 34: Arena starts: База «Полюс»
+RIFT_SMOKE PASS 35: Arena starts: Кладбище мехов
+RIFT_SMOKE PASS 36: Arena starts: Песчаный каньон
+RIFT_SMOKE PASS 37: Arena starts: Затопленный порт
+RIFT_SMOKE PASS 38: Arena starts: Тропические джунгли
+RIFT_SMOKE PASS 39: Arena starts: Забытые руины
+RIFT_SMOKE PASS 40: Arena starts: Грозовая платформа
+RIFT_SMOKE PASS 41: Arena starts: Кристальные пещеры
+RIFT_SMOKE PASS 42: Weapon selection: Базука
+RIFT_SMOKE PASS 43: Weapon selection: Граната
+RIFT_SMOKE PASS 44: Weapon selection: Кассетная
+RIFT_SMOKE PASS 45: Weapon selection: Динамит
+RIFT_SMOKE PASS 46: Weapon selection: Снайперская винтовка
+RIFT_SMOKE PASS 47: Weapon selection: Аптечка / антидот
+RIFT_SMOKE PASS 48: Weapon selection: Телепорт
+RIFT_SMOKE PASS 49: Weapon selection: Крио-базука
+RIFT_SMOKE PASS 50: Weapon selection: Самонаводящаяся
+RIFT_SMOKE PASS 51: Weapon selection: Мортира
+RIFT_SMOKE PASS 52: Weapon selection: Бункер-бастер
+RIFT_SMOKE PASS 53: Weapon selection: Сюрикены
+RIFT_SMOKE PASS 54: Weapon selection: Липкая граната
+RIFT_SMOKE PASS 55: Weapon selection: Святая граната
+RIFT_SMOKE PASS 56: Weapon selection: Грави-граната
+RIFT_SMOKE PASS 57: Weapon selection: Светошумовая
+RIFT_SMOKE PASS 58: Weapon selection: Огнемёт «Инферно»
+RIFT_SMOKE PASS 59: Weapon selection: Коктейль Молотова
+RIFT_SMOKE PASS 60: Weapon selection: Газовая граната
+RIFT_SMOKE PASS 61: Weapon selection: Кислотная бомба
+RIFT_SMOKE PASS 62: Weapon selection: Орбитальный луч
+RIFT_SMOKE PASS 63: Weapon selection: Дробовик
+RIFT_SMOKE PASS 64: Weapon selection: Узи
+RIFT_SMOKE PASS 65: Weapon selection: Миниган
+RIFT_SMOKE PASS 66: Weapon selection: Пушка Тесла
+RIFT_SMOKE PASS 67: Weapon selection: Дискомёт
+RIFT_SMOKE PASS 68: Weapon selection: Мина
+RIFT_SMOKE PASS 69: Weapon selection: Мина-паук
+RIFT_SMOKE PASS 70: Weapon selection: Турель
+RIFT_SMOKE PASS 71: Weapon selection: Стальная балка
+RIFT_SMOKE PASS 72: Weapon selection: Силовой купол
+RIFT_SMOKE PASS 73: Weapon selection: Бур / паяльная лампа
+RIFT_SMOKE PASS 74: Weapon selection: Супер-овца
+RIFT_SMOKE PASS 75: Weapon selection: Бешеный кабан
+RIFT_SMOKE PASS 76: Weapon selection: Банановая бомба
+RIFT_SMOKE PASS 77: Weapon selection: Крот-подрывник
+RIFT_SMOKE PASS 78: Weapon selection: Скунс
+RIFT_SMOKE PASS 79: Weapon selection: Кувалда
+RIFT_SMOKE PASS 80: Weapon selection: Бейсбольная бита
+RIFT_SMOKE PASS 81: Weapon selection: Шокер
+RIFT_SMOKE PASS 82: Weapon selection: Камикадзе
+RIFT_SMOKE PASS 83: Weapon selection: Авиаудар
+RIFT_SMOKE PASS 84: Weapon selection: Напалмовый удар
+RIFT_SMOKE PASS 85: Weapon selection: Метеоритный дождь
+RIFT_SMOKE PASS 86: Weapon selection: Землетрясение
+RIFT_SMOKE PASS 87: Weapon selection: Потоп
+RIFT_SMOKE PASS 88: Weapon selection: Ниндзя-канат
+RIFT_SMOKE PASS 89: Weapon selection: Реактивный ранец
+RIFT_SMOKE PASS 90: Weapon selection: Гравитационные ботинки
+RIFT_SMOKE PASS 91: Weapon selection: Телекинез
+RIFT_SMOKE PASS 92: Weapon selection: АК-47
+RIFT_SMOKE PASS 93: Weapon selection: Репульсор
+RIFT_SMOKE PASS 94: Weapon selection: Плазменный лазер
+RIFT_SMOKE PASS 95: Weapon selection: Защитник
+RIFT_SMOKE PASS 96: Weapon selection: Смена персонажа
+RIFT_SMOKE PASS 97: Weapon selection: Парашют
+RIFT_SMOKE PASS 98: Weapon selection: Усиленный прицел
+RIFT_SMOKE PASS 99: Weapon selection: Плазменная винтовка
+RIFT_SMOKE PASS 100: Weapon selection: Кассетная ракета
+RIFT_SMOKE PASS 101: Weapon selection: Граната «Сингулярность»
+RIFT_SMOKE PASS 102: Weapon selection: Фугасная ракета
+RIFT_SMOKE PASS 103: Weapon selection: Термобарическая ракета
+RIFT_SMOKE PASS 104: Weapon selection: Рикошетная ракета
+RIFT_SMOKE PASS 105: Weapon selection: Арбузобомба
+RIFT_SMOKE PASS 106: Weapon selection: Ананасовая граната
+RIFT_SMOKE PASS 107: Weapon selection: Тыквенная бомба
+RIFT_SMOKE PASS 108: Weapon selection: Дымовая граната
+RIFT_SMOKE PASS 109: Weapon selection: Зажигательная граната
+RIFT_SMOKE PASS 110: Weapon selection: Вампирская граната
+RIFT_SMOKE PASS 111: Weapon selection: ЭМИ-граната
+RIFT_SMOKE PASS 112: Weapon selection: Ледяная граната
+RIFT_SMOKE PASS 113: Weapon selection: Игольчатая граната
+RIFT_SMOKE PASS 114: Weapon selection: Рельсотрон
+RIFT_SMOKE PASS 115: Weapon selection: Парные пистолеты
+RIFT_SMOKE PASS 116: Weapon selection: Арбалет
+RIFT_SMOKE PASS 117: Weapon selection: Ядовитый дротик
+RIFT_SMOKE PASS 118: Weapon selection: Тяжёлый огнемёт
+RIFT_SMOKE PASS 119: Weapon selection: Криомёт
+RIFT_SMOKE PASS 120: Weapon selection: Реактивная доска
+RIFT_SMOKE PASS 121: Weapon selection: Магнитная бомба
+RIFT_SMOKE PASS 122: Weapon selection: Трёхствольная базука
+RIFT_SMOKE PASS 123: Weapon selection: Рой самонаводящихся
+RIFT_SMOKE PASS 124: Weapon selection: Буровая ракета
+RIFT_SMOKE PASS 125: Weapon selection: Разделяющаяся ракета
+RIFT_SMOKE PASS 126: Weapon selection: Электроракета
+RIFT_SMOKE PASS 127: Weapon selection: Фейерверк
+RIFT_SMOKE PASS 128: Weapon selection: Осколочная граната
+RIFT_SMOKE PASS 129: Weapon selection: Прыгающая мина
+RIFT_SMOKE PASS 130: Weapon selection: Подрывной заряд
+RIFT_SMOKE PASS 131: Weapon selection: Кислотная кассета
+RIFT_SMOKE PASS 132: Weapon selection: Огненная кассета
+RIFT_SMOKE PASS 133: Weapon selection: Ледяная кассета
+RIFT_SMOKE PASS 134: Weapon selection: Гвоздомёт
+RIFT_SMOKE PASS 135: Weapon selection: Пушка Гаусса
+RIFT_SMOKE PASS 136: Weapon selection: Звуковая пушка
+RIFT_SMOKE PASS 137: Weapon selection: Сигнальный пистолет
+RIFT_SMOKE PASS 138: Weapon selection: Грибная бомба
+RIFT_SMOKE PASS 139: Weapon selection: Ковровая бомбардировка
+RIFT_SMOKE PASS 140: Weapon selection: Объёмный авиаудар
+RIFT_SMOKE PASS 141: Weapon selection: Цепная молния
+RIFT_SMOKE PASS 142: Weapon selection: Игла
+RIFT_SMOKE PASS 143: Weapon selection: Рикошетная сфера
+RIFT_SMOKE PASS 144: Weapon selection: Ракета «Саламандра»
+RIFT_SMOKE PASS 145: Weapon selection: Кислотная игла
+RIFT_SMOKE PASS 146: Weapon selection: Ледяной веер
+RIFT_SMOKE PASS 147: Weapon selection: Громовая сфера
+RIFT_SMOKE PASS 148: Weapon selection: Сингулярность
+RIFT_SMOKE PASS 149: Weapon selection: Лечебная граната
+RIFT_SMOKE PASS 150: Weapon selection: Зеркальный лазер
+RIFT_SMOKE PASS 151: Weapon selection: Штурмовая винтовка
+RIFT_SMOKE PASS 152: Weapon selection: Автодробовик
+RIFT_SMOKE PASS 153: Weapon selection: Антиматериальная винтовка
+RIFT_SMOKE PASS 154: Weapon selection: Шрапнельная пушка
+RIFT_SMOKE PASS 155: Weapon selection: Дуговой излучатель
+RIFT_SMOKE PASS 156: Weapon selection: Лазерный резак
+RIFT_SMOKE PASS 157: Weapon selection: Звено дронов
+RIFT_SMOKE PASS 158: Weapon selection: Щитовой маяк
+RIFT_SMOKE PASS 159: Weapon selection: Баррикада
+RIFT_SMOKE PASS 160: Weapon selection: Медицинский тотем
+RIFT_SMOKE PASS 161: Weapon selection: Тесла-турель
+RIFT_SMOKE PASS 162: Teleport keeps turn
+RIFT_SMOKE PASS 163: Jetboard keeps attack
+RIFT_SMOKE PASS 164: Jetboard moves and consumes fuel
+RIFT_SMOKE PASS 165: Portable save restores board and inventory
+RIFT_SMOKE PASS 166: Boss starts: Архидемон Инферно
+RIFT_SMOKE PASS 167: Boss starts: Безумный алхимик
+RIFT_SMOKE PASS 168: Boss starts: Древний дракон Фафнир
+RIFT_SMOKE PASS 169: Boss starts: Генерал киборгов
+RIFT_SMOKE PASS 170: Rope race has five checkpoints
+RIFT_SMOKE PASS 171: Shared terrain texture rendered
+RIFT_AUDIO peak=0,2261021 volume=0,35 playing=True samples=124928 focus=True dsp=20,2026666666667
+RIFT_SMOKE PASS 172: Final audio mixer produces nonzero music samples
+RIFT_SMOKE PASS 173: Music actually plays: neon
+RIFT_SMOKE PASS 174: Music actually plays: volcano
+RIFT_SMOKE PASS 175: Music actually plays: orbit
+RIFT_SMOKE PASS 176: Music actually plays: chemical
+RIFT_SMOKE PASS 177: Music actually plays: arctic
+RIFT_SMOKE PASS 178: Music actually plays: scrap
+RIFT_SMOKE PASS 179: Music actually plays: canyon
+RIFT_SMOKE PASS 180: Music actually plays: harbor
+RIFT_SMOKE PASS 181: Music actually plays: jungle
+RIFT_SMOKE PASS 182: Music actually plays: ruins
+RIFT_SMOKE PASS 183: Music actually plays: storm
+RIFT_SMOKE PASS 184: Music actually plays: crystal
+RIFT_SMOKE PASS 185: Music actually plays: rush
+RIFT_SMOKE PASS 186: Music actually plays: nocturne
+RIFT_SMOKE PASS 187: Music actually plays: retro
+RIFT_SMOKE PASS 188: Music actually plays: boss
+RIFT_SMOKE PASS 189: Manual track survives map change
+RIFT_SMOKE PASS 190: Automatic arena music returns
+RIFT_SMOKE PASS 191: Music mute pauses playback
+RIFT_SMOKE PASS 192: Music resumes after mute
+RIFT_SMOKE PASS 193: Music selection persists
+RIFT_SMOKE PASS 194: Mouse field click updates committed aim
+RIFT_SMOKE PASS 195: Pause blocks mouse aim underneath
+RIFT_SMOKE PASS 196: Enemy locator button is not intercepted by aiming
+RIFT_SMOKE PASS 197: Keyboard A moves the fighter through live Update
+RIFT_SMOKE PASS 198: Key release stops left movement
+RIFT_SMOKE PASS 199: Russian layout character moves the fighter
+RIFT_SMOKE PASS 200: R opens arsenal
+RIFT_SMOKE PASS 201: Russian layout opens arsenal
+RIFT_SMOKE PASS 202: Tab switches allied fighter
+RIFT_SMOKE PASS 203: Space jumps in the live simulation
+RIFT_SMOKE PASS 204: Enter fires selected weapon
+Direct3D: detected that IDXGISwapChain::GetFrameStatistics is broken (it does not return proper timestamps). Delta time will now be calculated using cpu-side time stampling until the game window is moved.
+RIFT_SMOKE PASS 205: Fullscreen switch changes actual player mode
+Direct3D: detected that IDXGISwapChain::GetFrameStatistics is broken (it does not return proper timestamps). Delta time will now be calculated using cpu-side time stampling until the game window is moved.
+RIFT_SMOKE PASS 206: Fullscreen switch restores windowed mode
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.

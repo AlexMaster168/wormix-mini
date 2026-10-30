@@ -6,19 +6,36 @@ using UnityEngine;
 
 namespace Rift {
     public partial class RiftGame {
+        int smokeWallet,smokeSupplies;string smokeStock;bool restoreSmokeShop;
+        void RestoreSmokeShop() {if(!restoreSmokeShop) return;PlayerPrefs.SetInt("scrap",smokeWallet);PlayerPrefs.SetInt("useSupplies",smokeSupplies);PlayerPrefs.SetString("shopStock",smokeStock);PlayerPrefs.Save();restoreSmokeShop=false;}
         IEnumerator Smoke() {
             yield return null;
+            smokeWallet=PlayerPrefs.GetInt("scrap",150);smokeStock=PlayerPrefs.GetString("shopStock","");smokeSupplies=PlayerPrefs.GetInt("useSupplies",1);restoreSmokeShop=true;
             string[] args=Environment.GetCommandLineArgs();int index=Array.IndexOf(args,"--rift-report");
             string report=index>=0 && index+1<args.Length?args[index+1]:Path.Combine(Application.temporaryCachePath,"rift-unity-smoke.txt");
             string folder=Path.GetDirectoryName(report);Directory.CreateDirectory(folder);int checks=0;string failure=null;
             Action<bool,string> check=(ok,label)=>{if(!ok) throw new Exception(label);checks++;Debug.Log("RIFT_SMOKE PASS "+checks+": "+label);};
             try {
                 check(string.IsNullOrEmpty(fatal) && catalog!=null,"Bridge starts in Windows player");
-                check(catalog.weapons.Length==100 && catalog.arenas.Length==12,"100 weapons and 12 arenas");
+                check(catalog.weapons.Length==120 && catalog.arenas.Length==12,"120 weapons and 12 arenas");
                 check(heroes!=null && bossArt!=null,"Hero and boss atlases load");
                 check(FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Count(l=>l.enabled && l.gameObject.activeInHierarchy)==1,"Exactly one active AudioListener routes sound to output");
                 check(!AudioListener.pause && AudioListener.volume>0 && music.spatialBlend==0,"Audio output is enabled and music is not positional");
                 foreach(var entry in catalog.tracks) check(Resources.Load<AudioClip>("Music/"+entry.asset)!=null,"Music resource: "+entry.asset);
+                check(catalog.offers.Length==19,"Shop catalog has 14 supply packs and 5 permanent auras");
+                PlayerPrefs.SetInt("scrap",150);PlayerPrefs.SetString("shopStock","");PlayerPrefs.SetInt("useSupplies",1);SyncShop();
+                Send("{\"cmd\":\"market\",\"action\":\"buy\",\"offer\":0}");SaveShop();
+                check(state.shopWallet==120 && state.shopOwned[0]==1,"Shop purchase debits wallet and stores pack");
+                bot=false;mode=0;NewBattle();paused=true;
+                check(Active.ammo[Array.FindIndex(catalog.weapons,w=>w.name=="АК-47")]==8 && state.shopOwned[0]==0,"New battle consumes pack and grants ammunition");
+                Send("{\"cmd\":\"market\",\"action\":\"buy\",\"offer\":14}");SaveShop();check(state.shopWallet==80 && state.selectedAura==1,"Permanent aura purchased and equipped");
+                Send("{\"cmd\":\"market\",\"action\":\"equip\",\"aura\":0}");SaveShop();check(state.selectedAura==0 && state.shopWallet==80,"Owned aura equips for free");
+                Send("{\"cmd\":\"market\",\"action\":\"equip\",\"aura\":1}");SaveShop();
+                PlayerPrefs.SetInt("scrap",0);SyncShop();Send("{\"cmd\":\"market\",\"action\":\"buy\",\"offer\":0}");check(!state.ok && state.shopWallet==0 && state.shopOwned[0]==0,"Unaffordable purchase does not mutate stock");
+                PlayerPrefs.SetInt("scrap",150);SyncShop();
+                var supply=state.devices.First(d=>d.kind==9);Act("select",",\"weapon\":6");Act("fire",",\"x\":"+F(supply.x)+",\"y\":"+F(supply.y-3));
+                int medicine=Active.ammo[5];Act("interact");check(state.ok && Active.ammo[5]==medicine+1 && state.phase==0,"World supply crate grants stock without spending attack");
+                var portal=state.devices.First(d=>d.kind==14);Act("fire",",\"x\":"+F(portal.x)+",\"y\":"+F(portal.y-3));Act("interact");check(state.ok && Mathf.Abs(Active.x-2300)<1,"Portal interaction moves the fighter");
                 paused=true;bot=false;
                 for(int i=0;i<catalog.arenas.Length;i++) {arena=i;NewBattle();paused=true;check(state.arena==i && state.fighters.All(f=>f.alive),"Arena starts: "+catalog.arenas[i].name);}
                 mode=0;arena=0;NewBattle();paused=true;
@@ -99,6 +116,7 @@ namespace Rift {
             aimPanel=true;yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-03-aim.png"));yield return new WaitForSecondsRealtime(.7f);aimPanel=false;
             arsenal=true;category=catalog.weapons[63].category;search="Арбуз";yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-04-watermelon.png"));yield return new WaitForSecondsRealtime(.7f);arsenal=false;
             musicPanel=true;yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-05-music.png"));yield return new WaitForSecondsRealtime(.7f);
+            musicPanel=false;battle=false;OpenShop();yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-06-shop.png"));yield return new WaitForSecondsRealtime(.7f);shopGroup=2;yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-07-auras.png"));yield return new WaitForSecondsRealtime(.7f);
             Application.Quit(0);
         }
     }

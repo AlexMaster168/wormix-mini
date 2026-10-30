@@ -1,0 +1,541 @@
+PASS: 120 items, 19 shop offers, 12 maps
+PASS: Documented Базука
+PASS: Documented Граната
+PASS: Documented Кассетная
+PASS: Documented Динамит
+PASS: Documented Снайперская винтовка
+PASS: Documented Аптечка / антидот
+PASS: Documented Телепорт
+PASS: Documented Крио-базука
+PASS: Documented Самонаводящаяся
+PASS: Documented Мортира
+PASS: Documented Бункер-бастер
+PASS: Documented Сюрикены
+PASS: Documented Липкая граната
+PASS: Documented Святая граната
+PASS: Documented Грави-граната
+PASS: Documented Светошумовая
+PASS: Documented Огнемёт «Инферно»
+PASS: Documented Коктейль Молотова
+PASS: Documented Газовая граната
+PASS: Documented Кислотная бомба
+PASS: Documented Орбитальный луч
+PASS: Documented Дробовик
+PASS: Documented Узи
+PASS: Documented Миниган
+PASS: Documented Пушка Тесла
+PASS: Documented Дискомёт
+PASS: Documented Мина
+PASS: Documented Мина-паук
+PASS: Documented Турель
+PASS: Documented Стальная балка
+PASS: Documented Силовой купол
+PASS: Documented Бур / паяльная лампа
+PASS: Documented Супер-овца
+PASS: Documented Бешеный кабан
+PASS: Documented Банановая бомба
+PASS: Documented Крот-подрывник
+PASS: Documented Скунс
+PASS: Documented Кувалда
+PASS: Documented Бейсбольная бита
+PASS: Documented Шокер
+PASS: Documented Камикадзе
+PASS: Documented Авиаудар
+PASS: Documented Напалмовый удар
+PASS: Documented Метеоритный дождь
+PASS: Documented Землетрясение
+PASS: Documented Потоп
+PASS: Documented Ниндзя-канат
+PASS: Documented Реактивный ранец
+PASS: Documented Гравитационные ботинки
+PASS: Documented Телекинез
+PASS: Documented АК-47
+PASS: Documented Репульсор
+PASS: Documented Плазменный лазер
+PASS: Documented Защитник
+PASS: Documented Смена персонажа
+PASS: Documented Парашют
+PASS: Documented Усиленный прицел
+PASS: Documented Плазменная винтовка
+PASS: Documented Кассетная ракета
+PASS: Documented Граната «Сингулярность»
+PASS: Documented Фугасная ракета
+PASS: Documented Термобарическая ракета
+PASS: Documented Рикошетная ракета
+PASS: Documented Арбузобомба
+PASS: Documented Ананасовая граната
+PASS: Documented Тыквенная бомба
+PASS: Documented Дымовая граната
+PASS: Documented Зажигательная граната
+PASS: Documented Вампирская граната
+PASS: Documented ЭМИ-граната
+PASS: Documented Ледяная граната
+PASS: Documented Игольчатая граната
+PASS: Documented Рельсотрон
+PASS: Documented Парные пистолеты
+PASS: Documented Арбалет
+PASS: Documented Ядовитый дротик
+PASS: Documented Тяжёлый огнемёт
+PASS: Documented Криомёт
+PASS: Documented Реактивная доска
+PASS: Documented Магнитная бомба
+PASS: Documented Трёхствольная базука
+PASS: Documented Рой самонаводящихся
+PASS: Documented Буровая ракета
+PASS: Documented Разделяющаяся ракета
+PASS: Documented Электроракета
+PASS: Documented Фейерверк
+PASS: Documented Осколочная граната
+PASS: Documented Прыгающая мина
+PASS: Documented Подрывной заряд
+PASS: Documented Кислотная кассета
+PASS: Documented Огненная кассета
+PASS: Documented Ледяная кассета
+PASS: Documented Гвоздомёт
+PASS: Documented Пушка Гаусса
+PASS: Documented Звуковая пушка
+PASS: Documented Сигнальный пистолет
+PASS: Documented Грибная бомба
+PASS: Documented Ковровая бомбардировка
+PASS: Documented Объёмный авиаудар
+PASS: Documented Цепная молния
+PASS: Documented Игла
+PASS: Documented Рикошетная сфера
+PASS: Documented Ракета «Саламандра»
+PASS: Documented Кислотная игла
+PASS: Documented Ледяной веер
+PASS: Documented Громовая сфера
+PASS: Documented Сингулярность
+PASS: Documented Лечебная граната
+PASS: Documented Зеркальный лазер
+PASS: Documented Штурмовая винтовка
+PASS: Documented Автодробовик
+PASS: Documented Антиматериальная винтовка
+PASS: Documented Шрапнельная пушка
+PASS: Documented Дуговой излучатель
+PASS: Documented Лазерный резак
+PASS: Documented Звено дронов
+PASS: Documented Щитовой маяк
+PASS: Documented Баррикада
+PASS: Documented Медицинский тотем
+PASS: Documented Тесла-турель
+PASS: Documented Штурмовой комплект
+PASS: Documented Ракетный ящик
+PASS: Documented Снайперский комплект
+PASS: Documented Дробь и осколки
+PASS: Documented Пиротехника
+PASS: Documented Крио-комплект
+PASS: Documented Энергетический ящик
+PASS: Documented Гравитационный комплект
+PASS: Documented Фруктовый залп
+PASS: Documented Дроны и кислота
+PASS: Documented Полевая медицина
+PASS: Documented Инженерный набор
+PASS: Documented Манёвренность
+PASS: Documented Защита отряда
+PASS: Documented Аура: Ледяной свет
+PASS: Documented Аура: Пламя
+PASS: Documented Аура: Аметист
+PASS: Documented Аура: Золото
+PASS: Documented Аура: Розовый неон
+PASS: TEST-com.riftartillery.core.ContentTest.xml
+PASS: TEST-com.riftartillery.core.Expansion040Test.xml
+PASS: TEST-com.riftartillery.core.ExpansionTest.xml
+PASS: TEST-com.riftartillery.core.GameTest.xml
+PASS: TEST-com.riftartillery.core.MovementTest.xml
+PASS: TEST-com.riftartillery.core.Regression030Test.xml
+PASS: TEST-com.riftartillery.desktop.BridgeTest.xml
+PASS: 106 core + 7 bridge tests
+PASS: android-phone.txt
+PASS: android-tablet.txt
+PASS: 206 Windows checks
+PASS: Final music mixer is audible
+PASS: Signed upgrade, persisted purchases and world actions
+PASS: lint-results-debug.txt
+PASS: lint-results-release.txt
+PASS: APK signature
+PASS: AAB signature
+PASS: ZIP checksum build-result.txt
+PASS: ZIP checksum D3D12/D3D12Core.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-console-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-console-l1-2-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-datetime-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-debug-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-errorhandling-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-fibers-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-file-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-file-l1-2-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-file-l2-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-handle-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-heap-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-interlocked-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-libraryloader-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-localization-l1-2-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-memory-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-namedpipe-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-processenvironment-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-processthreads-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-processthreads-l1-1-1.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-profile-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-rtlsupport-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-string-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-synch-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-synch-l1-2-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-sysinfo-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-timezone-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-core-util-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-conio-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-convert-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-environment-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-filesystem-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-heap-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-locale-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-math-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-multibyte-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-private-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-process-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-runtime-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-stdio-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-string-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-time-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/api-ms-win-crt-utility-l1-1-0.dll
+PASS: ZIP checksum Engine/runtime/bin/awt.dll
+PASS: ZIP checksum Engine/runtime/bin/fontmanager.dll
+PASS: ZIP checksum Engine/runtime/bin/freetype.dll
+PASS: ZIP checksum Engine/runtime/bin/java.dll
+PASS: ZIP checksum Engine/runtime/bin/java.exe
+PASS: ZIP checksum Engine/runtime/bin/javajpeg.dll
+PASS: ZIP checksum Engine/runtime/bin/javaw.exe
+PASS: ZIP checksum Engine/runtime/bin/jawt.dll
+PASS: ZIP checksum Engine/runtime/bin/jimage.dll
+PASS: ZIP checksum Engine/runtime/bin/jli.dll
+PASS: ZIP checksum Engine/runtime/bin/jsound.dll
+PASS: ZIP checksum Engine/runtime/bin/keytool.exe
+PASS: ZIP checksum Engine/runtime/bin/lcms.dll
+PASS: ZIP checksum Engine/runtime/bin/mlib_image.dll
+PASS: ZIP checksum Engine/runtime/bin/msvcp140.dll
+PASS: ZIP checksum Engine/runtime/bin/net.dll
+PASS: ZIP checksum Engine/runtime/bin/nio.dll
+PASS: ZIP checksum Engine/runtime/bin/prefs.dll
+PASS: ZIP checksum Engine/runtime/bin/server/jvm.dll
+PASS: ZIP checksum Engine/runtime/bin/splashscreen.dll
+PASS: ZIP checksum Engine/runtime/bin/ucrtbase.dll
+PASS: ZIP checksum Engine/runtime/bin/vcruntime140_1.dll
+PASS: ZIP checksum Engine/runtime/bin/vcruntime140.dll
+PASS: ZIP checksum Engine/runtime/bin/verify.dll
+PASS: ZIP checksum Engine/runtime/bin/zip.dll
+PASS: ZIP checksum Engine/runtime/conf/net.properties
+PASS: ZIP checksum Engine/runtime/conf/security/java.policy
+PASS: ZIP checksum Engine/runtime/conf/security/java.security
+PASS: ZIP checksum Engine/runtime/conf/security/policy/limited/default_local.policy
+PASS: ZIP checksum Engine/runtime/conf/security/policy/limited/default_US_export.policy
+PASS: ZIP checksum Engine/runtime/conf/security/policy/limited/exempt_local.policy
+PASS: ZIP checksum Engine/runtime/conf/security/policy/README.txt
+PASS: ZIP checksum Engine/runtime/conf/security/policy/unlimited/default_local.policy
+PASS: ZIP checksum Engine/runtime/conf/security/policy/unlimited/default_US_export.policy
+PASS: ZIP checksum Engine/runtime/conf/sound.properties
+PASS: ZIP checksum Engine/runtime/legal/java.base/ADDITIONAL_LICENSE_INFO
+PASS: ZIP checksum Engine/runtime/legal/java.base/aes.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/asm.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/ASSEMBLY_EXCEPTION
+PASS: ZIP checksum Engine/runtime/legal/java.base/c-libutl.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/cldr.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/icu.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/LICENSE
+PASS: ZIP checksum Engine/runtime/legal/java.base/public_suffix.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/siphash.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/unicode.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/wepoll.md
+PASS: ZIP checksum Engine/runtime/legal/java.base/zlib.md
+PASS: ZIP checksum Engine/runtime/legal/java.datatransfer/ADDITIONAL_LICENSE_INFO
+PASS: ZIP checksum Engine/runtime/legal/java.datatransfer/ASSEMBLY_EXCEPTION
+PASS: ZIP checksum Engine/runtime/legal/java.datatransfer/LICENSE
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/ADDITIONAL_LICENSE_INFO
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/ASSEMBLY_EXCEPTION
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/colorimaging.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/freetype.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/giflib.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/harfbuzz.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/jpeg.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/lcms.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/libpng.md
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/LICENSE
+PASS: ZIP checksum Engine/runtime/legal/java.desktop/mesa3d.md
+PASS: ZIP checksum Engine/runtime/legal/java.prefs/ADDITIONAL_LICENSE_INFO
+PASS: ZIP checksum Engine/runtime/legal/java.prefs/ASSEMBLY_EXCEPTION
+PASS: ZIP checksum Engine/runtime/legal/java.prefs/LICENSE
+PASS: ZIP checksum Engine/runtime/legal/java.xml/ADDITIONAL_LICENSE_INFO
+PASS: ZIP checksum Engine/runtime/legal/java.xml/ASSEMBLY_EXCEPTION
+PASS: ZIP checksum Engine/runtime/legal/java.xml/bcel.md
+PASS: ZIP checksum Engine/runtime/legal/java.xml/dom.md
+PASS: ZIP checksum Engine/runtime/legal/java.xml/jcup.md
+PASS: ZIP checksum Engine/runtime/legal/java.xml/LICENSE
+PASS: ZIP checksum Engine/runtime/legal/java.xml/xalan.md
+PASS: ZIP checksum Engine/runtime/legal/java.xml/xerces.md
+PASS: ZIP checksum Engine/runtime/lib/classlist
+PASS: ZIP checksum Engine/runtime/lib/fontconfig.bfc
+PASS: ZIP checksum Engine/runtime/lib/fontconfig.properties.src
+PASS: ZIP checksum Engine/runtime/lib/jawt.lib
+PASS: ZIP checksum Engine/runtime/lib/jrt-fs.jar
+PASS: ZIP checksum Engine/runtime/lib/jvm.cfg
+PASS: ZIP checksum Engine/runtime/lib/jvm.lib
+PASS: ZIP checksum Engine/runtime/lib/modules
+PASS: ZIP checksum Engine/runtime/lib/psfont.properties.ja
+PASS: ZIP checksum Engine/runtime/lib/psfontj2d.properties
+PASS: ZIP checksum Engine/runtime/lib/security/blocked.certs
+PASS: ZIP checksum Engine/runtime/lib/security/cacerts
+PASS: ZIP checksum Engine/runtime/lib/security/default.policy
+PASS: ZIP checksum Engine/runtime/lib/security/public_suffix_list.dat
+PASS: ZIP checksum Engine/runtime/lib/tzdb.dat
+PASS: ZIP checksum Engine/runtime/lib/tzmappings
+PASS: ZIP checksum Engine/runtime/release
+PASS: ZIP checksum MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll
+PASS: ZIP checksum MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/2.0/machine.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/2.0/settings.map
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/2.0/web.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.0/machine.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.0/settings.map
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.0/web.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.5/machine.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.5/settings.map
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/4.5/web.config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/browscap.ini
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/config
+PASS: ZIP checksum MonoBleedingEdge/etc/mono/mconfig/config.xml
+PASS: ZIP checksum READ-ME.txt
+PASS: ZIP checksum RIFT-Artillery_Data/app.info
+PASS: ZIP checksum RIFT-Artillery_Data/boot.config
+PASS: ZIP checksum RIFT-Artillery_Data/globalgamemanagers
+PASS: ZIP checksum RIFT-Artillery_Data/globalgamemanagers.assets
+PASS: ZIP checksum RIFT-Artillery_Data/globalgamemanagers.assets.resS
+PASS: ZIP checksum RIFT-Artillery_Data/level0
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/Assembly-CSharp.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/Mono.Security.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/mscorlib.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/netstandard.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.ComponentModel.Composition.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Configuration.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Core.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Data.DataSetExtensions.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Data.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Drawing.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.EnterpriseServices.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.IO.Compression.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.IO.Compression.FileSystem.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Net.Http.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Numerics.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Runtime.Serialization.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Security.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.ServiceModel.Internals.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Transactions.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Xml.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/System.Xml.Linq.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AccessibilityModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AMDModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AndroidJNIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AnimationModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ARModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AssetBundleModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.AudioModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ClothModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ClusterInputModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ClusterRendererModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ContentLoadModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.CoreModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.CrashReportingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.DirectorModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.DSPGraphModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.GameCenterModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.GIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.GraphicsStateCollectionSerializerModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.GridModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.HierarchyCoreModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.HotReloadModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.IdentifiersModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ImageConversionModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.IMGUIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.InputForUIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.InputLegacyModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.InputModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.InsightsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.JSONSerializeModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.LocalizationModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.MarshallingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.MultiplayerModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.NVIDIAModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ParticleSystemModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.PerformanceReportingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.Physics2DModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.PhysicsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.PropertiesModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ScreenCaptureModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.ShaderVariantAnalyticsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.SharedInternalsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.SpriteMaskModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.SpriteShapeModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.StreamingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.SubstanceModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.SubsystemsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TerrainModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TerrainPhysicsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TextRenderingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TilemapModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.TLSModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UIElementsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UIModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UmbraModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityAnalyticsModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityConnectModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityConsentModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityCurlModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityTestProtocolModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.VehiclesModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.VFXModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.VideoModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.VirtualTexturingModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.VRModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.WindModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/Managed/UnityEngine.XRModule.dll
+PASS: ZIP checksum RIFT-Artillery_Data/resources.assets
+PASS: ZIP checksum RIFT-Artillery_Data/resources.assets.resS
+PASS: ZIP checksum RIFT-Artillery_Data/resources.resource
+PASS: ZIP checksum RIFT-Artillery_Data/Resources/unity default resources
+PASS: ZIP checksum RIFT-Artillery_Data/Resources/unity_builtin_extra
+PASS: ZIP checksum RIFT-Artillery_Data/RuntimeInitializeOnLoads.json
+PASS: ZIP checksum RIFT-Artillery_Data/ScriptingAssemblies.json
+PASS: ZIP checksum RIFT-Artillery_Data/sharedassets0.assets
+PASS: ZIP checksum RIFT-Artillery_Data/sharedassets0.assets.resS
+PASS: ZIP checksum RIFT-Artillery_Data/StreamingAssets/Engine/rift-sim.jar
+PASS: ZIP checksum RIFT-Artillery.exe
+PASS: ZIP checksum UnityCrashHandler64.exe
+PASS: ZIP checksum UnityPlayer.dll
+PASS: Archive matches tested RIFT-Artillery.exe
+PASS: Archive matches tested RIFT-Artillery_Data/Managed/Assembly-CSharp.dll
+PASS: Archive matches tested RIFT-Artillery_Data/StreamingAssets/Engine/rift-sim.jar
+PASS: Final shared engine
+PASS: 16 Android music tracks
+PASS: Nonblank v040-android-01-menu.png
+PASS: Captured after platform checks v040-android-01-menu.png
+PASS: Nonblank v040-android-06-aim.png
+PASS: Captured after platform checks v040-android-06-aim.png
+PASS: Nonblank v040-android-10-music.png
+PASS: Captured after platform checks v040-android-10-music.png
+PASS: Nonblank v040-android-13-shop.png
+PASS: Captured after platform checks v040-android-13-shop.png
+PASS: Nonblank v040-android-14-auras.png
+PASS: Captured after platform checks v040-android-14-auras.png
+PASS: Nonblank v040-android-15-interact.png
+PASS: Captured after platform checks v040-android-15-interact.png
+PASS: Nonblank v040-android-16-new-weapons.png
+PASS: Captured after platform checks v040-android-16-new-weapons.png
+PASS: Nonblank v040-android-17-jump-pad.png
+PASS: Captured after platform checks v040-android-17-jump-pad.png
+PASS: Nonblank v040-android-18-portal.png
+PASS: Captured after platform checks v040-android-18-portal.png
+PASS: Nonblank v040-pc-01-menu.png
+PASS: Captured after platform checks v040-pc-01-menu.png
+PASS: Nonblank v040-pc-02-battle.png
+PASS: Captured after platform checks v040-pc-02-battle.png
+PASS: Nonblank v040-pc-03-aim.png
+PASS: Captured after platform checks v040-pc-03-aim.png
+PASS: Nonblank v040-pc-04-watermelon.png
+PASS: Captured after platform checks v040-pc-04-watermelon.png
+PASS: Nonblank v040-pc-05-music.png
+PASS: Captured after platform checks v040-pc-05-music.png
+PASS: Nonblank v040-pc-06-shop.png
+PASS: Captured after platform checks v040-pc-06-shop.png
+PASS: Nonblank v040-pc-07-auras.png
+PASS: Captured after platform checks v040-pc-07-auras.png
+PASS: 16 final screenshots
+PASS: Link README.md: dist/RIFT-Artillery-0.4.0.apk
+PASS: Link README.md: dist/RIFT-Artillery-Windows-0.4.0.zip
+PASS: Link README.md: dist/RIFT-Artillery-0.4.0.aab
+PASS: Link README.md: unity
+PASS: Link README.md: docs/CONTENT.md
+PASS: Link README.md: docs/QA-0.4.0.md
+PASS: Link README.md: docs/screenshots/v040-android-01-menu.png
+PASS: Link README.md: docs/screenshots/v040-android-16-new-weapons.png
+PASS: Link README.md: docs/CONTENT.md
+PASS: Link README.md: docs/screenshots/v040-android-13-shop.png
+PASS: Link README.md: docs/screenshots/v040-pc-06-shop.png
+PASS: Link README.md: docs/screenshots/v040-pc-07-auras.png
+PASS: Link README.md: docs/screenshots/v040-android-14-auras.png
+PASS: Link README.md: docs/screenshots/v040-android-15-interact.png
+PASS: Link README.md: docs/screenshots/v040-android-17-jump-pad.png
+PASS: Link README.md: docs/screenshots/v040-android-18-portal.png
+PASS: Link README.md: docs/screenshots/v040-android-06-aim.png
+PASS: Link README.md: docs/CONTENT.md
+PASS: Link README.md: docs/screenshots/v030-android-07-new-arsenal.png
+PASS: Link README.md: docs/screenshots/v030-android-08-watermelon.png
+PASS: Link README.md: docs/screenshots/v030-android-09-fire.png
+PASS: Link README.md: docs/screenshots/v030-android-11-jetboard.png
+PASS: Link README.md: docs/screenshots/v030-android-02-jungle.png
+PASS: Link README.md: docs/screenshots/v030-android-03-ruins.png
+PASS: Link README.md: docs/screenshots/v030-android-04-storm.png
+PASS: Link README.md: docs/screenshots/v030-android-05-crystal.png
+PASS: Link README.md: docs/MUSIC.md
+PASS: Link README.md: docs/screenshots/v040-android-10-music.png
+PASS: Link README.md: dist/RIFT-Artillery-Windows-0.4.0.zip
+PASS: Link README.md: docs/screenshots/v040-pc-02-battle.png
+PASS: Link README.md: docs/UNITY.md
+PASS: Link README.md: docs/screenshots/v040-pc-01-menu.png
+PASS: Link README.md: docs/screenshots/v040-pc-03-aim.png
+PASS: Link README.md: docs/screenshots/v040-pc-04-watermelon.png
+PASS: Link README.md: docs/screenshots/v040-pc-05-music.png
+PASS: Link README.md: dist/RIFT-Artillery-0.4.0.apk
+PASS: Link README.md: docs/screenshots/v030-android-12-tablet.png
+PASS: Link README.md: docs/QA-0.4.0.md
+PASS: Link README.md: docs/screenshots/manifest-v030.json
+PASS: Link README.md: docs/screenshots/manifest-v040.json
+PASS: Link README.md: dist/SHA256SUMS.txt
+PASS: Link README.md: docs/screenshots
+PASS: Link README.md: docs/ART_ASSETS.md
+PASS: Link README.md: docs/PRODUCTION_PLAN.md
+PASS: Link docs/CONTENT.md: ../README.md
+PASS: Link docs/UNITY.md: ../dist/RIFT-Artillery-Windows-0.4.0.zip
+PASS: Link docs/UNITY.md: ../unity
+PASS: Link docs/UNITY.md: ../unity/Assets/Scripts/RiftGame.cs
+PASS: Link docs/UNITY.md: ../unity/Assets/Scripts/RiftGui.cs
+PASS: Link docs/UNITY.md: ../unity/Assets/Scripts/BridgeClient.cs
+PASS: Link docs/UNITY.md: ../unity/Assets/Editor/BuildWindows.cs
+PASS: Link docs/UNITY.md: ../tools/Package-Windows.ps1
+PASS: Link docs/UNITY.md: QA-0.4.0.md
+PASS: Link docs/UNITY.md: ../README.md
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/TEST-com.riftartillery.core.Expansion040Test.xml
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/TEST-com.riftartillery.desktop.BridgeTest.xml
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/android-phone.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/android-tablet.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/windows-smoke.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/windows-player.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/lint-results-debug.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/lint-results-release.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/upgrade.txt
+PASS: Link docs/QA-0.4.0.md: screenshots/manifest-v040.json
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/build-debug.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/build-ui.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/build-release.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/unity-build.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/apk-signature.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/aab-signature.txt
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/catalog.json
+PASS: Link docs/QA-0.4.0.md: verification/v0.4.0/delivery-checks.txt
+PASS: Link docs/QA-0.4.0.md: ../dist/SHA256SUMS.txt

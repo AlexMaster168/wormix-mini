@@ -5,6 +5,16 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class BridgeTest {
+    @Test fun marketProtocolPersistsPurchaseAndAppliesPackOnce() {
+        val b=bridge()
+        b.request("{\"cmd\":\"market\",\"action\":\"sync\",\"wallet\":150,\"stock\":\"\"}")
+        val bought=b.request("{\"cmd\":\"market\",\"action\":\"buy\",\"offer\":0}")
+        assertTrue(bought.contains("\"shopWallet\":120"))
+        b.request("{\"cmd\":\"new\",\"supplies\":true}")
+        assertEquals(Weapon.AK47.stock+3,b.game.active.ammo[Weapon.AK47])
+        b.request("{\"cmd\":\"new\",\"supplies\":true}")
+        assertEquals(Weapon.AK47.stock,b.game.active.ammo[Weapon.AK47])
+    }
     private fun bridge()=Bridge(Files.createTempDirectory("rift-desktop-test").resolve("battle.bin").toFile())
     @Test fun catalogAndTerrainUseTheSharedCore() {
         val b=bridge();val json=b.request("{\"cmd\":\"catalog\"}")

@@ -65,6 +65,10 @@ class BattleView(context: Context) : View(context) {
     private var help = false
     private var arsenal = false
     private var aimPanel=false
+    private var shopOpen=false
+    private var shopGroup=ShopGroup.AMMO
+    private var shopPage=0
+    private var shopNotice=""
     private var musicOpen=false
     private var musicSelection=prefs.getInt("musicTrack",-1).takeIf {it in MusicTrack.entries.indices} ?: -1
     private var aimDragX=0f;private var aimDragY=0f
@@ -90,7 +94,7 @@ class BattleView(context: Context) : View(context) {
         fun bounds(r:RectF)=Rect((ox+r.left*scale).toInt(),(oy+r.top*scale).toInt(),(ox+r.right*scale).toInt(),(oy+r.bottom*scale).toInt())
         val list=buttons.map {AccessibleControl(it.label,bounds(it.rect),it.action)}.toMutableList()
         val g=game
-        if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && !aimPanel && !musicOpen && g?.canControl==true) {
+        if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && !aimPanel && !musicOpen && !shopOpen && g?.canControl==true) {
             list+=AccessibleControl("Угол меньше на 5 градусов: ${g.angle.toInt()}",bounds(RectF(550f,730f,635f,805f))) {g.angle=(g.angle-5).coerceAtLeast(-180f)}
             list+=AccessibleControl("Угол больше на 5 градусов: ${g.angle.toInt()}",bounds(RectF(635f,730f,725f,805f))) {g.angle=(g.angle+5).coerceAtMost(180f)}
             list+=AccessibleControl("Уменьшить силу: ${(g.power*100).toInt()} процентов",bounds(RectF(745f,730f,820f,805f))) {g.power=(g.power-.1f).coerceAtLeast(0f)}
@@ -107,10 +111,10 @@ class BattleView(context: Context) : View(context) {
     init { isFocusable = true; contentDescription = "RIFT. Пошаговая артиллерия. Управление касанием." }
     fun suspendGame() { running=false;music.sync(arena,musicEnabled,false,MusicTrack.entries.getOrNull(musicSelection));lastNanos=0L; if(mode=="battle") {paused=true;checkpoint()};clearInput() }
     fun resumeGame() { running=true;lastNanos=0L;invalidate() }
-    fun isBattleRunning()=running && mode=="battle" && !paused && !arsenal && !help && !loadoutOpen && !aimPanel && !musicOpen
+    fun isBattleRunning()=running && mode=="battle" && !paused && !arsenal && !help && !loadoutOpen && !aimPanel && !musicOpen && !shopOpen
     fun release() { music.release();tone?.release();tone=null;terrainBitmap?.recycle();heroes.recycle();bossArt.recycle() }
     fun back() {
-        when { musicOpen->musicOpen=false;aimPanel->aimPanel=false;loadoutOpen->loadoutOpen=false;help -> help=false; arsenal -> arsenal=false; mode=="battle" -> {paused=!paused;clearInput()}; else -> help=true }
+        when { shopOpen->shopOpen=false;musicOpen->musicOpen=false;aimPanel->aimPanel=false;loadoutOpen->loadoutOpen=false;help -> help=false; arsenal -> arsenal=false; mode=="battle" -> {paused=!paused;clearInput()}; else -> help=true }
         invalidate()
     }
     private fun beep() { if(sound) tone?.startTone(ToneGenerator.TONE_PROP_BEEP,65) }
@@ -141,7 +145,8 @@ class BattleView(context: Context) : View(context) {
         terrainUpgradeHint=false;prefs.edit().putInt("terrainLayout",1).apply()
         matchSeed++;prefs.edit().putInt("seed",matchSeed).apply()
         if(gameMode==GameMode.BOSS) arena=selectedBoss.arena
-        game=Game(arena,if(gameMode==GameMode.BOSS) true else bot,matchSeed,gameMode,selectedBoss,squad);mode="battle";paused=false;arsenal=false;help=false
+        game=Game(arena,if(gameMode==GameMode.BOSS) true else bot,matchSeed,gameMode,selectedBoss,squad);mode="battle";paused=false;arsenal=false;help=false;shopOpen=false
+        if(prefs.getBoolean("useSupplies",true)) prefs.edit().putString("shopStock",Market.apply(game!!,prefs.getString("shopStock","").orEmpty())).commit()
         if(gameMode==GameMode.ROPE_RACE) game?.select(Weapon.ROPE)
         cameraTurn= -1;cameraManual=false;overview=false;zoom=1.05f
         terrainBitmap?.recycle();terrainBitmap=null;terrainRevision=-1;resultSaved=false;lastShots=0
@@ -165,8 +170,8 @@ class BattleView(context: Context) : View(context) {
                 resultSaved=true
                 val editor=prefs.edit().putInt("matches",prefs.getInt("matches",0)+1)
                 if(g.winner==0) editor.putInt("wins",prefs.getInt("wins",0)+1)
+                editor.putInt("scrap",prefs.getInt("scrap",150)+Market.reward(g.mode,g.winner))
                 if(g.winner==0) {
-                    editor.putInt("scrap",prefs.getInt("scrap",150)+if(g.mode==GameMode.BOSS) 180 else 60)
                     if(g.mode==GameMode.BOSS) editor.putInt("bosses",prefs.getInt("bosses",0) or (1 shl g.boss.ordinal))
                     if(g.mode==GameMode.ROPE_RACE) editor.putFloat("ropeBest",min(prefs.getFloat("ropeBest",9999f),g.raceElapsed))
                 }
@@ -184,6 +189,7 @@ class BattleView(context: Context) : View(context) {
         if(loadoutOpen) drawLoadout(canvas)
         if(aimPanel && game!=null) drawAimPanel(canvas,game!!)
         if(musicOpen) drawMusicPicker(canvas)
+        if(shopOpen) drawShop(canvas)
         canvas.restore()
         music.sync(if(mode=="battle") game?.arena ?: arena else arena,musicEnabled,running && (!paused || musicOpen),MusicTrack.entries.getOrNull(musicSelection))
         frameMs=(System.nanoTime()-now)/1e6f;maxFrameMs=max(maxFrameMs,frameMs)
@@ -327,7 +333,8 @@ class BattleView(context: Context) : View(context) {
         if(terrainUpgradeHint) fittedText(c,"Новые карты доступны в новом бою.",62f,680f,700f,22f,cyan)
         button(c,"Охота на босса",294f,606f,220f,50f,if(gameMode==GameMode.BOSS) lime else panel,if(gameMode==GameMode.BOSS) bg else white) {gameMode=GameMode.BOSS}
         button(c,"Канатная гонка",526f,606f,234f,50f,if(gameMode==GameMode.ROPE_RACE) lime else panel,if(gameMode==GameMode.ROPE_RACE) bg else white) {gameMode=GameMode.ROPE_RACE}
-        button(c,"Отряд / кузница",850f,505f,510f,50f) {loadoutOpen=true}
+        button(c,"Отряд / кузница",850f,505f,248f,50f) {loadoutOpen=true}
+        button(c,"Магазин",1110f,505f,250f,50f,lime,bg) {shopOpen=true;shopNotice="";clearInput()}
         button(c,"Босс: ${selectedBoss.title}  →",850f,571f,510f,50f,if(gameMode==GameMode.BOSS) Color.rgb(53,38,44) else panel) {selectedBoss=Boss.entries[(selectedBoss.ordinal+1)%Boss.entries.size];gameMode=GameMode.BOSS}
         fittedText(c,if(gameMode==GameMode.BOSS) selectedBoss.briefing else "7 рас · ${Weapon.entries.size} предметов · ${Arena.entries.size} арен",850f,650f,510f,22f,muted)
         if(savedGame==null) button(c,"НАЧАТЬ БОЙ  →",62f,686f,500f,66f,lime,bg) {start()}
@@ -342,7 +349,7 @@ class BattleView(context: Context) : View(context) {
         text(c,"${prefs.getInt("wins",0)} ПОБЕД",840f,758f,26f,lime,titleFont)
         text(c,"${prefs.getInt("matches",0)} завершённых боёв",1050f,755f,16f,muted)
         text(c,"RIFT  /  $versionName",62f,792f,22f,muted,mono)
-        text(c,"ОФЛАЙН · БЕЗ ПОКУПОК",1030f,792f,22f,muted,mono)
+        text(c,"ОФЛАЙН · БЕЗ ДОНАТА",1030f,792f,22f,muted,mono)
     }
     private fun fighter(c:Canvas,x:Float,y:Float,team:Int,race:Race,active:Boolean,s:Float=1f) {
         c.save();c.translate(x,y);c.scale(s,s)
@@ -422,8 +429,8 @@ class BattleView(context: Context) : View(context) {
         }
         for(d in g.devices) {
             if(d.kind==DeviceKind.DOME) {paint.color=cyan;paint.style=Paint.Style.STROKE;paint.strokeWidth=3f;c.drawCircle(d.x,d.y,135f,paint);paint.style=Paint.Style.FILL}
-            else {rect(c,d.x-18,d.y-27,36f,40f,when(d.kind) {DeviceKind.BARREL->Color.rgb(110,145,54);DeviceKind.GENERATOR->cyan;DeviceKind.GEYSER->coral;else->muted},5f)
-                text(c,when(d.kind) {DeviceKind.MINE->"!";DeviceKind.SPIDER->"Ж";DeviceKind.TURRET->"T";DeviceKind.GENERATOR->"⚡";DeviceKind.MAGNET->"U";else->"×"},d.x-8,d.y,20f,bg,mono)
+            else {rect(c,d.x-18,d.y-27,36f,40f,when(d.kind) {DeviceKind.BARREL->Color.rgb(110,145,54);DeviceKind.GENERATOR->cyan;DeviceKind.GEYSER->coral;DeviceKind.ACID_BARREL,DeviceKind.SHOCK_BARREL,DeviceKind.ARC_TURRET->d.kind.tint;else->muted},5f)
+                text(c,when(d.kind) {DeviceKind.MINE->"!";DeviceKind.SPIDER->"Ж";DeviceKind.TURRET->"T";DeviceKind.GENERATOR->"⚡";DeviceKind.MAGNET->"U";DeviceKind.ACID_BARREL->"A";DeviceKind.SHOCK_BARREL->"⚡";DeviceKind.ARC_TURRET->"T";else->"×"},d.x-8,d.y,20f,bg,mono)
             }
         }
         if(g.mode==GameMode.ROPE_RACE) for((i,p) in g.raceTargets.withIndex()) {
@@ -439,6 +446,12 @@ class BattleView(context: Context) : View(context) {
             val points=listOf(a)+g.ropeNodes
             points.zipWithNext().forEach {(p,q)->line(c,p.x,p.y,q.x,q.y,white,2f)}
             val tip=points.last();line(c,g.active.x,g.active.y-20,tip.x,tip.y,white,2f);circle(c,a.x,a.y,6f,lime)
+        }
+        for(d in g.devices.filter {it.kind.interactive}) {
+            val color=if(d.timer>0) muted else d.kind.tint
+            circle(c,d.x,d.y-10,28f,Color.argb(70,101,217,255));rect(c,d.x-17,d.y-28,34f,36f,color,6f)
+            text(c,when(d.kind) {DeviceKind.MED_STATION->"+";DeviceKind.JUMP_PAD->"↑";DeviceKind.PORTAL->"O";DeviceKind.BRIDGE_SWITCH->"=";else->"▣"},d.x-9,d.y,24f,bg,mono)
+            if(abs(d.x-g.active.x)<180) text(c,d.kind.label,d.x-75,d.y-42,17f,color)
         }
         for(f in g.fighters.filter {it.alive || it.reviveIn>0}) {
             if(!f.alive) {rect(c,f.x-22,f.y-47,44f,63f,Color.rgb(102,111,124),10f);text(c,"+",f.x-11,f.y-12,35f,white,mono);text(c,"ВОЗРОЖДЕНИЕ",f.x-45,f.y-64,11f,lime);continue}
@@ -456,6 +469,7 @@ class BattleView(context: Context) : View(context) {
             if(f.jetboard && f.fuel>0) {rect(c,f.x-35,f.y+10,70f,10f,cyan,5f);line(c,f.x-25,f.y+22,f.x-38,f.y+32,coral,4f);line(c,f.x+25,f.y+22,f.x+38,f.y+32,coral,4f)}
             if(f.parachute && f.vy>60) {paint.color=cyan;paint.style=Paint.Style.STROKE;paint.strokeWidth=2f;c.drawArc(f.x-50,f.y-135,f.x+50,f.y-80,180f,180f,false,paint);paint.style=Paint.Style.FILL;line(c,f.x-50,f.y-107,f.x,f.y-25,white,1f);line(c,f.x+50,f.y-107,f.x,f.y-25,white,1f)}
             if(f.drillFuel>0) {val r=g.angle*PI.toFloat()/180;val dx=cos(r);val dy=sin(r);line(c,f.x,f.y-22,f.x+dx*48,f.y-22+dy*48,muted,11f);circle(c,f.x+dx*48,f.y-22+dy*48,10f,cyan)}
+            if(f.team==0) {val aura=Market.decode(prefs.getString("shopStock","").orEmpty()).selected;paint.style=Paint.Style.STROKE;paint.strokeWidth=3f;paint.color=Market.auraColors[aura];c.drawOval(f.x-24,f.y+9,f.x+24,f.y+19,paint);paint.style=Paint.Style.FILL}
             if(active) {val y=labelY-77+sin(ambient*4)*3;val p=Path();p.moveTo(f.x-6,y);p.lineTo(f.x+6,y);p.lineTo(f.x,y+7);p.close();paint.color=lime;c.drawPath(p,paint)}
         }
         for(s in g.shots) {
@@ -525,7 +539,9 @@ class BattleView(context: Context) : View(context) {
         button(c,"+",205f,163f,50f,40f) {overview=false;zoom=(zoom+.15f).coerceAtMost(1.6f)}
         button(c,if(cameraManual) "Камера: ручная" else "Следить",266f,163f,180f,40f) {cameraManual=!cameraManual}
         button(c,"Сменить бойца ↔",458f,163f,196f,40f) {val next=g.fighters.firstOrNull {it.alive && it.team==g.active.team && it.id!=g.active.id};if(next!=null && g.switchFighter(next.id)) {cameraManual=false;clearInput()}}
-        if(g.mode==GameMode.BOSS) {rect(c,670f,163f,746f,40f,panel,8f);fittedText(c,g.bossWarning,683f,191f,720f,22f,coral)}
+        val interactive=g.nearbyInteraction()
+        if(interactive!=null) button(c,"Использовать: ${interactive.kind.label}",670f,163f,746f,40f,lime,bg) {g.interact();clearInput()}
+        else if(g.mode==GameMode.BOSS) {rect(c,670f,163f,746f,40f,panel,8f);fittedText(c,g.bossWarning,683f,191f,720f,22f,coral)}
         if(g.mode==GameMode.ROPE_RACE) text(c,"ТОЧКИ ${g.checkpoints}/5  •  ${g.raceElapsed.toInt()} с",1040f,188f,17f,lime)
         if(g.active.fuel>0) text(c,"ТОПЛИВО ${g.active.fuel.toInt()}",30f,230f,14f,cyan)
         if(g.active.drillFuel>0) text(c,"БУР ${g.active.drillFuel.toInt()}% / прицел + движение",30f,252f,14f,lime)
@@ -535,6 +551,7 @@ class BattleView(context: Context) : View(context) {
             button(c,if(right) "Противник →" else "← Противник",if(right) 1160f else 24f,218f,256f,48f,Color.rgb(65,39,40),coral) {overview=false;cameraManual=true;cameraX=enemy.x;cameraY=enemy.y-110;clearInput()}
         }
         paint.color=Color.WHITE;paint.isFilterBitmap=true;c.drawBitmap(terrainImage(g),null,RectF(1100f,580f,1416f,675f),paint)
+        g.devices.filter {it.kind.interactive}.forEach {circle(c,1100+it.x/WORLD_W*316,580+it.y/WORLD_H*95,2f,it.kind.tint)}
         g.fighters.filter {it.alive}.forEach {circle(c,1100+it.x/WORLD_W*316,580+it.y/WORLD_H*95,3f,if(it.team==0) lime else coral)}
         drawControls(c,g)
         if(arsenal) drawArsenal(c,g)
@@ -599,7 +616,7 @@ class BattleView(context: Context) : View(context) {
         Category.entries.forEachIndexed {i,cat->
             button(c,cat.title,198f+(i%5)*210,185f+(i/5)*48,198f,39f,if(cat==arsenalCategory && !arsenalNew) lime else Color.rgb(32,46,63),if(cat==arsenalCategory && !arsenalNew) bg else white) {arsenalCategory=cat;arsenalPage=0;arsenalNew=false}
         }
-        button(c,"Новинки / 40",1038f,233f,198f,39f,if(arsenalNew) lime else bg,if(arsenalNew) bg else white) {arsenalNew=true;arsenalPage=0}
+        button(c,"Новинки / 60",1038f,233f,198f,39f,if(arsenalNew) lime else bg,if(arsenalNew) bg else white) {arsenalNew=true;arsenalPage=0}
         val weapons=if(arsenalNew) Weapon.entries.drop(60) else Weapon.entries.filter {it.category==arsenalCategory}
         val pageCount=max(1,(weapons.size+5)/6);arsenalPage=arsenalPage.coerceIn(0,pageCount-1)
         weapons.drop(arsenalPage*6).take(6).forEachIndexed {i,w ->
@@ -694,13 +711,13 @@ class BattleView(context: Context) : View(context) {
                     if(py<400) g.angle=((px-320)/800*360-180).coerceIn(-180f,180f) else g.power=((px-320)/800).coerceIn(0f,1f)
                     return true
                 }
-                if(event.pointerCount==2 && mode=="battle" && !paused && !help && !arsenal && !aimPanel && !musicOpen && y(0) in 210f..600f && y(1) in 210f..600f) {
+                if(event.pointerCount==2 && mode=="battle" && !paused && !help && !arsenal && !aimPanel && !musicOpen && !shopOpen && y(0) in 210f..600f && y(1) in 210f..600f) {
                     clearInput();pinchDistance=hypot(x(0)-x(1),y(0)-y(1));overview=false;cameraManual=true;return true
                 }
-                if(py<215f || paused || help || arsenal || loadoutOpen || aimPanel || musicOpen || mode=="menu" || g?.phase==Phase.ENDED || py in 215f..300f && buttons.any {it.rect.contains(px,py)}) {
+                if(py<215f || paused || help || arsenal || loadoutOpen || aimPanel || musicOpen || shopOpen || mode=="menu" || g?.phase==Phase.ENDED || py in 215f..300f && buttons.any {it.rect.contains(px,py)}) {
                     val hit=buttons.lastOrNull {it.rect.contains(px,py)}
                     if(hit!=null) {hit.action();invalidate();return true}
-                    if(aimPanel || musicOpen || paused || help || arsenal || loadoutOpen) return true
+                    if(aimPanel || musicOpen || shopOpen || paused || help || arsenal || loadoutOpen) return true
                 }
                 if(mode=="battle" && !paused && !help && !arsenal && !loadoutOpen && g!=null && py in 580f..675f && px in 1100f..1416f) {
                     overview=false;cameraManual=true;cameraX=(px-1100)/316*WORLD_W;cameraY=(py-580)/95*WORLD_H;return true
@@ -755,4 +772,43 @@ class BattleView(context: Context) : View(context) {
     private fun worldPoint(x:Float,y:Float)=(cameraX+(x-720)/zoom) to (cameraY+(y-411)/zoom)
     private fun aim(g:Game,x:Float,y:Float) {g.angle=(atan2(y-(g.active.y-20),x-g.active.x)*180/PI).toFloat()}
     override fun performClick():Boolean {super.performClick();return true}
+    private fun drawShop(c:Canvas) {
+        dim(c);rect(c,150f,65f,1140f,680f,panel,24f)
+        text(c,"МАГАЗИН / СНАРЯЖЕНИЕ",190f,116f,30f,white,titleFont)
+        text(c,"МАТЕРИАЛЫ: ${prefs.getInt("scrap",150)}",950f,116f,23f,lime,mono)
+        ShopGroup.entries.forEachIndexed {i,g->button(c,g.title,190f+i*360,145f,340f,45f,if(shopGroup==g) lime else bg,if(shopGroup==g) bg else white) {shopGroup=g;shopPage=0;shopNotice=""}}
+        val use=prefs.getBoolean("useSupplies",true)
+        button(c,if(use) "Наборы для нового боя: ВКЛ" else "Наборы для нового боя: ВЫКЛ",190f,204f,760f,38f) {prefs.edit().putBoolean("useSupplies",!use).apply()}
+        button(c,"Аура: Лайм",970f,204f,280f,38f) {Market.equip(prefs.getString("shopStock","").orEmpty(),0)?.let {prefs.edit().putString("shopStock",it).apply()}}
+        val list=Market.offers.filter {it.group==shopGroup};val pages=max(1,(list.size+5)/6);shopPage=shopPage.coerceIn(0,pages-1)
+        val stock=Market.decode(prefs.getString("shopStock","").orEmpty())
+        list.drop(shopPage*6).take(6).forEachIndexed {i,o->
+            val x=190f+(i%2)*540;val y=250f+(i/2)*128
+            rect(c,x,y,520f,126f,bg,12f)
+            fittedText(c,o.title,x+14,y+27,490f,24f,white)
+            paint.typeface=font;paint.textSize=22f
+            val detailLines=mutableListOf("")
+            for(word in o.description.split(" ")) {
+                val candidate=(detailLines.last()+" "+word).trim()
+                if(paint.measureText(candidate)>490 && detailLines.last().isNotEmpty()) detailLines.add(word) else detailLines[detailLines.lastIndex]=candidate
+            }
+            detailLines.forEachIndexed {row,line->text(c,line,x+14,y+49+row*24,22f,muted)}
+            val owned=o.aura>=0 && stock.owned and (1 shl o.aura)!=0
+            text(c,if(o.aura>=0) "● ${Market.auraNames[o.aura]}" else "На складе: ${stock.packs[o.id]}/9",x+14,y+112,18f,if(o.aura>=0) Market.auraColors[o.aura] else cyan)
+            button(c,if(owned) (if(stock.selected==o.aura) "Выбрано" else "Надеть") else "Купить / ${o.price}",x+330,y+81,175f,43f,if(owned) panel else lime,if(owned) white else bg) {
+                val old=prefs.getString("shopStock","").orEmpty()
+                if(owned) Market.equip(old,o.aura)?.let {prefs.edit().putString("shopStock",it).commit();shopNotice="Аура выбрана"}
+                else {val p=Market.buy(prefs.getInt("scrap",150),old,o.id)
+                    if(p==null) shopNotice="Недостаточно материалов или склад заполнен"
+                    else {prefs.edit().putInt("scrap",p.balance).putString("shopStock",p.inventory).commit();shopNotice="Куплено: ${o.title}";beep()}
+                }
+            }
+        }
+        fittedText(c,if(shopNotice.isEmpty()) "Наборы: по одному каждого типа на новый бой. Продолжение не тратит склад." else shopNotice,190f,644f,1060f,20f,cyan)
+        button(c,"←",190f,670f,90f,50f) {shopPage=(shopPage-1+pages)%pages}
+        text(c,"${shopPage+1} / $pages",305f,703f,24f,white)
+        button(c,"→",430f,670f,90f,50f) {shopPage=(shopPage+1)%pages}
+        button(c,"Готово",900f,670f,350f,50f,lime,bg) {shopOpen=false;clearInput()}
+    }
+
 }

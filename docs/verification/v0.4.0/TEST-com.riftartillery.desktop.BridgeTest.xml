@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.desktop.BridgeTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-30T19:20:56" hostname="ALEXCOMP" time="4.823">
+  <properties/>
+  <testcase name="catalogAndTerrainUseTheSharedCore" classname="com.riftartillery.desktop.BridgeTest" time="0.663"/>
+  <testcase name="saveFileIsReadableByAndroidCoreAndKeepsJetboard" classname="com.riftartillery.desktop.BridgeTest" time="0.927"/>
+  <testcase name="realProcessWritesUtf8EvenWhenWindowsDefaultEncodingIsCyrillic" classname="com.riftartillery.desktop.BridgeTest" time="1.33"/>
+  <testcase name="marketProtocolPersistsPurchaseAndAppliesPackOnce" classname="com.riftartillery.desktop.BridgeTest" time="1.158"/>
+  <testcase name="protocolEscapesUnicodeQuotesAndControlCharacters" classname="com.riftartillery.desktop.BridgeTest" time="0.0"/>
+  <testcase name="desktopMedicineAndTeleportKeepTheAttackAvailable" classname="com.riftartillery.desktop.BridgeTest" time="0.394"/>
+  <testcase name="invalidRequestsAreRejectedAndSessionSurvives" classname="com.riftartillery.desktop.BridgeTest" time="0.348"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

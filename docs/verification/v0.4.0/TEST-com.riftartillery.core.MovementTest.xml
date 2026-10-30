@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.MovementTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-30T19:20:50" hostname="ALEXCOMP" time="1.545">
+  <properties/>
+  <testcase name="centralGapCanBeCrossedWithAnOrdinaryJumpOnEveryArena" classname="com.riftartillery.core.MovementTest" time="0.257"/>
+  <testcase name="ropeAutomaticallyPullsPlayerAndCanPayOutAndDetach" classname="com.riftartillery.core.MovementTest" time="0.006"/>
+  <testcase name="jumpImmediatelyBeforeLandingIsBuffered" classname="com.riftartillery.core.MovementTest" time="0.006"/>
+  <testcase name="ordinaryJumpIsShortForwardAndDoesNotHurtOnLanding" classname="com.riftartillery.core.MovementTest" time="0.009"/>
+  <testcase name="ropeWinchStopsBelowCeilingWithoutPassingThroughIt" classname="com.riftartillery.core.MovementTest" time="0.01"/>
+  <testcase name="uphillJumpRetainsForwardImpulseInBothDirections" classname="com.riftartillery.core.MovementTest" time="0.039"/>
+  <testcase name="jumpStillWorksForAFewFramesAfterLeavingEdge" classname="com.riftartillery.core.MovementTest" time="0.005"/>
+  <testcase name="everySpawnCanWalkFartherThanTheOldSupportWall" classname="com.riftartillery.core.MovementTest" time="0.981"/>
+  <testcase name="groundRoutesHaveNoTallSupportWallsAndCavesFitAWholeFighter" classname="com.riftartillery.core.MovementTest" time="0.214"/>
+  <testcase name="turnLastsFiftyNineSecondsAndAllySwitchDoesNotRefillIt" classname="com.riftartillery.core.MovementTest" time="0.011"/>
+  <testcase name="jumpUsesWalkingDirectionAndCannotJumpAgainInAir" classname="com.riftartillery.core.MovementTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

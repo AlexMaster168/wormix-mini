@@ -1,0 +1,16 @@
+PASS: signed 0.3.1 saved battle created
+CAPTURE v040-android-06-aim.png
+CAPTURE v040-android-10-music.png
+PASS: 0.4.0 restores signed 0.3.1 battle
+CAPTURE v040-android-01-menu.png
+CAPTURE v040-android-13-shop.png
+CAPTURE v040-android-14-auras.png
+PASS: purchased aura persists after process restart
+PASS: purchased pack grants AK-47 +3 on new battle
+CAPTURE v040-android-16-new-weapons.png
+CAPTURE v040-android-15-interact.png
+CAPTURE v040-android-17-jump-pad.png
+CAPTURE v040-android-18-portal.png
+PASS: actual release interaction with jump pad and portal preserves attack
+CAPTURE v040-android-17-jump-pad.png
+PASS: jump pad airborne screenshot from signed release

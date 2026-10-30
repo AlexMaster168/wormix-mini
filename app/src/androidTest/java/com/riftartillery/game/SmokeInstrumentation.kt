@@ -106,6 +106,22 @@ class SmokeInstrumentation : Instrumentation() {
             SystemClock.sleep(900)
             runOnMainSync {view=activity.findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as BattleView}
             verify("Accessible menu opens") {field("mode")=="menu" && view.accessibilityNodeProvider!=null}
+            val shopPrefs=targetContext.getSharedPreferences("rift",Context.MODE_PRIVATE)
+            runOnMainSync {shopPrefs.edit().putInt("scrap",150).putString("shopStock","").putBoolean("useSupplies",true).commit()}
+            click("Магазин");verify("Shop opens from menu") {field("shopOpen")==true}
+            click("Купить / 30");verify("Shop atomically spends wallet and stores pack") {shopPrefs.getInt("scrap",0)==120 && Market.decode(shopPrefs.getString("shopStock","").orEmpty()).packs[0]==1}
+            click("Готово");newBattle()
+            verify("Purchased pack applies to new battle once") {game().active.ammo[Weapon.AK47]==Weapon.AK47.stock+3 && Market.decode(shopPrefs.getString("shopStock","").orEmpty()).packs[0]==0}
+            runOnMainSync {game().active.hp=40f};hold(125f,765f,600)
+            click("Использовать: Аптечная станция")
+            verify("Interactive medical station heals without consuming turn") {game().active.hp==70f && game().phase==Phase.AIM}
+            menu();click("Магазин");click("Ауры");click("Купить / 40")
+            verify("Aura purchase equips permanent cosmetic") {Market.decode(shopPrefs.getString("shopStock","").orEmpty()).selected==1 && shopPrefs.getInt("scrap",0)==80}
+            click("Аура: Лайм");verify("Owned default aura can be equipped") {Market.decode(shopPrefs.getString("shopStock","").orEmpty()).selected==0}
+            click("Надеть");verify("Purchased aura can be reequipped for free") {Market.decode(shopPrefs.getString("shopStock","").orEmpty()).selected==1 && shopPrefs.getInt("scrap",0)==80}
+            runOnMainSync {shopPrefs.edit().putInt("scrap",0).commit()};click("Купить / 50")
+            verify("Unaffordable UI purchase changes neither wallet nor ownership") {shopPrefs.getInt("scrap",-1)==0 && Market.decode(shopPrefs.getString("shopStock","").orEmpty()).owned==3}
+            runOnMainSync {shopPrefs.edit().putInt("scrap",150).commit()};click("Готово")
             if(field("musicEnabled")==false) click("Музыка: выкл")
             click("Выбор музыки");verify("Music picker opens") {field("musicOpen")==true}
             for(t in MusicTrack.entries) {click(t.title);waitFor("Manual track plays: $t") {music().currentTrack==t && music().isPlaying}}
@@ -141,7 +157,7 @@ class SmokeInstrumentation : Instrumentation() {
                 waitFor("New arena starts with safe spawns: $a") {game().arena==a && game().fighters.all {it.alive && it.grounded}}
                 click("II  Пауза");click("Сохранить и в меню")
             }
-            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX,Weapon.HE_ROCKET,Weapon.WATERMELON,Weapon.HEAVY_FLAMER,Weapon.RAILGUN,Weapon.SMOKE,Weapon.TRIPLE_ROCKET,Weapon.EMP_GRENADE)) {
+            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX,Weapon.HE_ROCKET,Weapon.WATERMELON,Weapon.HEAVY_FLAMER,Weapon.RAILGUN,Weapon.SMOKE,Weapon.TRIPLE_ROCKET,Weapon.EMP_GRENADE,Weapon.MIRROR_GUN,Weapon.AUTO_SHOTGUN,Weapon.HEAL_GRENADE,Weapon.BLACK_HOLE,Weapon.ICE_SHARDS,Weapon.THUNDER_ORB)) {
                 newBattle();waitFor("Ready to test $w") {game().active.grounded}
                 selectThroughArsenal(w);verify("New weapon selected through arsenal: $w") {game().weapon==w}
                 val stock=game().active.ammo.getValue(w);tap(1300f,765f)
@@ -269,6 +285,7 @@ class SmokeInstrumentation : Instrumentation() {
             verify("Recreation releases old music player") {!oldMusic.isPlaying}
             verify("Music preference survives recreation") {field("musicEnabled")==false && !music().isPlaying}
             verify("Selected track survives recreation") {field("musicSelection")==MusicTrack.RETRO.ordinal}
+            verify("Purchased aura survives Activity recreation") {Market.decode(shopPrefs.getString("shopStock","").orEmpty()).selected==1}
             click("Музыка: выкл");waitFor("Music can restart after recreation") {music().isPlaying}
             click("ПРОДОЛЖИТЬ");verify("Recreation restores extended match") {game().turn==savedTurn && game().active.drillFuel>0}
             result.putString("stream","\nPASS: $checks Android integration checks\nAPI=${android.os.Build.VERSION.SDK_INT} VIEW=${view.width}x${view.height} DURATION_MS=${SystemClock.uptimeMillis()-began}\n$performance\n")

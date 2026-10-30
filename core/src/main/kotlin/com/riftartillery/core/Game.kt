@@ -242,6 +242,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             Arena.SCRAP->devices+=Device(DeviceKind.MAGNET,1440f,310f,-1,40f,0f,0)
             else->Unit
         }
+        populateInteractions()
         wind = random()*20-10
         lastByTeam[0] = 0
     }
@@ -393,6 +394,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
         }
     }
     internal fun explode(s: Shot) {
+        if(explodeExpansion(s)) return
         if(s.weapon==Weapon.BOUNCING_MINE) {if(devices.size<40) devices+=Device(DeviceKind.MINE,s.x,s.y,s.owner);return}
         if(s.weapon==Weapon.MAGNET_BOMB && !s.stuck) {s.fuse=2f;s.stuck=true;s.vx=0f;s.vy=0f;shots+=s;return}
         if(s.weapon==Weapon.GRAVITY && !s.stuck) {hazards+=Hazard(s.x,s.y,230f,Effect.STUN,2,s.owner);s.fuse=2f;s.stuck=true;shots+=s;return}
@@ -430,10 +432,10 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             }
         }
         damageDevices(s.x,s.y,radius,damage)
-        if(s.weapon.fireEffect || s.weapon.iceEffect || s.weapon.poisonEffect || s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER,Weapon.SMOKE)) {
-            val effect=when {s.weapon.poisonEffect->Effect.POISON;s.weapon.iceEffect->Effect.FREEZE;s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER)->Effect.CORROSION;s.weapon==Weapon.SMOKE->Effect.BLIND;else->Effect.BURN}
+        if(s.weapon.fireEffect || s.weapon.iceEffect || s.weapon.poisonEffect || s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER,Weapon.ACID_ROCKET,Weapon.SMOKE)) {
+            val effect=when {s.weapon.poisonEffect->Effect.POISON;s.weapon.iceEffect->Effect.FREEZE;s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER,Weapon.ACID_ROCKET)->Effect.CORROSION;s.weapon==Weapon.SMOKE->Effect.BLIND;else->Effect.BURN}
             hazards+=Hazard(s.x,s.y,radius+20,effect,if(effect==Effect.POISON) 4 else if(effect==Effect.BLIND) 2 else 3,s.owner)
-            if(s.weapon==Weapon.ACID) for(i in 0..8) terrain.carve(s.x+(i-4)*13,s.y+i*15,20f)
+            if(s.weapon in setOf(Weapon.ACID,Weapon.ACID_ROCKET)) for(i in 0..8) terrain.carve(s.x+(i-4)*13,s.y+i*15,20f)
         }
         if(s.weapon==Weapon.EMP_GRENADE) devices.filter {hypot(it.x-s.x,it.y-s.y)<radius}.forEach {if(it.kind in setOf(DeviceKind.TURRET,DeviceKind.DOME,DeviceKind.DEFENDER)) it.hp=0f}
         val fragments=when(s.weapon) {Weapon.CLUSTER,Weapon.MIRV,Weapon.ACID_CLUSTER,Weapon.FIRE_CLUSTER,Weapon.ICE_CLUSTER->5;Weapon.BANANA,Weapon.CLUSTER_ROCKET->6;Weapon.MORTAR->4;Weapon.WATERMELON->8;Weapon.PINEAPPLE->10;Weapon.FIREWORKS->9;Weapon.FRAG_GRENADE->12;else->0}
@@ -676,8 +678,9 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                     if(w.kind==Kind.WALKER) {s.vy= -145f;s.x=nx;s.y=ny-4;break}
                     s.bounces++
                     if(w==Weapon.DISC && s.bounces>=6) {detonate=true;break}
+                    if(w==Weapon.RICOCHET_ORB && s.bounces>=8) {detonate=true;break}
                     if(w==Weapon.BOUNCER && s.bounces>=3) {detonate=true;break}
-                    val bounce=if(w==Weapon.BANANA) .9f else if(w==Weapon.DISC) 1f else if(hardBounce) .7f else .45f
+                    val bounce=if(w==Weapon.RICOCHET_ORB) .92f else if(w==Weapon.BANANA) .9f else if(w==Weapon.DISC) 1f else if(hardBounce) .7f else .45f
                     if (terrain.at(nx,s.y)) s.vx *= -bounce else s.vx *= if(w==Weapon.DISC) 1f else .78f
                     if (terrain.at(s.x,ny)) s.vy *= -bounce else s.vy *= -bounce
                     if (abs(s.vy)<12) s.vy=0f

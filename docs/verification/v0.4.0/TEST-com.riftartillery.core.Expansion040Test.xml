@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.Expansion040Test" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-10-30T19:20:46" hostname="ALEXCOMP" time="1.315">
+  <properties/>
+  <testcase name="shopRejectsUnaffordableInvalidAndExcessPurchases" classname="com.riftartillery.core.Expansion040Test" time="0.048"/>
+  <testcase name="mirrorLaserReflectsAndLeavesTerrainIntact" classname="com.riftartillery.core.Expansion040Test" time="0.031"/>
+  <testcase name="malformedShopDataHasSafeBoundsAndDefaultAura" classname="com.riftartillery.core.Expansion040Test" time="0.0"/>
+  <testcase name="purchasedPackIsAppliedOnceAndConsumedOnlyOnNewBattle" classname="com.riftartillery.core.Expansion040Test" time="0.067"/>
+  <testcase name="medicalStationChecksNeedAndChargesPersist" classname="com.riftartillery.core.Expansion040Test" time="0.048"/>
+  <testcase name="packsDoNotBuffBotAndAreNotSpentInRace" classname="com.riftartillery.core.Expansion040Test" time="0.008"/>
+  <testcase name="jumpPadLaunchesPlayerWithParachuteAndCooldown" classname="com.riftartillery.core.Expansion040Test" time="0.004"/>
+  <testcase name="healingGrenadeOnlyHealsAlliesAndNeverCarves" classname="com.riftartillery.core.Expansion040Test" time="0.005"/>
+  <testcase name="switchBuildsAndRemovesCentralBridge" classname="com.riftartillery.core.Expansion040Test" time="0.005"/>
+  <testcase name="everyNewWeaponFiresAndConsumesExactlyOneRound" classname="com.riftartillery.core.Expansion040Test" time="0.956"/>
+  <testcase name="ammoCrateIsSingleUseAndDoesNotSpendAttack" classname="com.riftartillery.core.Expansion040Test" time="0.007"/>
+  <testcase name="cosmeticsArePermanentAndCannotBeBoughtTwice" classname="com.riftartillery.core.Expansion040Test" time="0.001"/>
+  <testcase name="portalsMovePlayerAndPreventImmediateLoop" classname="com.riftartillery.core.Expansion040Test" time="0.005"/>
+  <testcase name="allCombatMapsHaveInteractiveDevicesAndRaceDoesNot" classname="com.riftartillery.core.Expansion040Test" time="0.11"/>
+  <testcase name="newAreaWeaponsHaveDistinctPayloads" classname="com.riftartillery.core.Expansion040Test" time="0.018"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

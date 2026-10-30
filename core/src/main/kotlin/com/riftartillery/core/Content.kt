@@ -131,16 +131,36 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     MUSHROOM("Грибная бомба",20f,135f,2,590f,0f,Category.CREATURE,Kind.IMPACT,"Разрывается большим ядовитым облаком"),
     CARPET_BOMB("Ковровая бомбардировка",24f,65f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Двенадцать бомб по широкому сектору"),
     FUEL_AIR("Объёмный авиаудар",45f,120f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Шесть термобарических зарядов"),
-    CHAIN_LIGHTNING("Цепная молния",55f,0f,2,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Разряд перескакивает ещё на трёх врагов");
-    val targeted get()=this in setOf(TELEPORT,HOMING,SEEKER_SWARM,BUNKER,ION,AIRSTRIKE,NAPALM,CARPET_BOMB,FUEL_AIR,GIRDER,TELEKINESIS)
-    val fireEffect get()=this in setOf(FLAME,MOLOTOV,NAPALM,THERMO_ROCKET,PUMPKIN,INCENDIARY,HEAVY_FLAMER,FIRE_CLUSTER,FLARE_GUN,FUEL_AIR)
-    val iceEffect get()=this in setOf(CRYO,FREEZE_GRENADE,FROST_THROWER,ICE_CLUSTER)
+    CHAIN_LIGHTNING("Цепная молния",55f,0f,2,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Разряд перескакивает ещё на трёх врагов"),
+    BOLT_ROCKET("Игла",38f,48f,4,1250f,0f,Category.BALLISTIC,Kind.IMPACT,"Сверхбыстрая ракета с узким кратером"),
+    RICOCHET_ORB("Рикошетная сфера",42f,85f,3,760f,4f,Category.GRENADE,Kind.BOUNCE,"Упругие отскоки, взрыв после восьмого контакта"),
+    FLAME_ROCKET("Ракета «Саламандра»",36f,85f,3,860f,0f,Category.BALLISTIC,Kind.IMPACT,"Удар и горящий участок на три хода"),
+    ACID_ROCKET("Кислотная игла",32f,65f,3,980f,0f,Category.BALLISTIC,Kind.IMPACT,"Быстрая ракета с коррозией и протравливанием"),
+    ICE_SHARDS("Ледяной веер",15f,65f,2,650f,2f,Category.GRENADE,Kind.BOUNCE,"Семь морозных осколков; сохраняет рельеф"),
+    THUNDER_ORB("Громовая сфера",40f,100f,2,680f,2.5f,Category.ELEMENTAL,Kind.BOUNCE,"Электрический взрыв оглушает"),
+    BLACK_HOLE("Сингулярность",20f,100f,2,610f,2f,Category.ELEMENTAL,Kind.BOUNCE,"Создаёт стягивающее поле на два хода"),
+    HEAL_GRENADE("Лечебная граната",0f,130f,2,600f,1.5f,Category.GADGET,Kind.BOUNCE,"Лечит только союзников на 35 HP и снимает статусы"),
+    MIRROR_GUN("Зеркальный лазер",35f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Луч отражается от рельефа дважды"),
+    BURST_RIFLE("Штурмовая винтовка",48f,0f,4,0f,0f,Category.GUN,Kind.BEAM,"Пять пуль с умеренным разбросом"),
+    AUTO_SHOTGUN("Автодробовик",62f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Десять дробин широким веером, одна атака"),
+    HEAVY_SNIPER("Антиматериальная винтовка",82f,0f,2,0f,0f,Category.GUN,Kind.BEAM,"Тяжёлый точный выстрел в одну цель"),
+    SHRAPNEL_CANNON("Шрапнельная пушка",56f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Шестнадцать игл с кровотечением"),
+    ARC_THROWER("Дуговой излучатель",42f,0f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Цепной электрический разряд на трёх бойцов"),
+    LASER_CUTTER("Лазерный резак",40f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Прорезает породу направленным лучом"),
+    DRONE_STRIKE("Звено дронов",30f,60f,2,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Пять точных бомб вдоль выбранного участка"),
+    SHIELD_MINE("Щитовой маяк",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Добавляет 25 защиты без завершения хода"),
+    BARRIER("Баррикада",0f,0f,3,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Строит вертикальное укрытие в выбранной точке"),
+    HEAL_TOTEM("Медицинский тотем",0f,0f,2,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Станция с тремя зарядами лечения; подойди и активируй"),
+    ARC_TURRET("Тесла-турель",22f,0f,2,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Электрическая турель бьёт видимую цель четыре перехода хода");
+    val targeted get()=this in setOf(TELEPORT,HOMING,SEEKER_SWARM,BUNKER,ION,AIRSTRIKE,NAPALM,CARPET_BOMB,FUEL_AIR,GIRDER,TELEKINESIS,BARRIER,DRONE_STRIKE)
+    val fireEffect get()=this in setOf(FLAME,MOLOTOV,NAPALM,THERMO_ROCKET,PUMPKIN,INCENDIARY,HEAVY_FLAMER,FIRE_CLUSTER,FLARE_GUN,FUEL_AIR,FLAME_ROCKET)
+    val iceEffect get()=this in setOf(CRYO,FREEZE_GRENADE,FROST_THROWER,ICE_CLUSTER,ICE_SHARDS)
     val poisonEffect get()=this in setOf(GAS,SKUNK,POISON_DART,MUSHROOM)
-    val bleedEffect get()=this in setOf(SHURIKEN,SPIKE_GRENADE,CROSSBOW,NAILGUN)
+    val bleedEffect get()=this in setOf(SHURIKEN,SPIKE_GRENADE,CROSSBOW,NAILGUN,SHRAPNEL_CANNON)
     val damageType get()=when {
         fireEffect->DamageType.FIRE;poisonEffect->DamageType.POISON
-        this in setOf(TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX,EMP_GRENADE,SHOCK_ROCKET,CHAIN_LIGHTNING,RAILGUN,GAUSS,SONIC)->DamageType.ELECTRIC
-        this in setOf(ACID,ACID_CLUSTER)->DamageType.ACID
+        this in setOf(TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX,EMP_GRENADE,SHOCK_ROCKET,CHAIN_LIGHTNING,RAILGUN,GAUSS,SONIC,THUNDER_ORB,ARC_THROWER,MIRROR_GUN,LASER_CUTTER,BLACK_HOLE)->DamageType.ELECTRIC
+        this in setOf(ACID,ACID_CLUSTER,ACID_ROCKET)->DamageType.ACID
         kind==Kind.BEAM->DamageType.BULLET;kind==Kind.MELEE->DamageType.MELEE;else->DamageType.EXPLOSION
     }
 }
@@ -156,6 +176,6 @@ enum class Artifact(val title:String) { NONE("Без артефакта"), GRAVI
 enum class Upgrade(val title:String) { STANDARD("Стандарт"), PLASMA("Плазменная"), TRIPLE("Тройная") }
 data class Loadout(val race:Race=Race.DRAGON,val hat:Hat=Hat.NONE,val artifact:Artifact=Artifact.NONE,val upgrade:Upgrade=Upgrade.STANDARD)
 data class Hazard(var x:Float,var y:Float,val radius:Float,val effect:Effect,var turns:Int,val owner:Int)
-enum class DeviceKind { MINE, SPIDER, TURRET, DOME, BARREL, GENERATOR, GEYSER, MAGNET, DEFENDER }
+enum class DeviceKind { MINE, SPIDER, TURRET, DOME, BARREL, GENERATOR, GEYSER, MAGNET, DEFENDER, SUPPLY, AMMO_CRATE, MED_STATION, JUMP_PAD, BRIDGE_SWITCH, PORTAL, ACID_BARREL, SHOCK_BARREL, ARC_TURRET }
 data class Device(val kind:DeviceKind,var x:Float,var y:Float,val owner:Int,var hp:Float=60f,var timer:Float=2f,var turns:Int=4,var triggered:Boolean=false)
 data class Beam(val x:Float,val y:Float,val x2:Float,val y2:Float,var life:Float=.4f)

@@ -62,6 +62,7 @@ namespace Rift {
             if(!battle) {if(e.keyCode==KeyCode.Return||e.keyCode==KeyCode.KeypadEnter) {NewBattle();e.Use();}return;}
             if(!state.control || state.phase==3) return;
             if(e.keyCode==KeyCode.Space) {Act("jump");e.Use();}
+            else if(e.keyCode==KeyCode.F||key=='а') {Act("interact");e.Use();}
             else if(e.keyCode==KeyCode.Q||key=='й') {Act("rope");e.Use();}
             else if(e.keyCode==KeyCode.E||key=='у') {Act("ability");e.Use();}
             else if(e.keyCode==KeyCode.Tab) {var ally=state.fighters.FirstOrDefault(f=>f.alive && f.team==Active.team && f.id!=state.active);if(ally!=null) Act("switch",",\"id\":"+ally.id);e.Use();}

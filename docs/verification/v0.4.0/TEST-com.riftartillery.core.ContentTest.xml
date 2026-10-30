@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.ContentTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-10-30T19:20:42" hostname="ALEXCOMP" time="4.554">
+  <properties/>
+  <testcase name="expandedCatalogHas120DistinctWeaponsAndTools" classname="com.riftartillery.core.ContentTest" time="0.049"/>
+  <testcase name="floodAndEarthquakeChangeWorldState" classname="com.riftartillery.core.ContentTest" time="0.233"/>
+  <testcase name="steelGirderSurvivesFirstExplosionAndBreaksOnSecond" classname="com.riftartillery.core.ContentTest" time="0.02"/>
+  <testcase name="requestedGunsDamageTargetsWithDistinctBehaviors" classname="com.riftartillery.core.ContentTest" time="0.121"/>
+  <testcase name="fourBossesHavePhasesAndRealAttacks" classname="com.riftartillery.core.ContentTest" time="0.121"/>
+  <testcase name="legacyVersionOneSaveMigratesToLargerWorldAndKeepsInventory" classname="com.riftartillery.core.ContentTest" time="0.186"/>
+  <testcase name="defenderAbsorbsDamageAndDoesNotRemoveOtherShieldOnExpiry" classname="com.riftartillery.core.ContentTest" time="0.007"/>
+  <testcase name="gasAndFireLeavePersistentHazards" classname="com.riftartillery.core.ContentTest" time="0.007"/>
+  <testcase name="generatorsActuallyProtectGeneralAndCanBeDestroyed" classname="com.riftartillery.core.ContentTest" time="0.006"/>
+  <testcase name="cryoPreservesTerrainButAppliesFreeze" classname="com.riftartillery.core.ContentTest" time="0.021"/>
+  <testcase name="undeadGravestoneCanBeDestroyedBeforeResurrection" classname="com.riftartillery.core.ContentTest" time="0.01"/>
+  <testcase name="ropeRaceRequiresAllCheckpointsAndRope" classname="com.riftartillery.core.ContentTest" time="0.006"/>
+  <testcase name="expandedSaveRestoresBossHazardsDevicesAndStatuses" classname="com.riftartillery.core.ContentTest" time="0.13"/>
+  <testcase name="shotgunAllowsExactlyTwoShotsAndOneStockPerPair" classname="com.riftartillery.core.ContentTest" time="0.006"/>
+  <testcase name="allRacesAndEquipmentAffectActualMatch" classname="com.riftartillery.core.ContentTest" time="0.032"/>
+  <testcase name="targetedActionsRejectOutOfWorldAndNanWithoutSpendingAmmo" classname="com.riftartillery.core.ContentTest" time="0.051"/>
+  <testcase name="giantBossHasFullHeightHitArea" classname="com.riftartillery.core.ContentTest" time="0.004"/>
+  <testcase name="sapperBeltRevealsEnemyMinesAndPersistsThroughSaveAndAllySwitch" classname="com.riftartillery.core.ContentTest" time="0.26"/>
+  <testcase name="allWeaponsExecuteTheirActionWithoutCrashingOrUnboundedFlight" classname="com.riftartillery.core.ContentTest" time="2.714"/>
+  <testcase name="gasHealsMutantsAndDoesNotHarmCyborgsOrDemonsFire" classname="com.riftartillery.core.ContentTest" time="0.004"/>
+  <testcase name="switchingFightersPreservesTimerAndBlocksEnemyAndDeadSelections" classname="com.riftartillery.core.ContentTest" time="0.005"/>
+  <testcase name="drillActuallyCutsTerrainAndMovesFighterThroughRock" classname="com.riftartillery.core.ContentTest" time="0.303"/>
+  <testcase name="fileSaveAndLoadBatchIoWithoutClosingCallerStreams" classname="com.riftartillery.core.ContentTest" time="0.254"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

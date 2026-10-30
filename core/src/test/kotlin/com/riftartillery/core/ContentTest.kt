@@ -52,9 +52,9 @@ class ContentTest {
         g.angle=0f
         return g
     }
-    @Test fun expandedCatalogHasHundredDistinctWeaponsAndTools() {
-        assertEquals(100,Weapon.entries.size)
-        assertEquals(100,Weapon.entries.map {it.title}.distinct().size)
+    @Test fun expandedCatalogHas120DistinctWeaponsAndTools() {
+        assertEquals(120,Weapon.entries.size)
+        assertEquals(120,Weapon.entries.map {it.title}.distinct().size)
         assertEquals(7,Race.entries.size);assertEquals(12,Arena.entries.size);assertEquals(4,Boss.entries.size)
     }
     @Test fun allWeaponsExecuteTheirActionWithoutCrashingOrUnboundedFlight() {

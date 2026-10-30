@@ -16,7 +16,7 @@ namespace Rift {
         Vector2 panStart; GUIStyle textStyle,buttonStyle,titleStyle,smallStyle; Rect[] placedLabels=new Rect[4]; int labelCount;
         static readonly Color Bg=new Color(.04f,.07f,.12f),Panel=new Color(.08f,.13f,.20f),Lime=new Color(.69f,.94f,.44f),Cyan=new Color(.4f,.85f,.9f),Coral=new Color(1,.51f,.44f),Muted=new Color(.52f,.60f,.69f);
         static string F(float n) {return n.ToString("0.###",CultureInfo.InvariantCulture);}
-        bool Modal {get{return paused||arsenal||forge||help||aimPanel||musicPanel;}}
+        bool Modal {get{return shop||paused||arsenal||forge||help||aimPanel||musicPanel;}}
         Fighter Active {get{return state.fighters.First(f=>f.id==state.active);}}
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)] static void Boot() {
             if(FindFirstObjectByType<RiftGame>()!=null) return;
@@ -37,7 +37,7 @@ namespace Rift {
             race=PlayerPrefs.GetInt("race");hat=PlayerPrefs.GetInt("hat");artifact=PlayerPrefs.GetInt("artifact");upgrade=PlayerPrefs.GetInt("upgrade");
             track=PlayerPrefs.GetInt("musicTrack",-1);musicEnabled=PlayerPrefs.GetInt("music",1)==1;soundEnabled=PlayerPrefs.GetInt("sound",1)==1;
             string saveDirectory=Environment.GetCommandLineArgs().Contains("--rift-smoke")?Path.Combine(Application.temporaryCachePath,"RiftSmoke-"+Guid.NewGuid().ToString("N")):Application.persistentDataPath;
-            try {engine=new BridgeClient(saveDirectory);catalog=engine.GetCatalog();if(!catalog.ok) throw new Exception(catalog.error);state=engine.Send("{\"cmd\":\"state\"}");}
+            try {engine=new BridgeClient(saveDirectory);catalog=engine.GetCatalog();if(!catalog.ok) throw new Exception(catalog.error);state=engine.Send("{\"cmd\":\"state\"}");SyncShop();}
             catch(Exception e) {fatal=e.Message;Debug.LogException(e);}
             if(Environment.GetCommandLineArgs().Contains("--rift-smoke")) StartCoroutine(Smoke());
         }
@@ -52,7 +52,8 @@ namespace Rift {
             }
             if(state.phase==3 && !resultRecorded && battle) {
                 resultRecorded=true;PlayerPrefs.SetInt("matches",PlayerPrefs.GetInt("matches")+1);
-                if(state.winner==0) {PlayerPrefs.SetInt("wins",PlayerPrefs.GetInt("wins")+1);PlayerPrefs.SetInt("scrap",PlayerPrefs.GetInt("scrap",150)+(state.mode==1?180:60));}
+                PlayerPrefs.SetInt("scrap",PlayerPrefs.GetInt("scrap",150)+catalog.rewards[state.winner==0?(state.mode==1?1:0):state.winner==1?2:3]);
+                if(state.winner==0) PlayerPrefs.SetInt("wins",PlayerPrefs.GetInt("wins")+1);
                 if(state.mode==2 && state.winner==0) PlayerPrefs.SetFloat("ropeBest",Mathf.Min(PlayerPrefs.GetFloat("ropeBest",9999),state.raceElapsed));
                 PlayerPrefs.Save();
                 engine.Request("{\"cmd\":\"act\",\"action\":\"clearSave\"}");state.saveExists=false;
@@ -61,8 +62,10 @@ namespace Rift {
         State Send(string request) {try {var next=engine.Send(request);Apply(next);return next;} catch(Exception e) {fatal=e.Message;Debug.LogException(e);return state;}}
         void Act(string action,string fields="") {Send("{\"cmd\":\"act\",\"action\":\""+action+"\""+fields+"}");}
         void NewBattle() {
+            SyncShop();
             int seed=PlayerPrefs.GetInt("seed",41)+1;PlayerPrefs.SetInt("seed",seed);
-            Send("{\"cmd\":\"new\",\"arena\":"+arena+",\"bot\":"+(bot?"true":"false")+",\"mode\":"+mode+",\"boss\":"+boss+",\"race\":"+race+",\"hat\":"+hat+",\"artifact\":"+artifact+",\"upgrade\":"+upgrade+",\"seed\":"+seed+"}");
+            Send("{\"cmd\":\"new\",\"supplies\":"+(PlayerPrefs.GetInt("useSupplies",1)==1?"true":"false")+",\"arena\":"+arena+",\"bot\":"+(bot?"true":"false")+",\"mode\":"+mode+",\"boss\":"+boss+",\"race\":"+race+",\"hat\":"+hat+",\"artifact\":"+artifact+",\"upgrade\":"+upgrade+",\"seed\":"+seed+"}");
+            SaveShop();shop=false;
             battle=true;paused=arsenal=forge=help=aimPanel=false;overview=manual=false;zoom=1.05f;lastTurn=-1;resultRecorded=false;accumulator=0;Act("save");
         }
         void SaveMenu() {if(state.phase!=3) Act("save");battle=false;paused=arsenal=aimPanel=false;}
@@ -70,7 +73,7 @@ namespace Rift {
         void Update() {
             if(engine==null || catalog==null || !string.IsNullOrEmpty(fatal)) return;
             UpdatePointer();
-            if(Input.GetKeyDown(KeyCode.Escape)) {if(musicPanel) musicPanel=false;else if(aimPanel) {CommitAim();aimPanel=false;} else if(arsenal) arsenal=false;else if(forge) forge=false;else if(help) help=false;else if(battle) paused=!paused;else help=true;}
+            if(Input.GetKeyDown(KeyCode.Escape)) {if(shop) shop=false;else if(musicPanel) musicPanel=false;else if(aimPanel) {CommitAim();aimPanel=false;} else if(arsenal) arsenal=false;else if(forge) forge=false;else if(help) help=false;else if(battle) paused=!paused;else help=true;}
             if(battle && !Modal && state.phase!=3) {
                 if(state.control) {
                     // Discrete keys are handled by IMGUI events, including Russian layout characters.
@@ -97,6 +100,6 @@ namespace Rift {
         void ChooseMusic(int selection) {track=Mathf.Clamp(selection,-1,catalog.tracks.Length-1);PlayerPrefs.SetInt("musicTrack",track);PlayerPrefs.Save();}
         void OnApplicationFocus(bool focused) {if(!focused) {heldLeft=heldRight=heldUp=heldDown=false;mouseMove=mouseReel=0;}}
         void OnApplicationPause(bool value) {if(value && battle) {paused=true;Act("save");} if(value && music!=null) music.Pause();}
-        void OnApplicationQuit() {if(engine!=null) {try {if(battle && state.phase!=3) Act("save");} catch(Exception) {} engine.Dispose();engine=null;}}
+        void OnApplicationQuit() {RestoreSmokeShop();if(engine!=null) {try {if(battle && state.phase!=3) Act("save");} catch(Exception) {} engine.Dispose();engine=null;}}
     }
 }

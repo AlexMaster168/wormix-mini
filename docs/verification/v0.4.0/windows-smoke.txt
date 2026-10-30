@@ -1,0 +1,6 @@
+PASS: 206 Unity Windows integration checks
+Unity=6000.0.77f1
+ClientVersion=0.4.0
+CoreVersion=0.4.0
+Viewport=1280x720
+Tests complete UTC=2026-10-30T19:23:28.2374481Z
