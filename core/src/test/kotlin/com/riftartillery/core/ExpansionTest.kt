@@ -35,7 +35,7 @@ class ExpansionTest {
         g.explode(Shot(900f,576f,0f,0f,Weapon.VORTEX,0,0f))
         assertTrue(left.vx>0);assertTrue(right.vx<0)
         assertTrue(left.hp<left.maxHp && right.hp<right.maxHp)
-        assertEquals(60,Weapon.entries.size)
+        assertEquals(100,Weapon.entries.size)
     }
     @Test fun versionTwoSaveRetainsStateAndReceivesNewAmmo() {
         val g=javaClass.getResourceAsStream("/save-v2.bin")!!.use {Game.load(it)}

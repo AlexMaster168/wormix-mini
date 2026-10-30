@@ -25,6 +25,7 @@ data class Fighter(val id: Int, val team: Int, var name: String, var race: Race,
     var maxHp=race.hp.toFloat()
     val effects=IntArray(Effect.entries.size)
     var fuel=0f
+    var jetboard=false
     var drillFuel=0f
     var parachute=false
     var aimAssist=false
@@ -65,6 +66,10 @@ class Terrain(val arena: Arena, seed: Int) {
             val top = when(arena) {
                 Arena.CANYON -> (1040+sin(x*.0026+phase)*22+sin(x*.011)*12).toInt()
                 Arena.HARBOR -> (1060+sin(x*.002+phase)*12).toInt()
+                Arena.JUNGLE -> (1035+sin(x*.003+phase)*25+sin(x*.009)*9).toInt()
+                Arena.RUINS -> (1030+sin(x*.005+phase)*10).toInt()
+                Arena.STORM -> (1045+sin(x*.004+phase)*18).toInt()
+                Arena.CRYSTAL -> (1050+sin(x*.004+phase)*32).toInt()
                 else -> (1040 + sin(x * .003 + phase) * 42 + sin(x * .008 + phase) * 16).toInt()
             }
             val gap = x in 1410..1470 || (arena == Arena.ORBIT && (x in 980..1040 || x in 2180..2240))
@@ -75,6 +80,10 @@ class Terrain(val arena: Arena, seed: Int) {
         val shelves=when(arena) {
             Arena.CANYON -> listOf(Triple(440,790,670),Triple(1030,1390,530),Triple(1580,1890,620),Triple(2110,2480,570))
             Arena.HARBOR -> listOf(Triple(480,860,660),Triple(1100,1370,590),Triple(1590,1940,590),Triple(2100,2460,660))
+            Arena.JUNGLE -> listOf(Triple(420,850,640),Triple(1040,1390,510),Triple(1570,1900,580),Triple(2080,2500,650))
+            Arena.RUINS -> listOf(Triple(470,800,560),Triple(1040,1360,670),Triple(1570,1900,500),Triple(2100,2480,600))
+            Arena.STORM -> listOf(Triple(440,880,620),Triple(1080,1390,450),Triple(1570,1900,540),Triple(2080,2480,620))
+            Arena.CRYSTAL -> listOf(Triple(450,800,690),Triple(1050,1380,540),Triple(1580,1920,660),Triple(2090,2470,500))
             else -> listOf(Triple(480,820,610),Triple(1070,1350,480),Triple(1560,1840,550),Triple(2070,2440,650))
         }
         for ((left,right,top) in shelves) {
@@ -86,7 +95,7 @@ class Terrain(val arena: Arena, seed: Int) {
             for(x in cx-170..cx+170) for(y in 1148..1252) if(x in 0 until WORLD_W) solid[y*WORLD_W+x]=false
         }
         if(arena!=Arena.ORBIT) for(x in 480..2580) for(y in 1148..1252) solid[y*WORLD_W+x]=false
-        if(arena in setOf(Arena.NEON,Arena.SCRAP,Arena.CHEMICAL,Arena.HARBOR)) {
+        if(arena in setOf(Arena.NEON,Arena.SCRAP,Arena.CHEMICAL,Arena.HARBOR,Arena.RUINS)) {
             val left=surface(1360f);val right=surface(1520f)
             addGirder(1440f,(left+right)/2+8,(atan2(right-left,160f)*180/PI).toFloat(),180f)
         }
@@ -332,7 +341,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             val speed = weapon.speed*(.20f+.80f*power.coerceIn(0f,1f))
             val x = if (weapon == Weapon.DYNAMITE) a.x+if(cos(r)>0) 19 else -19 else a.x+cos(r)*23
             val y = if (weapon == Weapon.DYNAMITE) a.y else a.y-5+sin(r)*23
-            val count=if(weapon==Weapon.ROCKET && a.loadout.upgrade==Upgrade.TRIPLE) 3 else 1
+            val count=if(weapon==Weapon.TRIPLE_ROCKET || weapon==Weapon.ROCKET && a.loadout.upgrade==Upgrade.TRIPLE) 3 else 1
             repeat(count) {i->val ar=r+if(count==3) (i-1)*.09f else 0f
                 shots += Shot(x,y,cos(ar)*speed,sin(ar)*speed,weapon,a.id,if(weapon==Weapon.GRENADE) grenadeTimer else weapon.fuse)
             }
@@ -344,6 +353,11 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
         return true
     }
     fun skip() { if (phase == Phase.AIM && humanTurn) { anchor = null; nextTurn() } }
+    internal fun startContentAttack() {
+        phase=if(shots.isEmpty() && quakeTime<=0) Phase.RETREAT else Phase.FLIGHT
+        phaseTime=0f;move=0f
+    }
+    internal fun clearRope() {anchor=null;ropeNodes.clear()}
     fun validPosition(x: Float, y: Float): Boolean {
         if (x < 16 || x > WORLD_W-16 || y < 64 || y > waterLevel-18) return false
         for (dx in -14..14 step 7) for (dy in -62..17 step 7) if (terrain.at(x+dx, y+dy)) return false
@@ -379,11 +393,13 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
         }
     }
     internal fun explode(s: Shot) {
+        if(s.weapon==Weapon.BOUNCING_MINE) {if(devices.size<40) devices+=Device(DeviceKind.MINE,s.x,s.y,s.owner);return}
+        if(s.weapon==Weapon.MAGNET_BOMB && !s.stuck) {s.fuse=2f;s.stuck=true;s.vx=0f;s.vy=0f;shots+=s;return}
         if(s.weapon==Weapon.GRAVITY && !s.stuck) {hazards+=Hazard(s.x,s.y,230f,Effect.STUN,2,s.owner);s.fuse=2f;s.stuck=true;shots+=s;return}
         if(s.weapon==Weapon.GRAVITY) hazards.removeAll {it.effect==Effect.STUN && hypot(it.x-s.x,it.y-s.y)<5}
         val radius = if(s.fragment) 37f else s.weapon.radius
         val damage = if(s.fragment) 20f else s.weapon.damage
-        if(s.weapon !in setOf(Weapon.CRYO,Weapon.GAS,Weapon.FLASH)) terrain.carve(s.x,s.y,if(s.weapon==Weapon.ROCKET && fighters[s.owner].loadout.upgrade==Upgrade.PLASMA) radius*1.4f else radius)
+        if(!s.weapon.iceEffect && s.weapon !in setOf(Weapon.GAS,Weapon.FLASH,Weapon.SMOKE)) terrain.carve(s.x,s.y,if(s.weapon==Weapon.ROCKET && fighters[s.owner].loadout.upgrade==Upgrade.PLASMA) radius*1.4f else radius)
         shake = 7f
         burst(s.x,s.y,36,0)
         for (f in fighters.filter { it.alive || it.reviveIn>0 }) {
@@ -394,9 +410,14 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             if (dist < radius+25) {
                 val factor = (1-dist/(radius+25)).coerceIn(0f,1f)
                 val amount=if(s.weapon==Weapon.ROCKET && fighters[s.owner].loadout.upgrade==Upgrade.TRIPLE) damage*.6f else damage
+                if(s.weapon==Weapon.EMP_GRENADE) f.shield=0f
+                val previousHp=f.hp
                 hurt(f,amount*factor,s.weapon.damageType,s.owner)
+                if(s.weapon==Weapon.VAMPIRE && fighters[s.owner].alive && f.team!=fighters[s.owner].team) {
+                    val owner=fighters[s.owner];owner.hp=min(owner.maxHp,owner.hp+(previousHp-f.hp)*.5f)
+                }
                 applyWeaponEffect(s.weapon,f)
-                val knock = (if(f.race == Race.CYBORG) .7f else 1f)*(if(large) .25f else 1f)
+                val knock = (if(f.race == Race.CYBORG) .7f else 1f)*(if(large) .25f else 1f)*(if(s.weapon==Weapon.SMOKE) 0f else 1f)
                 if(s.weapon==Weapon.VORTEX) {
                     val distance=max(10f,hypot(f.x-s.x,f.y-24-s.y))
                     f.vx+=(s.x-f.x)/distance*520*factor*knock
@@ -409,14 +430,17 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             }
         }
         damageDevices(s.x,s.y,radius,damage)
-        if(s.weapon in setOf(Weapon.MOLOTOV,Weapon.NAPALM,Weapon.FLAME,Weapon.GAS,Weapon.SKUNK,Weapon.CRYO,Weapon.ACID)) {
-            val effect=when(s.weapon) {Weapon.GAS,Weapon.SKUNK->Effect.POISON;Weapon.CRYO->Effect.FREEZE;Weapon.ACID->Effect.CORROSION;else->Effect.BURN}
-            hazards+=Hazard(s.x,s.y,radius+20,effect,if(effect==Effect.POISON) 4 else 3,s.owner)
+        if(s.weapon.fireEffect || s.weapon.iceEffect || s.weapon.poisonEffect || s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER,Weapon.SMOKE)) {
+            val effect=when {s.weapon.poisonEffect->Effect.POISON;s.weapon.iceEffect->Effect.FREEZE;s.weapon in setOf(Weapon.ACID,Weapon.ACID_CLUSTER)->Effect.CORROSION;s.weapon==Weapon.SMOKE->Effect.BLIND;else->Effect.BURN}
+            hazards+=Hazard(s.x,s.y,radius+20,effect,if(effect==Effect.POISON) 4 else if(effect==Effect.BLIND) 2 else 3,s.owner)
             if(s.weapon==Weapon.ACID) for(i in 0..8) terrain.carve(s.x+(i-4)*13,s.y+i*15,20f)
         }
-        val fragments=when(s.weapon) {Weapon.CLUSTER->5;Weapon.BANANA,Weapon.CLUSTER_ROCKET->6;Weapon.MORTAR->4;else->0}
+        if(s.weapon==Weapon.EMP_GRENADE) devices.filter {hypot(it.x-s.x,it.y-s.y)<radius}.forEach {if(it.kind in setOf(DeviceKind.TURRET,DeviceKind.DOME,DeviceKind.DEFENDER)) it.hp=0f}
+        val fragments=when(s.weapon) {Weapon.CLUSTER,Weapon.MIRV,Weapon.ACID_CLUSTER,Weapon.FIRE_CLUSTER,Weapon.ICE_CLUSTER->5;Weapon.BANANA,Weapon.CLUSTER_ROCKET->6;Weapon.MORTAR->4;Weapon.WATERMELON->8;Weapon.PINEAPPLE->10;Weapon.FIREWORKS->9;Weapon.FRAG_GRENADE->12;else->0}
         if(!s.fragment) repeat(fragments) { i ->
-            shots += Shot(s.x,s.y-8,(i-fragments/2)*100f,-190f-random()*130,Weapon.GRENADE,s.owner,1.3f,true)
+            val payload=when(s.weapon) {Weapon.ACID_CLUSTER->Weapon.ACID;Weapon.FIRE_CLUSTER->Weapon.MOLOTOV;Weapon.ICE_CLUSTER->Weapon.CRYO;else->Weapon.GRENADE}
+            val ar=i*2*PI.toFloat()/fragments
+            shots += Shot(s.x,s.y-8,if(s.weapon==Weapon.FIREWORKS) cos(ar)*250 else (i-(fragments-1)/2f)*70f,if(s.weapon==Weapon.FIREWORKS) sin(ar)*250 else -190f-random()*130,payload,s.owner,1.3f,true)
         }
     }
     fun update(dt: Float = STEP) {
@@ -476,6 +500,10 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             if (anchor != null) f.vx += move*170*dt
             else if (move != 0f) f.vx = direction*145*(if(f.effects[Effect.FREEZE.ordinal]>0) .7f else 1f)
             if(f.fuel>0 && reel<0) {f.vy-=(movementGravity+650)*dt;f.fuel=max(0f,f.fuel-25*dt);burst(f.x,f.y+20,1,0)}
+            if(f.jetboard && f.fuel>0) {
+                f.vx=move*230;f.vy+=(if(reel<0) -100f else if(reel>0) 650f else -movementGravity-f.vy*4)*dt
+                f.fuel=max(0f,f.fuel-12*dt);burst(f.x,f.y+20,1,2)
+            }
             if(f.drillFuel>0 && move!=0f) {
                 val r=angle*PI.toFloat()/180;val sx=cos(r)*move;val sy=sin(r)*move
                 terrain.carve(f.x+sx*36,f.y-24+sy*36,45f)
@@ -485,6 +513,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             }
         }
         f.vy += movementGravity*dt
+        if(f.jetboard && f.fuel>0) {f.vy=f.vy.coerceIn(-260f,260f);if(f.y<80) {f.y=80f;f.vy=max(0f,f.vy)}}
         if(f.parachute && f.vy>120) f.vy=120f
         val wasGrounded = f.grounded
         val steps = max(1,ceil(abs(f.vy*dt)/3).toInt())
@@ -502,7 +531,12 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             }
         }
         val dx = f.vx*dt
-        if (!bodyBlocked(f.x+dx,f.y)) f.x += dx
+        val walkingIntoUnit=controlled && move!=0f && anchor==null && fighters.any {
+            it.alive && it.id!=f.id && !(it.race==Race.PHANTOM && !it.grounded) &&
+            abs(it.x-(f.x+dx))<34 && abs(it.y-f.y)<80 && abs(it.x-(f.x+dx))<abs(it.x-f.x)
+        }
+        if(walkingIntoUnit) f.vx=0f
+        else if (!bodyBlocked(f.x+dx,f.y)) f.x += dx
         else if ((wasGrounded || f.grounded) && f.vy>=0 && !bodyBlocked(f.x+dx,f.y-7)) { f.x += dx; f.y -= 7 }
         else f.vx = 0f
         f.vx *= if (f.grounded) (if(arena==Arena.ARCTIC || hazards.any {it.effect==Effect.FREEZE && hypot(it.x-f.x,it.y-f.y)<it.radius}) .98f else .82f) else .995f
@@ -581,6 +615,12 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                 val shift=(if(horizontal) overlapX else overlapY)+.1f
                 val dx=if(horizontal) shift*direction else 0f
                 val dy=if(horizontal) 0f else shift*direction
+                if(horizontal && canControl && move!=0f && (a.id==active.id || b.id==active.id)) {
+                    val moving=if(a.id==active.id) a else b
+                    displace(moving,if(moving===a) dx else -dx,0f)
+                    moving.vx=0f
+                    continue
+                }
                 val movedA=displace(a,dx/2,dy/2)
                 val movedB=displace(b,if(movedA) -dx/2 else -dx,if(movedA) -dy/2 else -dy)
                 if(!movedB && movedA) displace(a,dx/2,dy/2)
@@ -604,9 +644,13 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             s.age += dt
             val w=s.weapon
             if(w!=Weapon.HOLY || (abs(s.vx)<12 && abs(s.vy)<12)) s.fuse-=dt
-            if(s.attachedTo in fighters.indices && w==Weapon.STICKY) {s.x=fighters[s.attachedTo].x;s.y=fighters[s.attachedTo].y-20}
-            if(s.stuck) {if(s.fuse<=0) {shots.remove(s);explode(s)};continue}
-            if(w==Weapon.HOMING) {
+            if(s.attachedTo in fighters.indices && w in setOf(Weapon.STICKY,Weapon.CHARGE)) {s.x=fighters[s.attachedTo].x;s.y=fighters[s.attachedTo].y-20}
+            if(s.stuck) {
+                if(w==Weapon.MAGNET_BOMB) shots.filter {it!==s && hypot(it.x-s.x,it.y-s.y)<280}.forEach {it.vx+=(s.x-it.x)*dt*4;it.vy+=(s.y-it.y)*dt*4}
+                if(s.fuse<=0) {shots.remove(s);explode(s)};continue
+            }
+            if(w==Weapon.MIRV && s.age>=.8f) {shots.remove(s);explode(s);continue}
+            if(w in setOf(Weapon.HOMING,Weapon.SEEKER_SWARM)) {
                 val d=hypot(s.targetX-s.x,s.targetY-s.y).coerceAtLeast(1f)
                 s.vx+=(s.targetX-s.x)/d*450*dt;s.vy+=(s.targetY-s.y)/d*450*dt
                 val speed=hypot(s.vx,s.vy).coerceAtLeast(1f);s.vx=s.vx/speed*620;s.vy=s.vy/speed*620
@@ -630,16 +674,18 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             for(i in 0 until steps) {
                 val nx = s.x+s.vx*dt/steps; val ny = s.y+s.vy*dt/steps
                 val victim=fighters.firstOrNull {(it.alive || it.reviveIn>0) && (it.id!=s.owner || s.age>.4f) && hitsFighter(it,nx,ny)}
+                if(w==Weapon.DRILL_ROCKET && s.age<.7f && terrain.at(nx,ny)) terrain.carve(nx,ny,20f)
                 val contact=terrain.at(nx,ny)
                 if(w==Weapon.BOAR && contact) {terrain.carve(nx,ny,25f);s.x=nx;s.y=ny;continue}
                 if(w==Weapon.DISC && victim!=null && s.attachedTo!=victim.id) {hurt(victim,25f,DamageType.BULLET,s.owner);s.attachedTo=victim.id}
                 if(w==Weapon.BOAR && victim!=null && s.attachedTo!=victim.id) {hurt(victim,25f,DamageType.MELEE,s.owner);victim.vx+=sign(s.vx)*250;victim.vy= -160f;s.attachedTo=victim.id}
                 if(contact || victim!=null && w!=Weapon.DISC && w!=Weapon.BOAR) {
                     if(w.kind in setOf(Kind.IMPACT,Kind.GUIDED,Kind.GLOBAL) || w==Weapon.SHEEP && s.flying) {s.x=nx;s.y=ny;detonate=true;break}
-                    if(w==Weapon.STICKY) {s.x=nx;s.y=ny;s.vx=0f;s.vy=0f;s.stuck=true;s.attachedTo=victim?.id ?: -1;break}
+                    if(w in setOf(Weapon.STICKY,Weapon.CHARGE)) {s.x=nx;s.y=ny;s.vx=0f;s.vy=0f;s.stuck=true;s.attachedTo=victim?.id ?: -1;break}
                     if(w.kind==Kind.WALKER) {s.vy= -145f;s.x=nx;s.y=ny-4;break}
                     s.bounces++
                     if(w==Weapon.DISC && s.bounces>=6) {detonate=true;break}
+                    if(w==Weapon.BOUNCER && s.bounces>=3) {detonate=true;break}
                     val bounce=if(w==Weapon.BANANA) .9f else if(w==Weapon.DISC) 1f else if(hardBounce) .7f else .45f
                     if (terrain.at(nx,s.y)) s.vx *= -bounce else s.vx *= if(w==Weapon.DISC) 1f else .78f
                     if (terrain.at(s.x,ny)) s.vy *= -bounce else s.vy *= -bounce
@@ -716,7 +762,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
     /** Explicit versioned binary format; never deserializes executable objects. Caller owns stream. */
     fun save(output:OutputStream) {
         val d=DataOutputStream(output.buffered(64*1024))
-        d.writeInt(0x52494654);d.writeInt(3);d.writeInt(Weapon.entries.size)
+        d.writeInt(0x52494654);d.writeInt(4);d.writeInt(Weapon.entries.size)
         d.writeInt(arena.ordinal);d.writeBoolean(againstBot);d.writeInt(seed)
         d.writeInt(mode.ordinal);d.writeInt(boss.ordinal)
         d.writeInt(squad.race.ordinal);d.writeInt(squad.hat.ordinal);d.writeInt(squad.artifact.ordinal);d.writeInt(squad.upgrade.ordinal)
@@ -732,7 +778,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             d.writeFloat(f.x);d.writeFloat(f.y);d.writeFloat(f.vx);d.writeFloat(f.vy);d.writeFloat(f.hp)
             d.writeBoolean(f.grounded);d.writeFloat(f.shield);d.writeBoolean(f.abilityUsed)
             Weapon.entries.forEach {d.writeInt(f.ammo.getValue(it))}
-            f.effects.forEach {d.writeInt(it)};d.writeFloat(f.fuel);d.writeFloat(f.drillFuel);d.writeBoolean(f.parachute);d.writeBoolean(f.aimAssist);d.writeBoolean(f.boots);d.writeFloat(f.damageBoost);d.writeBoolean(f.resurrected);d.writeInt(f.reviveIn);d.writeBoolean(f.lavaBounce)
+            f.effects.forEach {d.writeInt(it)};d.writeFloat(f.fuel);d.writeFloat(f.drillFuel);d.writeBoolean(f.parachute);d.writeBoolean(f.aimAssist);d.writeBoolean(f.boots);d.writeFloat(f.damageBoost);d.writeBoolean(f.resurrected);d.writeInt(f.reviveIn);d.writeBoolean(f.lavaBounce);d.writeBoolean(f.jetboard)
         }
         d.writeInt(shots.size)
         for(s in shots) {
@@ -760,7 +806,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
         fun load(input:InputStream):Game {
             val d=DataInputStream(input.buffered(64*1024))
             require(d.readInt()==0x52494654) {"Invalid save header"}
-            val version=d.readInt();require(version in 1..3) {"Unsupported save version"}
+            val version=d.readInt();require(version in 1..4) {"Unsupported save version"}
             val savedWeapons=if(version>=3) d.readInt().also {require(it in 57..Weapon.entries.size)} else if(version==2) 57 else 7
             fun number():Float = d.readFloat().also {require(it.isFinite() && abs(it)<100000)}
             fun index(size:Int)=d.readInt().also {require(it in 0 until size)}
@@ -785,7 +831,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                 f.x=number();f.y=number();f.vx=number();f.vy=number();f.hp=number().also {require(it in 0f..f.maxHp)}
                 f.grounded=d.readBoolean();f.shield=number().also {require(it in 0f..150f)};f.abilityUsed=d.readBoolean()
                 Weapon.entries.take(savedWeapons).forEach {w->f.ammo[w]=d.readInt().also {require(it in -1..50)}}
-                if(version>=2) {f.effects.indices.forEach {f.effects[it]=d.readInt().also {v->require(v in 0..10)}};f.fuel=number();f.drillFuel=number();f.parachute=d.readBoolean();f.aimAssist=d.readBoolean();f.boots=d.readBoolean();f.damageBoost=number();f.resurrected=d.readBoolean();f.reviveIn=d.readInt().also {require(it in 0..2)};f.lavaBounce=d.readBoolean()}
+                if(version>=2) {f.effects.indices.forEach {f.effects[it]=d.readInt().also {v->require(v in 0..10)}};f.fuel=number();f.drillFuel=number();f.parachute=d.readBoolean();f.aimAssist=d.readBoolean();f.boots=d.readBoolean();f.damageBoost=number();f.resurrected=d.readBoolean();f.reviveIn=d.readInt().also {require(it in 0..2)};f.lavaBounce=d.readBoolean();if(version>=4) f.jetboard=d.readBoolean()}
                 else {f.x*=2;f.y*=WATER_Y/704f}
             }
             val count=d.readInt().also {require(it in 0..200)}

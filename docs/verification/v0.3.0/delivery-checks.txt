@@ -1,0 +1,360 @@
+PASS: 100 items / 12 arenas / 16 tracks in shared catalog
+PASS: all 100 items documented
+PASS: SHA256 RIFT-Artillery-0.2.1.aab
+PASS: SHA256 RIFT-Artillery-0.2.1.apk
+PASS: SHA256 RIFT-Artillery-0.2.2.aab
+PASS: SHA256 RIFT-Artillery-0.2.2.apk
+PASS: SHA256 RIFT-Artillery-0.3.0.aab
+PASS: SHA256 RIFT-Artillery-0.3.0.apk
+PASS: SHA256 RIFT-Artillery-Windows-0.3.0.zip
+PASS: APK equals signed build
+PASS: 16 recordings in APK
+PASS: safe ZIP path Engine/runtime/bin/msvcp140.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/2.0/web.config
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-util-l1-1-0.dll
+PASS: safe ZIP path D3D12/D3D12Core.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/colorimaging.md
+PASS: safe ZIP path Engine/runtime/lib/classlist
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.InputModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-file-l1-2-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-math-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.IO.Compression.FileSystem.dll
+PASS: safe ZIP path Engine/runtime/release
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UmbraModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/ADDITIONAL_LICENSE_INFO
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.PerformanceReportingModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.xml/xalan.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.StreamingModule.dll
+PASS: safe ZIP path Engine/runtime/bin/keytool.exe
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-convert-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-filesystem-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.datatransfer/ASSEMBLY_EXCEPTION
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.ComponentModel.Composition.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.5/machine.config
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Transactions.dll
+PASS: safe ZIP path Engine/runtime/bin/prefs.dll
+PASS: safe ZIP path RIFT-Artillery_Data/resources.resource
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/ASSEMBLY_EXCEPTION
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.MultiplayerModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/mscorlib.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/jpeg.md
+PASS: safe ZIP path RIFT-Artillery_Data/resources.assets.resS
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.SubstanceModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/wepoll.md
+PASS: safe ZIP path Engine/runtime/legal/java.base/ASSEMBLY_EXCEPTION
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-localization-l1-2-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UIElementsModule.dll
+PASS: safe ZIP path Engine/runtime/bin/lcms.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AudioModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.InputLegacyModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-synch-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/LICENSE
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/harfbuzz.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ClothModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-namedpipe-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-console-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/net.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ImageConversionModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.PhysicsModule.dll
+PASS: safe ZIP path Engine/runtime/bin/vcruntime140.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/2.0/machine.config
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.DSPGraphModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/netstandard.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UIModule.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser
+PASS: safe ZIP path Engine/runtime/legal/java.datatransfer/ADDITIONAL_LICENSE_INFO
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-runtime-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/conf/security/policy/limited/exempt_local.policy
+PASS: safe ZIP path Engine/runtime/conf/security/policy/README.txt
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-conio-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.GIModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Core.dll
+PASS: safe ZIP path Engine/runtime/legal/java.xml/bcel.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-fibers-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-handle-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-sysinfo-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Runtime.Serialization.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.ServiceModel.Internals.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.CrashReportingModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.IO.Compression.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/icu.md
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-environment-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.VehiclesModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.EnterpriseServices.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-processthreads-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ClusterRendererModule.dll
+PASS: safe ZIP path Engine/runtime/bin/awt.dll
+PASS: safe ZIP path Engine/runtime/lib/security/cacerts
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.GameCenterModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.JSONSerializeModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.PropertiesModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityTestProtocolModule.dll
+PASS: safe ZIP path Engine/runtime/bin/jli.dll
+PASS: safe ZIP path Engine/runtime/conf/security/policy/limited/default_local.policy
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.GraphicsStateCollectionSerializerModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/lcms.md
+PASS: safe ZIP path RIFT-Artillery_Data/StreamingAssets/Engine/rift-sim.jar
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityAnalyticsModule.dll
+PASS: safe ZIP path Engine/runtime/bin/fontmanager.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Xml.Linq.dll
+PASS: safe ZIP path Engine/runtime/legal/java.xml/LICENSE
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AndroidJNIModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.SpriteShapeModule.dll
+PASS: safe ZIP path Engine/runtime/bin/javaw.exe
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-process-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ClusterInputModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/siphash.md
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-rtlsupport-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/conf/security/java.policy
+PASS: safe ZIP path Engine/runtime/bin/server/jvm.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TLSModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/globalgamemanagers
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-file-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/unicode.md
+PASS: safe ZIP path Engine/runtime/legal/java.base/c-libutl.md
+PASS: safe ZIP path Engine/runtime/lib/security/blocked.certs
+PASS: safe ZIP path Engine/runtime/bin/java.exe
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/browscap.ini
+PASS: safe ZIP path Engine/runtime/conf/security/policy/limited/default_US_export.policy
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/Mono.Security.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityCurlModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/libpng.md
+PASS: safe ZIP path Engine/runtime/bin/jimage.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Net.Http.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.IdentifiersModule.dll
+PASS: safe ZIP path Engine/runtime/conf/net.properties
+PASS: safe ZIP path Engine/runtime/bin/freetype.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/config
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Security.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ARModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ShaderVariantAnalyticsModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/globalgamemanagers.assets.resS
+PASS: safe ZIP path UnityPlayer.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.5/settings.map
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TerrainModule.dll
+PASS: safe ZIP path Engine/runtime/conf/security/java.security
+PASS: safe ZIP path RIFT-Artillery_Data/boot.config
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Numerics.dll
+PASS: safe ZIP path Engine/runtime/lib/fontconfig.properties.src
+PASS: safe ZIP path Engine/runtime/lib/modules
+PASS: safe ZIP path Engine/runtime/bin/vcruntime140_1.dll
+PASS: safe ZIP path build-result.txt
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.VFXModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.HierarchyCoreModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-processenvironment-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.xml/xerces.md
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-stdio-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/conf/sound.properties
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AccessibilityModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/cldr.md
+PASS: safe ZIP path Engine/runtime/legal/java.datatransfer/LICENSE
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AnimationModule.dll
+PASS: safe ZIP path Engine/runtime/lib/fontconfig.bfc
+PASS: safe ZIP path Engine/runtime/lib/psfontj2d.properties
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser
+PASS: safe ZIP path Engine/runtime/legal/java.xml/jcup.md
+PASS: safe ZIP path RIFT-Artillery_Data/app.info
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-console-l1-2-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-profile-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-synch-l1-2-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll
+PASS: safe ZIP path Engine/runtime/conf/security/policy/unlimited/default_local.policy
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-multibyte-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/mesa3d.md
+PASS: safe ZIP path Engine/runtime/bin/splashscreen.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/2.0/settings.map
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityConnectModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.CoreModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/sharedassets0.assets.resS
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/mconfig/config.xml
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ParticleSystemModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-memory-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TilemapModule.dll
+PASS: safe ZIP path UnityCrashHandler64.exe
+PASS: safe ZIP path Engine/runtime/bin/jsound.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-time-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/javajpeg.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/giflib.md
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-utility-l1-1-0.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.0/web.config
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.MarshallingModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.SharedInternalsModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.VideoModule.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.0/machine.config
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser
+PASS: safe ZIP path Engine/runtime/bin/nio.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-string-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.VirtualTexturingModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.xml/ADDITIONAL_LICENSE_INFO
+PASS: safe ZIP path Engine/runtime/lib/psfont.properties.ja
+PASS: safe ZIP path RIFT-Artillery.exe
+PASS: safe ZIP path RIFT-Artillery_Data/RuntimeInitializeOnLoads.json
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-libraryloader-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/LICENSE
+PASS: safe ZIP path Engine/runtime/legal/java.base/aes.md
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-datetime-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-heap-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-string-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-private-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.base/public_suffix.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.NVIDIAModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestModule.dll
+PASS: safe ZIP path Engine/runtime/lib/jvm.cfg
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.LocalizationModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/level0
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.DirectorModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Xml.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-debug-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.UnityConsentModule.dll
+PASS: safe ZIP path Engine/runtime/lib/jawt.lib
+PASS: safe ZIP path RIFT-Artillery_Data/ScriptingAssemblies.json
+PASS: safe ZIP path RIFT-Artillery_Data/Resources/unity_builtin_extra
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Data.dll
+PASS: safe ZIP path Engine/runtime/bin/jawt.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AIModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TextRenderingModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-errorhandling-l1-1-0.dll
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.5/web.config
+PASS: safe ZIP path manifest-sha256.txt
+PASS: safe ZIP path Engine/runtime/legal/java.base/asm.md
+PASS: safe ZIP path Engine/runtime/legal/java.base/zlib.md
+PASS: safe ZIP path Engine/runtime/legal/java.xml/dom.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Configuration.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-processthreads-l1-1-1.dll
+PASS: safe ZIP path Engine/runtime/lib/security/public_suffix_list.dat
+PASS: safe ZIP path RIFT-Artillery_Data/globalgamemanagers.assets
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.IMGUIModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.InsightsModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.SubsystemsModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Drawing.dll
+PASS: safe ZIP path READ-ME.txt
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.Physics2DModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.VRModule.dll
+PASS: safe ZIP path Engine/runtime/lib/jvm.lib
+PASS: safe ZIP path Engine/runtime/bin/ucrtbase.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.WindModule.dll
+PASS: safe ZIP path Engine/runtime/conf/security/policy/unlimited/default_US_export.policy
+PASS: safe ZIP path MonoBleedingEdge/etc/mono/4.0/settings.map
+PASS: safe ZIP path Engine/runtime/legal/java.prefs/ASSEMBLY_EXCEPTION
+PASS: safe ZIP path Engine/runtime/bin/verify.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-interlocked-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/lib/security/default.policy
+PASS: safe ZIP path RIFT-Artillery_Data/Resources/unity default resources
+PASS: safe ZIP path Engine/runtime/legal/java.xml/ASSEMBLY_EXCEPTION
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-heap-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/lib/jrt-fs.jar
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.HotReloadModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.TerrainPhysicsModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-file-l2-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ScreenCaptureModule.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-core-timezone-l1-1-0.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.XRModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/resources.assets
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.SpriteMaskModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.ContentLoadModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AMDModule.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/ADDITIONAL_LICENSE_INFO
+PASS: safe ZIP path MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll
+PASS: safe ZIP path Engine/runtime/bin/api-ms-win-crt-locale-l1-1-0.dll
+PASS: safe ZIP path Engine/runtime/legal/java.prefs/ADDITIONAL_LICENSE_INFO
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.InputForUIModule.dll
+PASS: safe ZIP path MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll
+PASS: safe ZIP path Engine/runtime/legal/java.desktop/freetype.md
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/System.Data.DataSetExtensions.dll
+PASS: safe ZIP path RIFT-Artillery_Data/sharedassets0.assets
+PASS: safe ZIP path Engine/runtime/lib/tzdb.dat
+PASS: safe ZIP path Engine/runtime/bin/zip.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.AssetBundleModule.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/Assembly-CSharp.dll
+PASS: safe ZIP path Engine/runtime/legal/java.prefs/LICENSE
+PASS: safe ZIP path Engine/runtime/bin/mlib_image.dll
+PASS: safe ZIP path RIFT-Artillery_Data/Managed/UnityEngine.GridModule.dll
+PASS: safe ZIP path Engine/runtime/lib/tzmappings
+PASS: safe ZIP path Engine/runtime/bin/java.dll
+PASS: portable Windows executable and runtime
+PASS: every packaged Windows file matches manifest
+PASS: ZIP executable equals tested executable
+PASS: ZIP assembly equals tested Unity assembly
+PASS: ZIP engine equals tested shared engine
+PASS: Unity source project contains tested engine
+PASS: 16 Ogg decode and pass metrics
+PASS: shared audio neon
+PASS: shared audio volcano
+PASS: shared audio orbit
+PASS: shared audio chemical
+PASS: shared audio arctic
+PASS: shared audio scrap
+PASS: shared audio canyon
+PASS: shared audio harbor
+PASS: shared audio jungle
+PASS: shared audio ruins
+PASS: shared audio storm
+PASS: shared audio crystal
+PASS: shared audio rush
+PASS: shared audio nocturne
+PASS: shared audio retro
+PASS: shared audio boss
+PASS: TEST-com.riftartillery.core.ContentTest.xml
+PASS: TEST-com.riftartillery.core.ExpansionTest.xml
+PASS: TEST-com.riftartillery.core.GameTest.xml
+PASS: TEST-com.riftartillery.core.MovementTest.xml
+PASS: TEST-com.riftartillery.core.Regression030Test.xml
+PASS: TEST-com.riftartillery.desktop.BridgeTest.xml
+PASS: 90 core and 6 bridge tests
+PASS: 165 Android checks phone
+PASS: 165 Android checks wide
+PASS: 165 Android checks tablet
+PASS: 162 actual Windows player checks
+PASS: Lint debug
+PASS: Lint release
+PASS: APK signature verified
+PASS: AAB signature verified
+PASS: 17 final screenshots
+PASS: rendered nonblank screenshot v030-android-01-menu.png
+PASS: screenshot after platform tests v030-android-01-menu.png
+PASS: rendered nonblank screenshot v030-android-02-jungle.png
+PASS: screenshot after platform tests v030-android-02-jungle.png
+PASS: rendered nonblank screenshot v030-android-03-ruins.png
+PASS: screenshot after platform tests v030-android-03-ruins.png
+PASS: rendered nonblank screenshot v030-android-04-storm.png
+PASS: screenshot after platform tests v030-android-04-storm.png
+PASS: rendered nonblank screenshot v030-android-05-crystal.png
+PASS: screenshot after platform tests v030-android-05-crystal.png
+PASS: rendered nonblank screenshot v030-android-06-aim.png
+PASS: screenshot after platform tests v030-android-06-aim.png
+PASS: rendered nonblank screenshot v030-android-07-new-arsenal.png
+PASS: screenshot after platform tests v030-android-07-new-arsenal.png
+PASS: rendered nonblank screenshot v030-android-08-watermelon.png
+PASS: screenshot after platform tests v030-android-08-watermelon.png
+PASS: rendered nonblank screenshot v030-android-09-fire.png
+PASS: screenshot after platform tests v030-android-09-fire.png
+PASS: rendered nonblank screenshot v030-android-10-music.png
+PASS: screenshot after platform tests v030-android-10-music.png
+PASS: rendered nonblank screenshot v030-android-11-jetboard.png
+PASS: screenshot after platform tests v030-android-11-jetboard.png
+PASS: rendered nonblank screenshot v030-android-12-tablet.png
+PASS: screenshot after platform tests v030-android-12-tablet.png
+PASS: rendered nonblank screenshot v030-pc-01-menu.png
+PASS: screenshot after platform tests v030-pc-01-menu.png
+PASS: rendered nonblank screenshot v030-pc-02-battle.png
+PASS: screenshot after platform tests v030-pc-02-battle.png
+PASS: rendered nonblank screenshot v030-pc-03-aim.png
+PASS: screenshot after platform tests v030-pc-03-aim.png
+PASS: rendered nonblank screenshot v030-pc-04-watermelon.png
+PASS: screenshot after platform tests v030-pc-04-watermelon.png
+PASS: rendered nonblank screenshot v030-pc-05-music.png
+PASS: screenshot after platform tests v030-pc-05-music.png
+PASS: all local Markdown links resolve
+PASS: no crash-buffer entries during signed Android review

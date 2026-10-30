@@ -1,0 +1,3 @@
+PASS: Unity Windows64 0.3.0
+Bytes: 97270163
+Unity Editor: 6000.0.77f1. Windows64 Mono. Full Editor log retained locally; no licensing details included in this report.

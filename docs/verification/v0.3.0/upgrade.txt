@@ -1,0 +1,3 @@
+PASS: Signed Android 0.2.2 -> 0.3.0 upgrade on API35.
+Old version creates a party via native taps. The update keeps Continue available.
+The old v3 party opens and can be paused and saved in v4. No uninstall between releases.

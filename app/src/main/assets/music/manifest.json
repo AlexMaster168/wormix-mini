@@ -62,5 +62,69 @@
     "style": "harbor bells",
     "seconds": 36.923,
     "file": "harbor.ogg"
+  },
+  {
+    "arena": "jungle",
+    "title": "Зелёный горизонт",
+    "bpm": 110,
+    "style": "jungle percussion",
+    "seconds": 34.909,
+    "file": "jungle.ogg"
+  },
+  {
+    "arena": "ruins",
+    "title": "Эхо руин",
+    "bpm": 90,
+    "style": "ancient bells",
+    "seconds": 42.667,
+    "file": "ruins.ogg"
+  },
+  {
+    "arena": "storm",
+    "title": "Грозовой фронт",
+    "bpm": 118,
+    "style": "driving synth",
+    "seconds": 32.542,
+    "file": "storm.ogg"
+  },
+  {
+    "arena": "crystal",
+    "title": "Кристальный свет",
+    "bpm": 84,
+    "style": "crystal ambient",
+    "seconds": 45.714,
+    "file": "crystal.ogg"
+  },
+  {
+    "arena": "rush",
+    "title": "Рывок",
+    "bpm": 128,
+    "style": "action groove",
+    "seconds": 30.0,
+    "file": "rush.ogg"
+  },
+  {
+    "arena": "nocturne",
+    "title": "Ночной патруль",
+    "bpm": 92,
+    "style": "night synth",
+    "seconds": 41.739,
+    "file": "nocturne.ogg"
+  },
+  {
+    "arena": "retro",
+    "title": "Аркадный разлом",
+    "bpm": 124,
+    "style": "arcade plucks",
+    "seconds": 30.968,
+    "file": "retro.ogg"
+  },
+  {
+    "arena": "boss",
+    "title": "Последний рубеж",
+    "bpm": 106,
+    "style": "heavy drums",
+    "seconds": 36.226,
+    "file": "boss.ogg"
   }
 ]

@@ -8,11 +8,23 @@ enum class Arena(val title:String,val subtitle:String,val gravity:Float) {
     ARCTIC("База «Полюс»", "Ледяные гроты и скользкие склоны",290f),
     SCRAP("Кладбище мехов", "Остовы машин и магнитный кран",290f),
     CANYON("Песчаный каньон", "Красные скалы и каменные уступы",300f),
-    HARBOR("Затопленный порт", "Причалы, контейнеры и мостки",290f)
+    HARBOR("Затопленный порт", "Причалы, контейнеры и мостки",290f),
+    JUNGLE("Тропические джунгли", "Кроны деревьев и заросшие тоннели",290f),
+    RUINS("Забытые руины", "Каменные террасы и древние своды",300f),
+    STORM("Грозовая платформа", "Грозовой фронт и подвесные палубы",260f),
+    CRYSTAL("Кристальные пещеры", "Светящиеся гроты и лёгкая гравитация",230f)
 }
 enum class Race(val title:String,val hp:Int,val resist:Float) {
     DRAGON("Драконид",100,.10f), CYBORG("Киборг",110,.15f), MUTANT("Мутант",95,0f),
     DEMON("Демон",100,0f), MERCENARY("Наёмник",100,.05f), UNDEAD("Нежить",100,0f), PHANTOM("Фантом",90,0f)
+}
+
+enum class MusicTrack(val asset:String,val title:String) {
+    NEON("neon","Неоновые крыши"),VOLCANO("volcano","Сердце обсидиана"),ORBIT("orbit","Тихая орбита"),
+    CHEMICAL("chemical","Кислотный контур"),ARCTIC("arctic","Северное сияние"),SCRAP("scrap","Пульс машин"),
+    CANYON("canyon","Красные горизонты"),HARBOR("harbor","Огни причала"),JUNGLE("jungle","Зелёный горизонт"),
+    RUINS("ruins","Эхо руин"),STORM("storm","Грозовой фронт"),CRYSTAL("crystal","Кристальный свет"),
+    RUSH("rush","Рывок"),NOCTURNE("nocturne","Ночной патруль"),RETRO("retro","Аркадный разлом"),BOSS("boss","Последний рубеж")
 }
 enum class Category(val title:String) { BALLISTIC("Ракеты"), GRENADE("Гранаты"), ELEMENTAL("Стихии"), GUN("Огнестрел"), ENGINEER("Инженерия"), CREATURE("Существа"), MELEE("Ближний бой"), GLOBAL("Авиация"), GADGET("Гаджеты") }
 enum class Kind { IMPACT, BOUNCE, BEAM, DEPLOY, MELEE, GLOBAL, UTILITY, GUIDED, WALKER }
@@ -37,7 +49,7 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     GRAVITY("Грави-граната",40f,90f,2,610f,3f,Category.GRENADE,Kind.BOUNCE,"Две секунды стягивает, затем взрыв"),
     FLASH("Светошумовая",15f,120f,2,650f,2f,Category.GRENADE,Kind.BOUNCE,"Скрывает прицел и меняет управление"),
     FLAME("Огнемёт «Инферно»",65f,50f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Конус пламени и горящая земля"),
-    MOLOTOV("Молотов",20f,85f,3,640f,0f,Category.ELEMENTAL,Kind.IMPACT,"Разливает огонь на три хода"),
+    MOLOTOV("Коктейль Молотова",20f,85f,3,640f,0f,Category.ELEMENTAL,Kind.IMPACT,"Разливает огонь на три хода"),
     GAS("Газовая граната",0f,120f,3,630f,3f,Category.ELEMENTAL,Kind.BOUNCE,"Облако держится четыре хода"),
     ACID("Кислотная бомба",45f,75f,3,630f,0f,Category.ELEMENTAL,Kind.IMPACT,"Проедает землю, разъедает броню"),
     ION("Орбитальный луч",70f,25f,1,0f,0f,Category.ELEMENTAL,Kind.GLOBAL,"Вертикальный разрез острова"),
@@ -79,9 +91,58 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     AIM_SIGHT("Усиленный прицел",0f,0f,3,0f,0f,Category.GADGET,Kind.UTILITY,"Удлинённый прогноз траектории"),
     PLASMA_RIFLE("Плазменная винтовка",42f,48f,4,1050f,0f,Category.GUN,Kind.IMPACT,"Быстрый заряд; электрический взрыв"),
     CLUSTER_ROCKET("Кассетная ракета",24f,62f,2,760f,0f,Category.BALLISTIC,Kind.IMPACT,"При ударе выпускает шесть суббоеприпасов"),
-    VORTEX("Граната «Сингулярность»",38f,180f,2,610f,2.5f,Category.GRENADE,Kind.BOUNCE,"Взрыв стягивает бойцов к центру");
-    val targeted get()=this in setOf(TELEPORT,HOMING,BUNKER,ION,AIRSTRIKE,NAPALM,GIRDER,TELEKINESIS)
-    val damageType get()=when(this) {FLAME,MOLOTOV,NAPALM->DamageType.FIRE;GAS,SKUNK->DamageType.POISON;TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX->DamageType.ELECTRIC;ACID->DamageType.ACID;else->if(kind==Kind.BEAM) DamageType.BULLET else if(kind==Kind.MELEE) DamageType.MELEE else DamageType.EXPLOSION}
+    VORTEX("Граната «Сингулярность»",38f,180f,2,610f,2.5f,Category.GRENADE,Kind.BOUNCE,"Взрыв стягивает бойцов к центру"),
+    HE_ROCKET("Фугасная ракета",80f,120f,2,700f,0f,Category.BALLISTIC,Kind.IMPACT,"Большой кратер и мощная ударная волна"),
+    THERMO_ROCKET("Термобарическая ракета",60f,145f,2,690f,0f,Category.BALLISTIC,Kind.IMPACT,"Объёмный взрыв и горящая область"),
+    BOUNCER("Рикошетная ракета",48f,70f,3,820f,5f,Category.BALLISTIC,Kind.BOUNCE,"Три отскока или таймер пять секунд"),
+    WATERMELON("Арбузобомба",55f,110f,2,570f,3f,Category.CREATURE,Kind.BOUNCE,"Восемь взрывающихся арбузных долек"),
+    PINEAPPLE("Ананасовая граната",35f,75f,2,620f,3f,Category.GRENADE,Kind.BOUNCE,"Десять лёгких осколков"),
+    PUMPKIN("Тыквенная бомба",45f,100f,2,600f,0f,Category.CREATURE,Kind.IMPACT,"Взрыв и огненное кольцо"),
+    SMOKE("Дымовая граната",0f,150f,3,620f,2f,Category.GRENADE,Kind.BOUNCE,"Дым мешает прицелу два хода"),
+    INCENDIARY("Зажигательная граната",28f,95f,3,630f,2.5f,Category.GRENADE,Kind.BOUNCE,"Горящая область на три хода"),
+    VAMPIRE("Вампирская граната",45f,85f,2,620f,2.5f,Category.GRENADE,Kind.BOUNCE,"Лечит владельца частью урона врагам"),
+    EMP_GRENADE("ЭМИ-граната",25f,130f,2,640f,2f,Category.GRENADE,Kind.BOUNCE,"Снимает щиты и глушит технику"),
+    FREEZE_GRENADE("Ледяная граната",25f,110f,3,630f,2.5f,Category.GRENADE,Kind.BOUNCE,"Замораживает без разрушения опор"),
+    SPIKE_GRENADE("Игольчатая граната",35f,85f,3,640f,2.5f,Category.GRENADE,Kind.BOUNCE,"Взрыв вызывает кровотечение"),
+    RAILGUN("Рельсотрон",72f,0f,2,0f,0f,Category.GUN,Kind.BEAM,"Пробивает породу и до трёх бойцов"),
+    DUAL_PISTOLS("Парные пистолеты",48f,0f,5,0f,0f,Category.GUN,Kind.BEAM,"Восемь пуль короткой очередью"),
+    CROSSBOW("Арбалет",42f,0f,4,0f,0f,Category.GUN,Kind.BEAM,"Точный болт вызывает кровотечение"),
+    POISON_DART("Ядовитый дротик",22f,0f,4,0f,0f,Category.GUN,Kind.BEAM,"Точное попадание и отравление"),
+    HEAVY_FLAMER("Тяжёлый огнемёт",80f,70f,2,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Широкий огненный конус до 310"),
+    FROST_THROWER("Криомёт",35f,70f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Замораживающая струя до 270"),
+    JETBOARD("Реактивная доска",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"160 топлива; свободный полёт и посадка"),
+    MAGNET_BOMB("Магнитная бомба",30f,95f,2,610f,2.5f,Category.GRENADE,Kind.BOUNCE,"Две секунды притягивает летящие снаряды"),
+    TRIPLE_ROCKET("Трёхствольная базука",30f,58f,2,750f,0f,Category.BALLISTIC,Kind.IMPACT,"Три ракеты веером за один выстрел"),
+    SEEKER_SWARM("Рой самонаводящихся",22f,45f,2,580f,0f,Category.BALLISTIC,Kind.GUIDED,"Три ракеты доворачивают к выбранной цели"),
+    DRILL_ROCKET("Буровая ракета",50f,75f,2,620f,0f,Category.BALLISTIC,Kind.IMPACT,"Первые 0,7 секунды сверлит породу"),
+    MIRV("Разделяющаяся ракета",25f,60f,2,720f,0f,Category.BALLISTIC,Kind.IMPACT,"Через 0,8 секунды выпускает пять зарядов"),
+    SHOCK_ROCKET("Электроракета",38f,90f,3,790f,0f,Category.BALLISTIC,Kind.IMPACT,"Взрыв оглушает на следующий ход"),
+    FIREWORKS("Фейерверк",30f,80f,2,600f,2f,Category.GRENADE,Kind.BOUNCE,"Девять зарядов разлетаются по кругу"),
+    FRAG_GRENADE("Осколочная граната",30f,70f,3,640f,2.5f,Category.GRENADE,Kind.BOUNCE,"Двенадцать самостоятельных осколков"),
+    BOUNCING_MINE("Прыгающая мина",45f,75f,2,600f,2f,Category.ENGINEER,Kind.BOUNCE,"После таймера устанавливает мину"),
+    CHARGE("Подрывной заряд",85f,110f,2,480f,2f,Category.ENGINEER,Kind.BOUNCE,"Прилипает к стене или бойцу"),
+    ACID_CLUSTER("Кислотная кассета",20f,65f,2,610f,2.5f,Category.ELEMENTAL,Kind.BOUNCE,"Пять кислотных зарядов"),
+    FIRE_CLUSTER("Огненная кассета",20f,65f,2,610f,2.5f,Category.ELEMENTAL,Kind.BOUNCE,"Пять зажигательных зарядов"),
+    ICE_CLUSTER("Ледяная кассета",20f,65f,2,610f,2.5f,Category.ELEMENTAL,Kind.BOUNCE,"Пять замораживающих зарядов"),
+    NAILGUN("Гвоздомёт",60f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Двадцать гвоздей и кровотечение"),
+    GAUSS("Пушка Гаусса",65f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Пробивает до 180 единиц породы"),
+    SONIC("Звуковая пушка",28f,240f,3,0f,0f,Category.GUN,Kind.BEAM,"Широкая волна отбрасывает всех впереди"),
+    FLARE_GUN("Сигнальный пистолет",18f,50f,4,900f,0f,Category.GUN,Kind.IMPACT,"Быстрая горящая сигнальная ракета"),
+    MUSHROOM("Грибная бомба",20f,135f,2,590f,0f,Category.CREATURE,Kind.IMPACT,"Разрывается большим ядовитым облаком"),
+    CARPET_BOMB("Ковровая бомбардировка",24f,65f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Двенадцать бомб по широкому сектору"),
+    FUEL_AIR("Объёмный авиаудар",45f,120f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Шесть термобарических зарядов"),
+    CHAIN_LIGHTNING("Цепная молния",55f,0f,2,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Разряд перескакивает ещё на трёх врагов");
+    val targeted get()=this in setOf(TELEPORT,HOMING,SEEKER_SWARM,BUNKER,ION,AIRSTRIKE,NAPALM,CARPET_BOMB,FUEL_AIR,GIRDER,TELEKINESIS)
+    val fireEffect get()=this in setOf(FLAME,MOLOTOV,NAPALM,THERMO_ROCKET,PUMPKIN,INCENDIARY,HEAVY_FLAMER,FIRE_CLUSTER,FLARE_GUN,FUEL_AIR)
+    val iceEffect get()=this in setOf(CRYO,FREEZE_GRENADE,FROST_THROWER,ICE_CLUSTER)
+    val poisonEffect get()=this in setOf(GAS,SKUNK,POISON_DART,MUSHROOM)
+    val bleedEffect get()=this in setOf(SHURIKEN,SPIKE_GRENADE,CROSSBOW,NAILGUN)
+    val damageType get()=when {
+        fireEffect->DamageType.FIRE;poisonEffect->DamageType.POISON
+        this in setOf(TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX,EMP_GRENADE,SHOCK_ROCKET,CHAIN_LIGHTNING,RAILGUN,GAUSS,SONIC)->DamageType.ELECTRIC
+        this in setOf(ACID,ACID_CLUSTER)->DamageType.ACID
+        kind==Kind.BEAM->DamageType.BULLET;kind==Kind.MELEE->DamageType.MELEE;else->DamageType.EXPLOSION
+    }
 }
 enum class GameMode(val title:String) { DUEL("Дуэль"), BOSS("Охота на босса"), ROPE_RACE("Испытание каната") }
 enum class Boss(val title:String,val hp:Int,val arena:Arena,val race:Race,val briefing:String) {

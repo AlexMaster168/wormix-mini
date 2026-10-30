@@ -6,4 +6,4 @@ pluginManagement {
 }
 dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
 rootProject.name = "RiftArtillery"
-include(":core", ":app")
+include(":core", ":app", ":desktop-core")

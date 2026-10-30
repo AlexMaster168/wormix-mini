@@ -1,4 +1,4 @@
-"""Render eight original, deterministic, seamless instrumental arena loops.
+"""Render sixteen original, deterministic, seamless instrumental loops.
 
 Requires numpy and FFmpeg; no samples, downloaded music or runtime synthesis.
 """
@@ -19,6 +19,14 @@ THEMES = [
     ("scrap", "Пульс машин", 108, 30, "minor", "industrial"),
     ("canyon", "Красные горизонты", 100, 43, "minor", "desert plucks"),
     ("harbor", "Огни причала", 104, 41, "major", "harbor bells"),
+    ("jungle", "Зелёный горизонт", 110, 46, "minor", "jungle percussion"),
+    ("ruins", "Эхо руин", 90, 39, "minor", "ancient bells"),
+    ("storm", "Грозовой фронт", 118, 35, "minor", "driving synth"),
+    ("crystal", "Кристальный свет", 84, 53, "major", "crystal ambient"),
+    ("rush", "Рывок", 128, 42, "minor", "action groove"),
+    ("nocturne", "Ночной патруль", 92, 44, "minor", "night synth"),
+    ("retro", "Аркадный разлом", 124, 48, "major", "arcade plucks"),
+    ("boss", "Последний рубеж", 106, 34, "minor", "heavy drums"),
 ]
 
 
@@ -85,7 +93,7 @@ def compose(index, name, bpm, root, mode):
             put(voice(note(degree)+(0 if root < 40 else -12), .65 if name != "orbit" else 1.5, "bass"), start+pos, .21)
         positions = [0, 1.5, 2.5] if name == "arctic" else ([.5, 2, 3.5] if name == "orbit" else list(np.arange(0, 4, .5)))
         for k, pos in enumerate(positions):
-            d = motifs[index][(k+bar//4*2) % 8]
+            d = motifs[index % len(motifs)][(k+bar//4*2) % 8]
             put(voice(note(degree+d)+24, 1.6 if name in ("arctic", "orbit", "harbor") else .7, "bell" if name in ("arctic", "orbit", "harbor") else "pluck"), start+pos, .09 if name != "chemical" else .065, np.sin(k+bar)*.45)
         kick_times = [0, 2] if name == "volcano" else [0, 1, 2, 3]
         if name in ("arctic", "orbit"):
@@ -97,7 +105,7 @@ def compose(index, name, bpm, root, mode):
                 put(drum("snare"), start+pos, .25, .08)
             for k in range(8):
                 put(drum("hat"), start+k*.5, .16 if k % 2 else .10, -.35 if k % 2 else .35)
-        if name in ("volcano", "scrap"):
+        if name in ("volcano", "scrap", "jungle", "boss"):
             for pos in (0, 1.75, 2.5):
                 put(voice(55+bar % 3, .45, "metal"), start+pos, .07, -.3)
     # A short circular stereo echo leaves the loop continuous, rather than fading out.
@@ -116,6 +124,9 @@ def main():
     temporary.mkdir(parents=True, exist_ok=True)
     manifest = []
     for i, (name, title, bpm, root, mode, style) in enumerate(THEMES):
+        if "--only-new" in __import__("sys").argv and (output / f"{name}.ogg").exists():
+            manifest.append(dict(arena=name, title=title, bpm=bpm, style=style, seconds=round(64*60/bpm, 3), file=f"{name}.ogg"))
+            continue
         samples = compose(i, name, bpm, root, mode)
         wav = temporary / f"{name}.wav"
         with wave.open(str(wav), "wb") as w:

@@ -9,8 +9,20 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
     if(w.targeted && (tx==null || ty==null)) {say("${w.title}: отметь цель на карте.");return FireResult.FAILED}
     if(tx!=null && ty!=null) target=tx to ty
     when(w) {
+        Weapon.HEAL -> {
+            if(f.hp>=f.maxHp && f.effects.all {it==0}) {say("Здоровье уже полное.");return FireResult.FAILED}
+            val gain=min(50f,f.maxHp-f.hp);f.hp+=gain;f.effects.fill(0)
+            texts+=DamageText(f.x,f.y-30,"+${gain.toInt()}");say("Лечение применено. Можно двигаться и атаковать.")
+            return FireResult.FREE
+        }
+        Weapon.TELEPORT -> {
+            if(!validPosition(tx!!,ty!!)) {say("Телепорт: выбери свободную точку над землёй.");return FireResult.FAILED}
+            clearRope();f.x=tx;f.y=ty;f.vx=0f;f.vy=0f;f.grounded=false
+            burst(f.x,f.y,24,2);say("Телепортация завершена. Ход продолжается.");return FireResult.FREE
+        }
         Weapon.ROPE -> {return if(rope()) FireResult.FREE else FireResult.FAILED}
-        Weapon.JETPACK -> {f.fuel=100f;say("Ранец включён: удерживай ↑ для тяги.");return FireResult.FREE}
+        Weapon.JETPACK -> {f.jetboard=false;f.fuel=100f;say("Ранец включён: удерживай ↑ для тяги.");return FireResult.FREE}
+        Weapon.JETBOARD -> {f.jetboard=true;f.fuel=160f;f.parachute=true;say("Доска включена: ↑ подъём, ↓ снижение, ← → полёт.");return FireResult.FREE}
         Weapon.BOOTS -> {f.boots=true;say("Прыжок усилен до конца хода.");return FireResult.FREE}
         Weapon.DIGGER -> {f.drillFuel=100f;say("Бур включён. Направь прицел и удерживай движение для проходки.");return FireResult.FREE}
         Weapon.DEFENDER -> {val gained=min(40f,120-f.shield);if(gained<=0) {say("Защита уже максимальна.");return FireResult.FAILED};f.shield+=gained;devices+=Device(DeviceKind.DEFENDER,f.x,f.y-95,f.id,gained,0f,2);say("Защитник активен: +${gained.toInt()} защиты на два хода.");return FireResult.FREE}
@@ -57,7 +69,7 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
                 explode(Shot(x,surface+150,0f,0f,w,f.id,0f))
             }
             else-> {
-                val count=if(w==Weapon.METEOR) 8 else 6
+                val count=if(w==Weapon.METEOR) 8 else if(w==Weapon.CARPET_BOMB) 12 else 6
                 repeat(count) {i->
                     val px=if(w==Weapon.METEOR) 150+roll()*(WORLD_W-300) else (x+(i-2.5f)*90).coerceIn(40f,WORLD_W-40f)
                     shots+=Shot(px,50f-i*75,if(w==Weapon.METEOR) (roll()-.5f)*150 else 0f,240f,w,f.id,0f)
@@ -82,15 +94,19 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
         return FireResult.USED
     }
     if(w.kind==Kind.BEAM) {
-        if(w==Weapon.REPULSOR) {
-            fighters.filter {it.alive && it.id!=f.id && hypot(it.x-f.x,it.y-f.y)<220 && (it.x-f.x)*dx>0}.forEach {hurt(it,20f,DamageType.ELECTRIC,f.id);it.vx+=dx*650;it.vy= -230f}
-            beams+=Beam(f.x,f.y-20,f.x+dx*220,f.y-20+dy*220);return FireResult.USED
+        if(w in setOf(Weapon.REPULSOR,Weapon.SONIC)) {
+            val range=if(w==Weapon.SONIC) 320f else 220f
+            fighters.filter {it.alive && it.id!=f.id && hypot(it.x-f.x,it.y-f.y)<range && (it.x-f.x)*dx+(it.y-f.y)*dy>0}.forEach {hurt(it,w.damage,DamageType.ELECTRIC,f.id);it.vx+=dx*650;it.vy= -230f}
+            beams+=Beam(f.x,f.y-20,f.x+dx*range,f.y-20+dy*range);return FireResult.USED
         }
-        if(w==Weapon.FLAME) {
-            for(i in 1..12) {val x=f.x+dx*i*18;val y=f.y-20+dy*i*18
-                hazards+=Hazard(x,y,28f,Effect.BURN,3,f.id);terrain.carve(x,y,8f)
+        if(w in setOf(Weapon.FLAME,Weapon.HEAVY_FLAMER,Weapon.FROST_THROWER)) {
+            val range=if(w==Weapon.HEAVY_FLAMER) 310f else if(w==Weapon.FROST_THROWER) 270f else 230f
+            val effect=if(w==Weapon.FROST_THROWER) Effect.FREEZE else Effect.BURN
+            for(i in 1..12) {val x=f.x+dx*i*range/12;val y=f.y-20+dy*i*range/12
+                hazards+=Hazard(x,y,if(w==Weapon.HEAVY_FLAMER) 40f else 28f,effect,3,f.id)
+                if(effect==Effect.BURN) terrain.carve(x,y,8f)
             }
-            fighters.filter {it.alive && it.id!=f.id && hypot(it.x-f.x,it.y-f.y)<230 && (it.x-f.x)*dx>0}.forEach {hurt(it,65f,DamageType.FIRE,f.id);applyWeaponEffect(w,it)}
+            fighters.filter {it.alive && it.id!=f.id && hypot(it.x-f.x,it.y-f.y)<range && (it.x-f.x)*dx+(it.y-f.y)*dy>0}.forEach {hurt(it,w.damage,w.damageType,f.id);applyWeaponEffect(w,it)}
             return FireResult.USED
         }
         if(w==Weapon.DIGGER) {
@@ -98,7 +114,7 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
             fighters.filter {it.alive && it.id!=f.id && hypot(it.x-f.x,it.y-f.y)<160}.forEach {hurt(it,30f,DamageType.MELEE,f.id)}
             return FireResult.USED
         }
-        val count=when(w) {Weapon.UZI->15;Weapon.MINIGUN->30;Weapon.AK47->7;Weapon.SHURIKEN->3;else->1}
+        val count=when(w) {Weapon.UZI->15;Weapon.MINIGUN->30;Weapon.AK47->7;Weapon.SHURIKEN->3;Weapon.DUAL_PISTOLS->8;Weapon.NAILGUN->20;else->1}
         repeat(count) {i->
             val spread=when(w) {Weapon.UZI->.09f;Weapon.MINIGUN->.055f;Weapon.AK47->.035f;Weapon.SHURIKEN->.018f;Weapon.SHOTGUN->.025f;else->0f}
             val ray=r+(roll()-.5f)*spread;val rx=cos(ray);val ry=sin(ray)
@@ -112,13 +128,15 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
                     val dmg=if(w==Weapon.SNIPER && by<hit.y-40) 70f else w.damage/count
                     hurt(hit,dmg,w.damageType,f.id);applyWeaponEffect(w,hit);pierced+=hit.id
                     hit.vx+=rx*(if(w==Weapon.SHOTGUN) 230 else 12);hit.vy+=ry*20
-                    if(w==Weapon.TESLA) {
-                        fighters.filter {it.alive && it.id!=f.id && it.id!=hit.id && hypot(it.x-hit.x,it.y-hit.y)<180}.take(2).forEachIndexed {n,next->hurt(next,30f-n*15,DamageType.ELECTRIC,f.id);beams+=Beam(hit.x,hit.y-20,next.x,next.y-20)}
+                    if(w in setOf(Weapon.TESLA,Weapon.CHAIN_LIGHTNING)) {
+                        val limit=if(w==Weapon.TESLA) 2 else 3
+                        fighters.filter {it.alive && it.id!=f.id && it.id!=hit.id && hypot(it.x-hit.x,it.y-hit.y)<if(w==Weapon.TESLA) 180 else 260}.take(limit).forEachIndexed {n,next->hurt(next,if(w==Weapon.TESLA) 30f-n*15 else 40f-n*10,DamageType.ELECTRIC,f.id);beams+=Beam(hit.x,hit.y-20,next.x,next.y-20)}
                     }
-                    if(w!=Weapon.SNIPER || pierced.size==2) break
+                    if(w !in setOf(Weapon.SNIPER,Weapon.RAILGUN) || pierced.size==(if(w==Weapon.RAILGUN) 3 else 2)) break
                 }
                 if(terrain.at(bx,by)) {
-                    if(w in setOf(Weapon.MINIGUN,Weapon.LASER) && drilled<if(w==Weapon.LASER) 40 else 5) {terrain.carve(bx,by,if(w==Weapon.LASER) 6f else 4f);drilled++}
+                    val limit=when(w) {Weapon.LASER->40;Weapon.RAILGUN->100;Weapon.GAUSS->60;Weapon.MINIGUN->5;else->0}
+                    if(drilled<limit) {terrain.carve(bx,by,if(w==Weapon.MINIGUN) 4f else 6f);drilled++}
                     else break
                 }
                 if(bx<0 || bx>WORLD_W || by>waterLevel) break
@@ -130,14 +148,17 @@ internal fun Game.fireContent(tx:Float?,ty:Float?):FireResult {
         shotgunShots=0;return FireResult.USED
     }
     if(w.kind==Kind.GUIDED || w.kind==Kind.WALKER) {
-        val s=Shot(f.x+dx*30,f.y-15,dx*w.speed,if(w.kind==Kind.WALKER) 0f else dy*w.speed,w,f.id,w.fuse)
-        s.targetX=tx ?: f.x+dx*1000;s.targetY=ty ?: f.y;shots+=s;return FireResult.USED
+        repeat(if(w==Weapon.SEEKER_SWARM) 3 else 1) {i->
+            val ar=r+(if(w==Weapon.SEEKER_SWARM) (i-1)*.12f else 0f)
+            val s=Shot(f.x+dx*30,f.y-15,cos(ar)*w.speed,if(w.kind==Kind.WALKER) 0f else sin(ar)*w.speed,w,f.id,w.fuse)
+            s.targetX=tx ?: f.x+dx*1000;s.targetY=ty ?: f.y;shots+=s
+        };return FireResult.USED
     }
     return FireResult.NORMAL
 }
 
 internal fun Game.applyWeaponEffect(w:Weapon,f:Fighter) {
-    val effect=when(w) {Weapon.CRYO->Effect.FREEZE;Weapon.GAS,Weapon.SKUNK->Effect.POISON;Weapon.MOLOTOV,Weapon.FLAME,Weapon.NAPALM->Effect.BURN;Weapon.ACID->Effect.CORROSION;Weapon.FLASH->Effect.BLIND;Weapon.SHURIKEN->Effect.BLEED;else->null}
+    val effect=when {w.iceEffect->Effect.FREEZE;w.poisonEffect->Effect.POISON;w.fireEffect->Effect.BURN;w in setOf(Weapon.ACID,Weapon.ACID_CLUSTER)->Effect.CORROSION;w in setOf(Weapon.FLASH,Weapon.SMOKE)->Effect.BLIND;w.bleedEffect->Effect.BLEED;w in setOf(Weapon.SHOCK_ROCKET,Weapon.EMP_GRENADE)->Effect.STUN;else->null}
     if(effect!=null) {
         if(effect==Effect.BURN && f.race==Race.DEMON) return
         if(effect==Effect.POISON && f.race in setOf(Race.CYBORG,Race.MUTANT)) return
@@ -228,6 +249,5 @@ internal fun Game.bossAttack():Boolean {
     angle=(atan2(victim.y-active.y,victim.x-active.x)*180/PI).toFloat()
     if(w.kind==Kind.GLOBAL) return fire(victim.x,victim.y)
     shots+=Shot(victim.x-50,300f,40f,180f,w,active.id,if(w==Weapon.GAS) 1.5f else 0f)
-    // Use a normal consumed attack to enter the flight state without adding a second payload.
-    weapon=Weapon.HEAL;active.hp=(active.hp-1).coerceAtLeast(1f);active.ammo[weapon]=1;return fire()
+    active.ammo[w]=(active.ammo.getValue(w)-1).coerceAtLeast(0);startContentAttack();return true
 }

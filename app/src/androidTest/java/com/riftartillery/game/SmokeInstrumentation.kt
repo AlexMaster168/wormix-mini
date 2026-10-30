@@ -79,6 +79,17 @@ class SmokeInstrumentation : Instrumentation() {
         verify(message) {done}
     }
     private fun newBattle() {click(if(field("savedGame")==null) "НАЧАТЬ БОЙ  →" else "НОВЫЙ БОЙ  →");SystemClock.sleep(600)}
+    private fun setAim(angle:Float?=null,power:Float?=null) {
+        tap(700f,765f)
+        if(angle!=null) tap(320+(angle+180)/360*800,280f)
+        if(power!=null) tap(320+power*800,490f)
+        click("Готово")
+    }
+    private fun selectThroughArsenal(w:Weapon) {
+        tap(1000f,765f);click(w.category.title)
+        repeat(Weapon.entries.filter {it.category==w.category}.indexOf(w)/6) {click("Следующая страница")}
+        click(w.title,true)
+    }
     private fun menu() {click("II  Пауза");click("Сохранить и в меню")}
     private fun weapon(w:Weapon) {
         runOnMainSync {game().select(w)}
@@ -96,6 +107,13 @@ class SmokeInstrumentation : Instrumentation() {
             runOnMainSync {view=activity.findViewById<ViewGroup>(android.R.id.content).getChildAt(0) as BattleView}
             verify("Accessible menu opens") {field("mode")=="menu" && view.accessibilityNodeProvider!=null}
             if(field("musicEnabled")==false) click("Музыка: выкл")
+            click("Выбор музыки");verify("Music picker opens") {field("musicOpen")==true}
+            for(t in MusicTrack.entries) {click(t.title);waitFor("Manual track plays: $t") {music().currentTrack==t && music().isPlaying}}
+            click("Следующий трек");waitFor("Track next wraps") {music().currentTrack==MusicTrack.NEON}
+            click("Предыдущий трек");waitFor("Track previous wraps") {music().currentTrack==MusicTrack.BOSS}
+            click("Готово");click(Arena.CRYSTAL.title)
+            verify("Manual music survives arena selection") {music().currentTrack==MusicTrack.BOSS}
+            click("Выбор музыки");click("По локации");click("Готово")
             waitFor("Menu music prepares and plays") {music().isPlaying && music().lastError==null}
             val position=music().position
             waitFor("Decoded music playback advances",5000) {music().position>position}
@@ -118,20 +136,38 @@ class SmokeInstrumentation : Instrumentation() {
                 click(a.title);verify("Arena selected: $a") {field("arena")==a}
                 waitFor("Distinct looping music for $a") {music().currentArena==a && music().isPlaying && music().looping && music().lastError==null}
             }
-            for(a in listOf(Arena.CANYON,Arena.HARBOR)) {
+            for(a in listOf(Arena.CANYON,Arena.HARBOR,Arena.JUNGLE,Arena.RUINS,Arena.STORM,Arena.CRYSTAL)) {
                 click(a.title);newBattle()
                 waitFor("New arena starts with safe spawns: $a") {game().arena==a && game().fighters.all {it.alive && it.grounded}}
                 click("II  Пауза");click("Сохранить и в меню")
             }
-            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX)) {
+            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX,Weapon.HE_ROCKET,Weapon.WATERMELON,Weapon.HEAVY_FLAMER,Weapon.RAILGUN,Weapon.SMOKE,Weapon.TRIPLE_ROCKET,Weapon.EMP_GRENADE)) {
                 newBattle();waitFor("Ready to test $w") {game().active.grounded}
-                tap(1000f,765f);click(w.category.title)
-                repeat(Weapon.entries.filter {it.category==w.category}.indexOf(w)/6) {click("Следующая страница")}
-                click(w.title,true);verify("New weapon selected through arsenal: $w") {game().weapon==w}
+                selectThroughArsenal(w);verify("New weapon selected through arsenal: $w") {game().weapon==w}
                 val stock=game().active.ammo.getValue(w);tap(1300f,765f)
                 verify("New weapon fires and consumes one round: $w") {game().active.ammo.getValue(w)==stock-1 && game().phase!=Phase.AIM}
                 click("II  Пауза");click("Сохранить и в меню")
             }
+            click(Arena.RUINS.title);newBattle();waitFor("Ready to test non-consuming tools") {game().active.grounded}
+            tap(700f,765f);verify("Large aim panel opens") {field("aimPanel")==true}
+            val aimTime=game().timeLeft;SystemClock.sleep(250);verify("Aim panel freezes battle") {game().timeLeft==aimTime}
+            val oldAngle=game().angle;click("+1°");verify("Aim one-degree button") {kotlin.math.abs(game().angle-oldAngle-1)<.01f}
+            tap(520f,280f);tap(960f,490f);verify("Long aim and power sliders") {kotlin.math.abs(game().angle+90)<1 && kotlin.math.abs(game().power-.8f)<.01f}
+            click("Готово");verify("Aim panel closes") {field("aimPanel")==false}
+            val drag=SystemClock.uptimeMillis();event(MotionEvent.ACTION_DOWN,800f,400f,drag);val dragAngle=game().angle
+            event(MotionEvent.ACTION_MOVE,860f,430f,drag);event(MotionEvent.ACTION_UP,860f,430f,drag)
+            verify("Field drag finely adjusts direction") {kotlin.math.abs(game().angle-dragAngle-10.8f)<.5f}
+            runOnMainSync {game().active.hp=40f};selectThroughArsenal(Weapon.HEAL);val medTime=game().timeLeft
+            click("ОГОНЬ  ↗");verify("Medkit keeps turn and spends stock") {game().phase==Phase.AIM && game().active.hp==90f && game().active.ammo[Weapon.HEAL]==1 && game().timeLeft>medTime-1}
+            selectThroughArsenal(Weapon.TELEPORT);val teleportTurn=game().turn;val teleportY=game().active.y
+            tap(800f,400f);verify("Teleport keeps turn and attack") {game().phase==Phase.AIM && game().turn==teleportTurn && game().active.ammo[Weapon.TELEPORT]==1 && game().active.y<teleportY-30}
+            selectThroughArsenal(Weapon.JETBOARD);click("ОГОНЬ  ↗");verify("Jetboard activates without attack") {game().active.jetboard && game().active.fuel>150 && game().phase==Phase.AIM}
+            val boardY=game().active.y;hold(450f,765f,750);verify("Flight button lifts jetboard") {game().active.y<boardY-45 && game().active.fuel<150}
+            menu();newBattle();waitFor("Ready to test unit collision") {game().active.grounded}
+            runOnMainSync {game().fighters[1].apply {x=game().active.x+65;y=game().active.y;vx=0f;vy=0f}}
+            val otherX=game().fighters[1].x;hold(125f,765f,1200)
+            verify("Walking touch does not drag nearby ally") {kotlin.math.abs(game().fighters[1].x-otherX)<.1f && game().active.x<otherX-33}
+            menu()
             click("Отряд / кузница");verify("Loadout opens") {field("loadoutOpen")==true}
             click("Фантом");click("Сохранить отряд");verify("Race selection persists") {(field("squad") as Loadout).race==Race.PHANTOM}
             click(Arena.ORBIT.title)
@@ -144,7 +180,7 @@ class SmokeInstrumentation : Instrumentation() {
             val jumpX=game().active.x
             tap(230f,765f);waitFor("Jump button launches forward immediately (x=${game().active.x}, vy=${game().active.vy}, grounded=${game().active.grounded})",2000) {game().active.x>jumpX+5 && game().active.vy<0}
             waitFor("Short jump lands") {game().active.grounded}
-            hold(125f,765f,1000);tap(596.5f,770f)
+            hold(125f,765f,1000);setAim(-90f)
             val ropeY=game().active.y;tap(355f,765f)
             waitFor("Rope button automatically pulls fighter upward") {game().anchor!=null && game().active.y<ropeY-90}
             click("Отцепить");verify("Rope button detaches") {game().anchor==null}
@@ -167,7 +203,7 @@ class SmokeInstrumentation : Instrumentation() {
             tap(995f,760f);verify("Touch opens arsenal") {field("arsenal")==true}
             click("Огнестрел");click("Следующая страница");click("АК-47",true)
             verify("Paged arsenal selects AK47") {game().weapon==Weapon.AK47 && field("arsenal")==false}
-            tap(850f,770f);verify("Touch power slider") {game().power>.6f}
+            setAim(power=.85f);verify("Touch power slider") {game().power>.8f}
             tap(800f,350f);verify("Touch aim is finite") {game().angle.isFinite()}
             click("ОГОНЬ  ↗");verify("AK47 uses stock and resolves") {game().active.ammo[Weapon.AK47]==4 && game().phase==Phase.RETREAT}
             click("ОГОНЬ  ↗");verify("Second attack blocked") {game().active.ammo[Weapon.AK47]==4}
@@ -195,13 +231,16 @@ class SmokeInstrumentation : Instrumentation() {
             click("Дуэль / вдвоём");newBattle()
             tap(995f,760f);click("Инженерия");click("Следующая страница");click("Бур / паяльная лампа",true)
             click("ОГОНЬ  ↗");verify("Drill engages without ending turn") {game().active.drillFuel>95 && game().phase==Phase.AIM}
-            tap(650f,770f);val x=game().active.x;val rev=game().terrain.revision
+            setAim(26f);val x=game().active.x;val rev=game().terrain.revision
             hold(125f,765f,1400)
             verify("Drill moves and removes terrain") {game().active.x>x+30 && game().terrain.revision>rev && game().active.drillFuel<100}
             tap(995f,760f);click("Гаджеты");click("Следующая страница");click("Защитник",true);click("ОГОНЬ  ↗")
             verify("Defender adds real protection") {game().active.shield>=40 && game().devices.any {it.kind==DeviceKind.DEFENDER}}
             click("II  Пауза");click("Сохранить и в меню");click("ПРОДОЛЖИТЬ")
             verify("Save retains drill and defender") {game().active.drillFuel>0 && game().devices.any {it.kind==DeviceKind.DEFENDER}}
+            click("II  Пауза");click("Выбор музыки");click(MusicTrack.RETRO.title)
+            waitFor("Music picker previews track while paused") {music().currentTrack==MusicTrack.RETRO && music().isPlaying}
+            click("Готово");waitFor("Closing picker restores paused audio state") {!music().isPlaying};click("Продолжить бой")
             val performance=(activity as MainActivity).performanceReport()
             runOnMainSync {view.suspendGame()}
             verify("Background lifecycle stops music") {!music().isPlaying}
@@ -219,6 +258,7 @@ class SmokeInstrumentation : Instrumentation() {
             verify("Activity recreation offers save") {field("savedGame")!=null && field("mode")=="menu"}
             verify("Recreation releases old music player") {!oldMusic.isPlaying}
             verify("Music preference survives recreation") {field("musicEnabled")==false && !music().isPlaying}
+            verify("Selected track survives recreation") {field("musicSelection")==MusicTrack.RETRO.ordinal}
             click("Музыка: выкл");waitFor("Music can restart after recreation") {music().isPlaying}
             click("ПРОДОЛЖИТЬ");verify("Recreation restores extended match") {game().turn==savedTurn && game().active.drillFuel>0}
             result.putString("stream","\nPASS: $checks Android integration checks\nAPI=${android.os.Build.VERSION.SDK_INT} VIEW=${view.width}x${view.height} DURATION_MS=${SystemClock.uptimeMillis()-began}\n$performance\n")

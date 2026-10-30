@@ -1,0 +1,23 @@
+Picked up JAVA_TOOL_OPTIONS: -javaagent:"C:\Projects\wormix-mini\.tmp\java-compat\tcp-agent.jar"
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+> Task :core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:compileKotlin UP-TO-DATE
+> Task :core:compileJava NO-SOURCE
+> Task :core:processResources NO-SOURCE
+> Task :core:classes UP-TO-DATE
+> Task :core:jar UP-TO-DATE
+> Task :desktop-core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :desktop-core:compileKotlin UP-TO-DATE
+> Task :desktop-core:compileJava NO-SOURCE
+> Task :desktop-core:processResources NO-SOURCE
+> Task :desktop-core:classes UP-TO-DATE
+> Task :desktop-core:jar UP-TO-DATE
+> Task :desktop-core:compileTestKotlin UP-TO-DATE
+> Task :desktop-core:compileTestJava NO-SOURCE
+> Task :desktop-core:processTestResources NO-SOURCE
+> Task :desktop-core:testClasses UP-TO-DATE
+> Task :desktop-core:test UP-TO-DATE
+
+BUILD SUCCESSFUL in 21s
+6 actionable tasks: 6 up-to-date

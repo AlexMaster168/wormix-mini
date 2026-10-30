@@ -13,6 +13,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.riftartillery.core.Arena
+import com.riftartillery.core.MusicTrack
 
 /** One asynchronously prepared, streamed loop; all state changes run on the main thread. */
 internal class ArenaMusic(private val context:Context) {
@@ -31,6 +32,8 @@ internal class ArenaMusic(private val context:Context) {
     private var released=false
     var currentArena:Arena?=null
         private set
+    var currentTrack:MusicTrack?=null
+        private set
     var lastError:String?=null
         private set
     val isPlaying get()=prepared && player?.isPlaying==true
@@ -46,17 +49,18 @@ internal class ArenaMusic(private val context:Context) {
         if(Build.VERSION.SDK_INT>=33) context.registerReceiver(noisy,filter,Context.RECEIVER_NOT_EXPORTED)
         else @Suppress("DEPRECATION") context.registerReceiver(noisy,filter)
     }
-    fun sync(arena:Arena,enabled:Boolean,active:Boolean) {
-        if(released || currentArena==arena && this.enabled==enabled && this.active==active) return
-        val changeTrack=currentArena!=arena
+    fun sync(arena:Arena,enabled:Boolean,active:Boolean,track:MusicTrack?=null) {
+        val desired=track ?: MusicTrack.entries[arena.ordinal]
+        if(released || currentArena==arena && currentTrack==desired && this.enabled==enabled && this.active==active) return
+        val changeTrack=currentTrack!=desired
         if(changeTrack || this.enabled!=enabled || this.active!=active) interrupted=false
-        currentArena=arena;this.enabled=enabled;this.active=active
+        currentArena=arena;currentTrack=desired;this.enabled=enabled;this.active=active
         if(changeTrack) disposePlayer()
         if(!enabled || !active) {pause();abandonFocus();return}
-        if(player==null) prepare(arena)
+        if(player==null) prepare(desired)
         applyPlayback()
     }
-    private fun prepare(arena:Arena) {
+    private fun prepare(track:MusicTrack) {
         lastError=null
         val next=MediaPlayer();player=next
         try {
@@ -68,7 +72,7 @@ internal class ArenaMusic(private val context:Context) {
                 if(player===mp) fail("MediaPlayer $what/$extra")
                 true
             }
-            context.assets.openFd("music/${arena.name.lowercase(java.util.Locale.ROOT)}.ogg").use {
+            context.assets.openFd("music/${track.asset}.ogg").use {
                 next.setDataSource(it.fileDescriptor,it.startOffset,it.length)
             }
             next.prepareAsync()

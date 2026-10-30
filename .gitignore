@@ -8,3 +8,9 @@ local.properties
 .private/
 .kotlin/
 *.log
+unity/Library/
+unity/Temp/
+unity/Logs/
+unity/obj/
+unity/UserSettings/
+unity/Builds/

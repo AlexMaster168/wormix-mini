@@ -1,6 +1,7 @@
 param([switch]$CreateLocalKey)
 $ErrorActionPreference="Stop"
 $root=Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'Prepare-BuildEnvironment.ps1')
 $keyDir=Join-Path $root '.private'
 $keyFile=Join-Path $keyDir 'rift-upload.p12'
 $passwordFile=Join-Path $keyDir 'password.dpapi'

@@ -1,0 +1,1202 @@
+{
+  "ok": true,
+  "version": "0.3.0",
+  "weapons": [
+    {
+      "id": 0,
+      "name": "Базука",
+      "category": 0,
+      "stock": -1,
+      "damage": 50.0,
+      "description": "Баллистика, ветер и кратер",
+      "targeted": false
+    },
+    {
+      "id": 1,
+      "name": "Граната",
+      "category": 1,
+      "stock": 5,
+      "damage": 55.0,
+      "description": "Таймер 1–5 с; регулируемый отскок",
+      "targeted": false
+    },
+    {
+      "id": 2,
+      "name": "Кассетная",
+      "category": 1,
+      "stock": 2,
+      "damage": 25.0,
+      "description": "Пять самостоятельных осколков",
+      "targeted": false
+    },
+    {
+      "id": 3,
+      "name": "Динамит",
+      "category": 4,
+      "stock": 2,
+      "damage": 75.0,
+      "description": "Установка рядом; успей отойти",
+      "targeted": false
+    },
+    {
+      "id": 4,
+      "name": "Снайперская винтовка",
+      "category": 3,
+      "stock": 3,
+      "damage": 55.0,
+      "description": "Пробивает двух; выстрел в голову 70",
+      "targeted": false
+    },
+    {
+      "id": 5,
+      "name": "Аптечка / антидот",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "+50 HP, снимает огонь и яд",
+      "targeted": false
+    },
+    {
+      "id": 6,
+      "name": "Телепорт",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "Выбери свободную точку",
+      "targeted": true
+    },
+    {
+      "id": 7,
+      "name": "Крио-базука",
+      "category": 0,
+      "stock": 3,
+      "damage": 35.0,
+      "description": "Замораживает, сохраняет землю",
+      "targeted": false
+    },
+    {
+      "id": 8,
+      "name": "Самонаводящаяся",
+      "category": 0,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "Отметь цель; ракета доворачивает",
+      "targeted": true
+    },
+    {
+      "id": 9,
+      "name": "Мортира",
+      "category": 0,
+      "stock": 3,
+      "damage": 30.0,
+      "description": "Разбрасывает четыре осколка",
+      "targeted": false
+    },
+    {
+      "id": 10,
+      "name": "Бункер-бастер",
+      "category": 0,
+      "stock": 2,
+      "damage": 55.0,
+      "description": "Бурит породу под выбранной точкой",
+      "targeted": true
+    },
+    {
+      "id": 11,
+      "name": "Сюрикены",
+      "category": 0,
+      "stock": 4,
+      "damage": 18.0,
+      "description": "Три клинка; кровотечение",
+      "targeted": false
+    },
+    {
+      "id": 12,
+      "name": "Липкая граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 60.0,
+      "description": "Прилипает к земле или бойцу",
+      "targeted": false
+    },
+    {
+      "id": 13,
+      "name": "Святая граната",
+      "category": 1,
+      "stock": 1,
+      "damage": 90.0,
+      "description": "Таймер запускается после остановки",
+      "targeted": false
+    },
+    {
+      "id": 14,
+      "name": "Грави-граната",
+      "category": 1,
+      "stock": 2,
+      "damage": 40.0,
+      "description": "Две секунды стягивает, затем взрыв",
+      "targeted": false
+    },
+    {
+      "id": 15,
+      "name": "Светошумовая",
+      "category": 1,
+      "stock": 2,
+      "damage": 15.0,
+      "description": "Скрывает прицел и меняет управление",
+      "targeted": false
+    },
+    {
+      "id": 16,
+      "name": "Огнемёт «Инферно»",
+      "category": 2,
+      "stock": 3,
+      "damage": 65.0,
+      "description": "Конус пламени и горящая земля",
+      "targeted": false
+    },
+    {
+      "id": 17,
+      "name": "Коктейль Молотова",
+      "category": 2,
+      "stock": 3,
+      "damage": 20.0,
+      "description": "Разливает огонь на три хода",
+      "targeted": false
+    },
+    {
+      "id": 18,
+      "name": "Газовая граната",
+      "category": 2,
+      "stock": 3,
+      "damage": 0.0,
+      "description": "Облако держится четыре хода",
+      "targeted": false
+    },
+    {
+      "id": 19,
+      "name": "Кислотная бомба",
+      "category": 2,
+      "stock": 3,
+      "damage": 45.0,
+      "description": "Проедает землю, разъедает броню",
+      "targeted": false
+    },
+    {
+      "id": 20,
+      "name": "Орбитальный луч",
+      "category": 2,
+      "stock": 1,
+      "damage": 70.0,
+      "description": "Вертикальный разрез острова",
+      "targeted": true
+    },
+    {
+      "id": 21,
+      "name": "Дробовик",
+      "category": 3,
+      "stock": 4,
+      "damage": 25.0,
+      "description": "Два выстрела за ход и отбрасывание",
+      "targeted": false
+    },
+    {
+      "id": 22,
+      "name": "Узи",
+      "category": 3,
+      "stock": 4,
+      "damage": 50.0,
+      "description": "15 пуль с разбросом",
+      "targeted": false
+    },
+    {
+      "id": 23,
+      "name": "Миниган",
+      "category": 3,
+      "stock": 2,
+      "damage": 75.0,
+      "description": "30 пуль; пробивает тоннель",
+      "targeted": false
+    },
+    {
+      "id": 24,
+      "name": "Пушка Тесла",
+      "category": 3,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "Молния перескакивает на соседей",
+      "targeted": false
+    },
+    {
+      "id": 25,
+      "name": "Дискомёт",
+      "category": 3,
+      "stock": 3,
+      "damage": 25.0,
+      "description": "Пять рикошетов, затем взрыв",
+      "targeted": false
+    },
+    {
+      "id": 26,
+      "name": "Мина",
+      "category": 4,
+      "stock": 3,
+      "damage": 45.0,
+      "description": "Взвод 2 с, предупреждение 1,5 с",
+      "targeted": false
+    },
+    {
+      "id": 27,
+      "name": "Мина-паук",
+      "category": 4,
+      "stock": 2,
+      "damage": 50.0,
+      "description": "Преследует врага в радиусе 350",
+      "targeted": false
+    },
+    {
+      "id": 28,
+      "name": "Турель",
+      "category": 4,
+      "stock": 2,
+      "damage": 20.0,
+      "description": "60 HP; стреляет по видимой цели",
+      "targeted": false
+    },
+    {
+      "id": 29,
+      "name": "Стальная балка",
+      "category": 4,
+      "stock": 4,
+      "damage": 0.0,
+      "description": "Укажи место; угол задаёт наклон",
+      "targeted": true
+    },
+    {
+      "id": 30,
+      "name": "Силовой купол",
+      "category": 4,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "Отражает внешние снаряды два хода",
+      "targeted": false
+    },
+    {
+      "id": 31,
+      "name": "Бур / паяльная лампа",
+      "category": 4,
+      "stock": 4,
+      "damage": 30.0,
+      "description": "Удерживай движение: тоннели и шахты",
+      "targeted": false
+    },
+    {
+      "id": 32,
+      "name": "Супер-овца",
+      "category": 5,
+      "stock": 2,
+      "damage": 75.0,
+      "description": "Бежит; повторное нажатие — полёт",
+      "targeted": false
+    },
+    {
+      "id": 33,
+      "name": "Бешеный кабан",
+      "category": 5,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "Таранит землю и отбрасывает врагов",
+      "targeted": false
+    },
+    {
+      "id": 34,
+      "name": "Банановая бомба",
+      "category": 5,
+      "stock": 1,
+      "damage": 30.0,
+      "description": "Прыгучесть 0,9; шесть крупных долек",
+      "targeted": false
+    },
+    {
+      "id": 35,
+      "name": "Крот-подрывник",
+      "category": 5,
+      "stock": 2,
+      "damage": 50.0,
+      "description": "Роет породу; взрывается в пустоте",
+      "targeted": false
+    },
+    {
+      "id": 36,
+      "name": "Скунс",
+      "category": 5,
+      "stock": 2,
+      "damage": 15.0,
+      "description": "Оставляет ядовитый шлейф",
+      "targeted": false
+    },
+    {
+      "id": 37,
+      "name": "Кувалда",
+      "category": 6,
+      "stock": -1,
+      "damage": 35.0,
+      "description": "Вбивает бойца и пробивает опору",
+      "targeted": false
+    },
+    {
+      "id": 38,
+      "name": "Бейсбольная бита",
+      "category": 6,
+      "stock": -1,
+      "damage": 30.0,
+      "description": "Сильное направленное отбрасывание",
+      "targeted": false
+    },
+    {
+      "id": 39,
+      "name": "Шокер",
+      "category": 6,
+      "stock": 3,
+      "damage": 40.0,
+      "description": "Парализует на следующий ход",
+      "targeted": false
+    },
+    {
+      "id": 40,
+      "name": "Камикадзе",
+      "category": 6,
+      "stock": 1,
+      "damage": 80.0,
+      "description": "Прорыв и взрыв ценой жизни",
+      "targeted": false
+    },
+    {
+      "id": 41,
+      "name": "Авиаудар",
+      "category": 7,
+      "stock": 2,
+      "damage": 30.0,
+      "description": "Шесть бомб по выбранному сектору",
+      "targeted": true
+    },
+    {
+      "id": 42,
+      "name": "Напалмовый удар",
+      "category": 7,
+      "stock": 1,
+      "damage": 20.0,
+      "description": "Шесть канистр с огнём",
+      "targeted": true
+    },
+    {
+      "id": 43,
+      "name": "Метеоритный дождь",
+      "category": 7,
+      "stock": 1,
+      "damage": 45.0,
+      "description": "Восемь падающих метеоритов",
+      "targeted": false
+    },
+    {
+      "id": 44,
+      "name": "Землетрясение",
+      "category": 7,
+      "stock": 1,
+      "damage": 0.0,
+      "description": "Четыре секунды трясёт бойцов",
+      "targeted": false
+    },
+    {
+      "id": 45,
+      "name": "Потоп",
+      "category": 7,
+      "stock": 1,
+      "damage": 0.0,
+      "description": "Поднимает опасную границу на 90",
+      "targeted": false
+    },
+    {
+      "id": 46,
+      "name": "Ниндзя-канат",
+      "category": 8,
+      "stock": -1,
+      "damage": 0.0,
+      "description": "Автоподтяжка; ↑ быстрее, ↓ выпуск троса",
+      "targeted": false
+    },
+    {
+      "id": 47,
+      "name": "Реактивный ранец",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "100 топлива; ↑ тяга, ← → движение",
+      "targeted": false
+    },
+    {
+      "id": 48,
+      "name": "Гравитационные ботинки",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "Тройной прыжок до конца хода",
+      "targeted": false
+    },
+    {
+      "id": 49,
+      "name": "Телекинез",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "Выбери объект, затем место переноса",
+      "targeted": true
+    },
+    {
+      "id": 50,
+      "name": "АК-47",
+      "category": 3,
+      "stock": 5,
+      "damage": 56.0,
+      "description": "Очередь из семи пуль с отдачей",
+      "targeted": false
+    },
+    {
+      "id": 51,
+      "name": "Репульсор",
+      "category": 3,
+      "stock": 3,
+      "damage": 20.0,
+      "description": "Силовой конус отбрасывает бойцов",
+      "targeted": false
+    },
+    {
+      "id": 52,
+      "name": "Плазменный лазер",
+      "category": 3,
+      "stock": 3,
+      "damage": 60.0,
+      "description": "Луч прорезает тонкие преграды",
+      "targeted": false
+    },
+    {
+      "id": 53,
+      "name": "Защитник",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "Дрон: поглощает 40 урона, 2 хода",
+      "targeted": false
+    },
+    {
+      "id": 54,
+      "name": "Смена персонажа",
+      "category": 8,
+      "stock": 3,
+      "damage": 0.0,
+      "description": "Дополнительная смена бойца без выстрела",
+      "targeted": false
+    },
+    {
+      "id": 55,
+      "name": "Парашют",
+      "category": 8,
+      "stock": 3,
+      "damage": 0.0,
+      "description": "Безопасное падение до конца хода",
+      "targeted": false
+    },
+    {
+      "id": 56,
+      "name": "Усиленный прицел",
+      "category": 8,
+      "stock": 3,
+      "damage": 0.0,
+      "description": "Удлинённый прогноз траектории",
+      "targeted": false
+    },
+    {
+      "id": 57,
+      "name": "Плазменная винтовка",
+      "category": 3,
+      "stock": 4,
+      "damage": 42.0,
+      "description": "Быстрый заряд; электрический взрыв",
+      "targeted": false
+    },
+    {
+      "id": 58,
+      "name": "Кассетная ракета",
+      "category": 0,
+      "stock": 2,
+      "damage": 24.0,
+      "description": "При ударе выпускает шесть суббоеприпасов",
+      "targeted": false
+    },
+    {
+      "id": 59,
+      "name": "Граната «Сингулярность»",
+      "category": 1,
+      "stock": 2,
+      "damage": 38.0,
+      "description": "Взрыв стягивает бойцов к центру",
+      "targeted": false
+    },
+    {
+      "id": 60,
+      "name": "Фугасная ракета",
+      "category": 0,
+      "stock": 2,
+      "damage": 80.0,
+      "description": "Большой кратер и мощная ударная волна",
+      "targeted": false
+    },
+    {
+      "id": 61,
+      "name": "Термобарическая ракета",
+      "category": 0,
+      "stock": 2,
+      "damage": 60.0,
+      "description": "Объёмный взрыв и горящая область",
+      "targeted": false
+    },
+    {
+      "id": 62,
+      "name": "Рикошетная ракета",
+      "category": 0,
+      "stock": 3,
+      "damage": 48.0,
+      "description": "Три отскока или таймер пять секунд",
+      "targeted": false
+    },
+    {
+      "id": 63,
+      "name": "Арбузобомба",
+      "category": 5,
+      "stock": 2,
+      "damage": 55.0,
+      "description": "Восемь взрывающихся арбузных долек",
+      "targeted": false
+    },
+    {
+      "id": 64,
+      "name": "Ананасовая граната",
+      "category": 1,
+      "stock": 2,
+      "damage": 35.0,
+      "description": "Десять лёгких осколков",
+      "targeted": false
+    },
+    {
+      "id": 65,
+      "name": "Тыквенная бомба",
+      "category": 5,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "Взрыв и огненное кольцо",
+      "targeted": false
+    },
+    {
+      "id": 66,
+      "name": "Дымовая граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 0.0,
+      "description": "Дым мешает прицелу два хода",
+      "targeted": false
+    },
+    {
+      "id": 67,
+      "name": "Зажигательная граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 28.0,
+      "description": "Горящая область на три хода",
+      "targeted": false
+    },
+    {
+      "id": 68,
+      "name": "Вампирская граната",
+      "category": 1,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "Лечит владельца частью урона врагам",
+      "targeted": false
+    },
+    {
+      "id": 69,
+      "name": "ЭМИ-граната",
+      "category": 1,
+      "stock": 2,
+      "damage": 25.0,
+      "description": "Снимает щиты и глушит технику",
+      "targeted": false
+    },
+    {
+      "id": 70,
+      "name": "Ледяная граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 25.0,
+      "description": "Замораживает без разрушения опор",
+      "targeted": false
+    },
+    {
+      "id": 71,
+      "name": "Игольчатая граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 35.0,
+      "description": "Взрыв вызывает кровотечение",
+      "targeted": false
+    },
+    {
+      "id": 72,
+      "name": "Рельсотрон",
+      "category": 3,
+      "stock": 2,
+      "damage": 72.0,
+      "description": "Пробивает породу и до трёх бойцов",
+      "targeted": false
+    },
+    {
+      "id": 73,
+      "name": "Парные пистолеты",
+      "category": 3,
+      "stock": 5,
+      "damage": 48.0,
+      "description": "Восемь пуль короткой очередью",
+      "targeted": false
+    },
+    {
+      "id": 74,
+      "name": "Арбалет",
+      "category": 3,
+      "stock": 4,
+      "damage": 42.0,
+      "description": "Точный болт вызывает кровотечение",
+      "targeted": false
+    },
+    {
+      "id": 75,
+      "name": "Ядовитый дротик",
+      "category": 3,
+      "stock": 4,
+      "damage": 22.0,
+      "description": "Точное попадание и отравление",
+      "targeted": false
+    },
+    {
+      "id": 76,
+      "name": "Тяжёлый огнемёт",
+      "category": 2,
+      "stock": 2,
+      "damage": 80.0,
+      "description": "Широкий огненный конус до 310",
+      "targeted": false
+    },
+    {
+      "id": 77,
+      "name": "Криомёт",
+      "category": 2,
+      "stock": 3,
+      "damage": 35.0,
+      "description": "Замораживающая струя до 270",
+      "targeted": false
+    },
+    {
+      "id": 78,
+      "name": "Реактивная доска",
+      "category": 8,
+      "stock": 2,
+      "damage": 0.0,
+      "description": "160 топлива; свободный полёт и посадка",
+      "targeted": false
+    },
+    {
+      "id": 79,
+      "name": "Магнитная бомба",
+      "category": 1,
+      "stock": 2,
+      "damage": 30.0,
+      "description": "Две секунды притягивает летящие снаряды",
+      "targeted": false
+    },
+    {
+      "id": 80,
+      "name": "Трёхствольная базука",
+      "category": 0,
+      "stock": 2,
+      "damage": 30.0,
+      "description": "Три ракеты веером за один выстрел",
+      "targeted": false
+    },
+    {
+      "id": 81,
+      "name": "Рой самонаводящихся",
+      "category": 0,
+      "stock": 2,
+      "damage": 22.0,
+      "description": "Три ракеты доворачивают к выбранной цели",
+      "targeted": true
+    },
+    {
+      "id": 82,
+      "name": "Буровая ракета",
+      "category": 0,
+      "stock": 2,
+      "damage": 50.0,
+      "description": "Первые 0,7 секунды сверлит породу",
+      "targeted": false
+    },
+    {
+      "id": 83,
+      "name": "Разделяющаяся ракета",
+      "category": 0,
+      "stock": 2,
+      "damage": 25.0,
+      "description": "Через 0,8 секунды выпускает пять зарядов",
+      "targeted": false
+    },
+    {
+      "id": 84,
+      "name": "Электроракета",
+      "category": 0,
+      "stock": 3,
+      "damage": 38.0,
+      "description": "Взрыв оглушает на следующий ход",
+      "targeted": false
+    },
+    {
+      "id": 85,
+      "name": "Фейерверк",
+      "category": 1,
+      "stock": 2,
+      "damage": 30.0,
+      "description": "Девять зарядов разлетаются по кругу",
+      "targeted": false
+    },
+    {
+      "id": 86,
+      "name": "Осколочная граната",
+      "category": 1,
+      "stock": 3,
+      "damage": 30.0,
+      "description": "Двенадцать самостоятельных осколков",
+      "targeted": false
+    },
+    {
+      "id": 87,
+      "name": "Прыгающая мина",
+      "category": 4,
+      "stock": 2,
+      "damage": 45.0,
+      "description": "После таймера устанавливает мину",
+      "targeted": false
+    },
+    {
+      "id": 88,
+      "name": "Подрывной заряд",
+      "category": 4,
+      "stock": 2,
+      "damage": 85.0,
+      "description": "Прилипает к стене или бойцу",
+      "targeted": false
+    },
+    {
+      "id": 89,
+      "name": "Кислотная кассета",
+      "category": 2,
+      "stock": 2,
+      "damage": 20.0,
+      "description": "Пять кислотных зарядов",
+      "targeted": false
+    },
+    {
+      "id": 90,
+      "name": "Огненная кассета",
+      "category": 2,
+      "stock": 2,
+      "damage": 20.0,
+      "description": "Пять зажигательных зарядов",
+      "targeted": false
+    },
+    {
+      "id": 91,
+      "name": "Ледяная кассета",
+      "category": 2,
+      "stock": 2,
+      "damage": 20.0,
+      "description": "Пять замораживающих зарядов",
+      "targeted": false
+    },
+    {
+      "id": 92,
+      "name": "Гвоздомёт",
+      "category": 3,
+      "stock": 3,
+      "damage": 60.0,
+      "description": "Двадцать гвоздей и кровотечение",
+      "targeted": false
+    },
+    {
+      "id": 93,
+      "name": "Пушка Гаусса",
+      "category": 3,
+      "stock": 3,
+      "damage": 65.0,
+      "description": "Пробивает до 180 единиц породы",
+      "targeted": false
+    },
+    {
+      "id": 94,
+      "name": "Звуковая пушка",
+      "category": 3,
+      "stock": 3,
+      "damage": 28.0,
+      "description": "Широкая волна отбрасывает всех впереди",
+      "targeted": false
+    },
+    {
+      "id": 95,
+      "name": "Сигнальный пистолет",
+      "category": 3,
+      "stock": 4,
+      "damage": 18.0,
+      "description": "Быстрая горящая сигнальная ракета",
+      "targeted": false
+    },
+    {
+      "id": 96,
+      "name": "Грибная бомба",
+      "category": 5,
+      "stock": 2,
+      "damage": 20.0,
+      "description": "Разрывается большим ядовитым облаком",
+      "targeted": false
+    },
+    {
+      "id": 97,
+      "name": "Ковровая бомбардировка",
+      "category": 7,
+      "stock": 1,
+      "damage": 24.0,
+      "description": "Двенадцать бомб по широкому сектору",
+      "targeted": true
+    },
+    {
+      "id": 98,
+      "name": "Объёмный авиаудар",
+      "category": 7,
+      "stock": 1,
+      "damage": 45.0,
+      "description": "Шесть термобарических зарядов",
+      "targeted": true
+    },
+    {
+      "id": 99,
+      "name": "Цепная молния",
+      "category": 2,
+      "stock": 2,
+      "damage": 55.0,
+      "description": "Разряд перескакивает ещё на трёх врагов",
+      "targeted": false
+    }
+  ],
+  "arenas": [
+    {
+      "id": 0,
+      "name": "Неоновый мегаполис",
+      "description": "Крыши, мосты и трансформаторы",
+      "gravity": 290.0
+    },
+    {
+      "id": 1,
+      "name": "Храм древних драконов",
+      "description": "Обсидиан, лава и гейзеры",
+      "gravity": 310.0
+    },
+    {
+      "id": 2,
+      "name": "Станция «Титан»",
+      "description": "Астероиды и низкая гравитация",
+      "gravity": 180.0
+    },
+    {
+      "id": 3,
+      "name": "Завод «Химпром»",
+      "description": "Цистерны, трубы и кислота",
+      "gravity": 290.0
+    },
+    {
+      "id": 4,
+      "name": "База «Полюс»",
+      "description": "Ледяные гроты и скользкие склоны",
+      "gravity": 290.0
+    },
+    {
+      "id": 5,
+      "name": "Кладбище мехов",
+      "description": "Остовы машин и магнитный кран",
+      "gravity": 290.0
+    },
+    {
+      "id": 6,
+      "name": "Песчаный каньон",
+      "description": "Красные скалы и каменные уступы",
+      "gravity": 300.0
+    },
+    {
+      "id": 7,
+      "name": "Затопленный порт",
+      "description": "Причалы, контейнеры и мостки",
+      "gravity": 290.0
+    },
+    {
+      "id": 8,
+      "name": "Тропические джунгли",
+      "description": "Кроны деревьев и заросшие тоннели",
+      "gravity": 290.0
+    },
+    {
+      "id": 9,
+      "name": "Забытые руины",
+      "description": "Каменные террасы и древние своды",
+      "gravity": 300.0
+    },
+    {
+      "id": 10,
+      "name": "Грозовая платформа",
+      "description": "Грозовой фронт и подвесные палубы",
+      "gravity": 260.0
+    },
+    {
+      "id": 11,
+      "name": "Кристальные пещеры",
+      "description": "Светящиеся гроты и лёгкая гравитация",
+      "gravity": 230.0
+    }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "Ракеты"
+    },
+    {
+      "id": 1,
+      "name": "Гранаты"
+    },
+    {
+      "id": 2,
+      "name": "Стихии"
+    },
+    {
+      "id": 3,
+      "name": "Огнестрел"
+    },
+    {
+      "id": 4,
+      "name": "Инженерия"
+    },
+    {
+      "id": 5,
+      "name": "Существа"
+    },
+    {
+      "id": 6,
+      "name": "Ближний бой"
+    },
+    {
+      "id": 7,
+      "name": "Авиация"
+    },
+    {
+      "id": 8,
+      "name": "Гаджеты"
+    }
+  ],
+  "races": [
+    {
+      "id": 0,
+      "name": "Драконид"
+    },
+    {
+      "id": 1,
+      "name": "Киборг"
+    },
+    {
+      "id": 2,
+      "name": "Мутант"
+    },
+    {
+      "id": 3,
+      "name": "Демон"
+    },
+    {
+      "id": 4,
+      "name": "Наёмник"
+    },
+    {
+      "id": 5,
+      "name": "Нежить"
+    },
+    {
+      "id": 6,
+      "name": "Фантом"
+    }
+  ],
+  "bosses": [
+    {
+      "id": 0,
+      "name": "Архидемон Инферно",
+      "description": "Укройся от метеоров; огонь ему не вредит."
+    },
+    {
+      "id": 1,
+      "name": "Безумный алхимик",
+      "description": "Не оставляй алхимика в газе: он лечится."
+    },
+    {
+      "id": 2,
+      "name": "Древний дракон Фафнир",
+      "description": "Остерегайся дыхания и порывов ветра."
+    },
+    {
+      "id": 3,
+      "name": "Генерал киборгов",
+      "description": "Сначала уничтожь два генератора щита."
+    }
+  ],
+  "hats": [
+    {
+      "id": 0,
+      "name": "Без шлема"
+    },
+    {
+      "id": 1,
+      "name": "Тактический"
+    },
+    {
+      "id": 2,
+      "name": "Противогаз"
+    },
+    {
+      "id": 3,
+      "name": "Корона пламени"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 0,
+      "name": "Без артефакта"
+    },
+    {
+      "id": 1,
+      "name": "Грави-реактор"
+    },
+    {
+      "id": 2,
+      "name": "Кровавый амулет"
+    },
+    {
+      "id": 3,
+      "name": "Пояс сапёра"
+    }
+  ],
+  "upgrades": [
+    {
+      "id": 0,
+      "name": "Стандарт"
+    },
+    {
+      "id": 1,
+      "name": "Плазменная"
+    },
+    {
+      "id": 2,
+      "name": "Тройная"
+    }
+  ],
+  "tracks": [
+    {
+      "id": 0,
+      "name": "Неоновые крыши",
+      "asset": "neon"
+    },
+    {
+      "id": 1,
+      "name": "Сердце обсидиана",
+      "asset": "volcano"
+    },
+    {
+      "id": 2,
+      "name": "Тихая орбита",
+      "asset": "orbit"
+    },
+    {
+      "id": 3,
+      "name": "Кислотный контур",
+      "asset": "chemical"
+    },
+    {
+      "id": 4,
+      "name": "Северное сияние",
+      "asset": "arctic"
+    },
+    {
+      "id": 5,
+      "name": "Пульс машин",
+      "asset": "scrap"
+    },
+    {
+      "id": 6,
+      "name": "Красные горизонты",
+      "asset": "canyon"
+    },
+    {
+      "id": 7,
+      "name": "Огни причала",
+      "asset": "harbor"
+    },
+    {
+      "id": 8,
+      "name": "Зелёный горизонт",
+      "asset": "jungle"
+    },
+    {
+      "id": 9,
+      "name": "Эхо руин",
+      "asset": "ruins"
+    },
+    {
+      "id": 10,
+      "name": "Грозовой фронт",
+      "asset": "storm"
+    },
+    {
+      "id": 11,
+      "name": "Кристальный свет",
+      "asset": "crystal"
+    },
+    {
+      "id": 12,
+      "name": "Рывок",
+      "asset": "rush"
+    },
+    {
+      "id": 13,
+      "name": "Ночной патруль",
+      "asset": "nocturne"
+    },
+    {
+      "id": 14,
+      "name": "Аркадный разлом",
+      "asset": "retro"
+    },
+    {
+      "id": 15,
+      "name": "Последний рубеж",
+      "asset": "boss"
+    }
+  ]
+}

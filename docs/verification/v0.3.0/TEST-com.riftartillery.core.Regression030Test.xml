@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.Regression030Test" tests="16" skipped="0" failures="0" errors="0" timestamp="2026-10-30T08:24:51" hostname="ALEXCOMP" time="0.183">
+  <properties/>
+  <testcase name="vampireHealsOnlyFromEnemyDamage" classname="com.riftartillery.core.Regression030Test" time="0.006"/>
+  <testcase name="actualVersionThreeSaveMigratesAndReceivesNewInventory" classname="com.riftartillery.core.Regression030Test" time="0.052"/>
+  <testcase name="tripleAndGuidedSwarmFireExactlyThreeShots" classname="com.riftartillery.core.Regression030Test" time="0.007"/>
+  <testcase name="bouncingMineDeploysRealMineRatherThanOnlyExploding" classname="com.riftartillery.core.Regression030Test" time="0.005"/>
+  <testcase name="smokePreservesTerrainAndLeavesBlindingCloud" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="watermelonAndFragmentGrenadesCreateTheirDocumentedPayloads" classname="com.riftartillery.core.Regression030Test" time="0.016"/>
+  <testcase name="invalidTeleportStillRejectsGroundUnitsAndRaisedWater" classname="com.riftartillery.core.Regression030Test" time="0.005"/>
+  <testcase name="medkitDoesNotConsumeTurnAndAttackRemainsAvailable" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="elementalClustersProduceDistinctPayloads" classname="com.riftartillery.core.Regression030Test" time="0.01"/>
+  <testcase name="musicLibraryContainsEveryArenaAndFourManualBonusTracks" classname="com.riftartillery.core.Regression030Test" time="0.002"/>
+  <testcase name="walkingDoesNotPushAlliesOrEnemiesInEitherDirection" classname="com.riftartillery.core.Regression030Test" time="0.02"/>
+  <testcase name="empRemovesProtectionAndDisablesNearbyTurret" classname="com.riftartillery.core.Regression030Test" time="0.005"/>
+  <testcase name="jetboardCanFlyHoverAndPersistWithoutSpendingAttack" classname="com.riftartillery.core.Regression030Test" time="0.033"/>
+  <testcase name="teleportDoesNotConsumeTurnAndCanBeFollowedByAttack" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="existingSmallOverlapIsResolvedByMovingTheWalkingUnitOnly" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="unnecessaryMedkitDoesNotConsumeStock" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
