@@ -8,7 +8,7 @@ $root=Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot 'Prepare-BuildEnvironment.ps1')
 $project=Join-Path $root 'unity'
 $temporary=Join-Path $root '.tmp'
-$output=Join-Path $temporary 'pc040'
+$output=Join-Path $temporary 'pc050'
 New-Item -ItemType Directory -Force $temporary,$output | Out-Null
 if(-not $env:JAVA_HOME) {throw 'Set JAVA_HOME to JDK 17.'}
 if(-not (Test-Path -LiteralPath $UnityEditor)) {throw "Unity Editor missing: $UnityEditor"}
@@ -26,7 +26,7 @@ Copy-Item -LiteralPath $jar -Destination (Join-Path $engineAssets 'rift-sim.jar'
 Copy-Item (Join-Path $root 'app/src/main/assets/*-atlas.png') -Destination $art -Force
 Copy-Item (Join-Path $root 'app/src/main/assets/music/*.ogg') -Destination $music -Force
 $env:RIFT_PC_OUTPUT=Join-Path $output 'RIFT-Artillery.exe'
-$log=Join-Path $temporary 'unity-build-040.log'
+$log=Join-Path $temporary 'unity-build-050.log'
 try {
     $process=Start-Process -FilePath $UnityEditor -ArgumentList '-batchmode','-quit','-projectPath',('"'+$project+'"'),'-buildTarget','Win64','-executeMethod','Rift.Editor.BuildWindows.Build','-logFile',('"'+$log+'"') -WindowStyle Hidden -PassThru
     $process.WaitForExit()
@@ -41,7 +41,7 @@ $playerRuntime=Join-Path $output 'Engine/runtime'
 New-Item -ItemType Directory -Force $playerRuntime | Out-Null
 Copy-Item (Join-Path $runtime '*') -Destination $playerRuntime -Recurse -Force
 @'
-RIFT Artillery 0.4.0 for Windows x64
+RIFT Artillery 0.5.0 for Windows x64
 Extract this whole folder before starting RIFT-Artillery.exe.
 No Java installation, account or Internet connection is required.
 A/D or Left/Right: movement; Space: jump; Q: rope; W/S: rope length or flight; E: ability.

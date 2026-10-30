@@ -45,7 +45,7 @@ namespace Rift {
         }
         void Hero(Rect rect,int id,int team=0) {if(heroes==null) {Fill(rect,Lime);return;}GUI.DrawTextureWithTexCoords(rect,heroes,new Rect(id/7f,team==0?.5f:0,1/7f,.5f),true);}
         void DrawMenu() {
-            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.4.0 · 12 КАРТ · 120 ПРЕДМЕТОВ",58,105,900,Muted);
+            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.5.0 · 12 КАРТ · 140 ПРЕДМЕТОВ",58,105,900,Muted);
             if(B(musicEnabled?"Музыка: вкл":"Музыка: выкл",1020,35,180,46)) {musicEnabled=!musicEnabled;PlayerPrefs.SetInt("music",musicEnabled?1:0);}
             if(B("Треки",1212,35,165,46)) musicPanel=true;
             if(B(Screen.fullScreen?"Оконный / F11":"На весь экран / F11",1020,92,357,46)) ToggleFullscreen();
@@ -73,7 +73,9 @@ namespace Rift {
             foreach(var warning in state.mineWarnings) Circle(W(warning.x,warning.y),warning.radius*zoom,new Color(1,.3f,.2f,.16f));
             foreach(var point in state.trajectory) Circle(W(point.x,point.y),2,Lime);
             foreach(var d in state.devices) {
+                if(d.airdrop && d.timer>0) continue;
                 Vector2 p=W(d.x,d.y);uint tint=unchecked((uint)d.tint);Color color=new Color32((byte)(tint>>16),(byte)(tint>>8),(byte)tint,255);
+                if(d.airdrop && !d.landed) {Line(p+new Vector2(-45,-80)*zoom,p+new Vector2(-12,-20)*zoom,Color.white);Line(p+new Vector2(45,-80)*zoom,p+new Vector2(12,-20)*zoom,Color.white);Line(p+new Vector2(-45,-80)*zoom,p+new Vector2(-25,-105)*zoom,color,3);Line(p+new Vector2(-25,-105)*zoom,p+new Vector2(25,-105)*zoom,color,3);Line(p+new Vector2(25,-105)*zoom,p+new Vector2(45,-80)*zoom,color,3);}
                 if(d.interactive) {Circle(p,28*zoom,new Color(color.r,color.g,color.b,.25f));Text(d.label+(d.kind==11?" ×"+d.charges:""),p.x-70,p.y-55,240,d.timer>0?Muted:color,new GUIStyle(smallStyle){fontSize=18});}
                 if(d.kind==3) Circle(p,135*zoom,new Color(.3f,.9f,1,.12f));
                 Fill(new Rect(p.x-17*zoom,p.y-24*zoom,34*zoom,36*zoom),d.kind>=9?color:d.kind==5?Cyan:Muted);
@@ -110,6 +112,7 @@ namespace Rift {
             if(B("Сменить бойца",310,165,240,40)) {var ally=state.fighters.FirstOrDefault(f=>f.alive && f.team==Active.team && f.id!=state.active);if(ally!=null) Act("switch",",\"id\":"+ally.id);}
             if(!string.IsNullOrEmpty(state.interactLabel)) {if(B("F / "+state.interactLabel,570,165,560,40,true)) Act("interact");}
             else if(state.mode==1) Text(state.bossWarning,570,170,830,Coral,smallStyle);
+            if(string.IsNullOrEmpty(state.interactLabel) && state.mode!=1 && !string.IsNullOrEmpty(state.dropStatus)) Text(state.dropStatus,570,170,830,Cyan,smallStyle);
             var enemy=state.fighters.Where(f=>f.alive && f.team!=Active.team).OrderBy(f=>Mathf.Abs(f.x-Active.x)).FirstOrDefault();
             if(!overview && enemy!=null && Mathf.Abs((enemy.x-cameraX)*zoom)>690 && B("Противник →",1160,220,255,50)) {manual=true;overview=false;cameraX=enemy.x;cameraY=enemy.y-110;}
             if(terrain!=null) GUI.DrawTexture(new Rect(1100,580,316,95),terrain,ScaleMode.StretchToFill,true);

@@ -17,7 +17,7 @@ namespace Rift {
             Action<bool,string> check=(ok,label)=>{if(!ok) throw new Exception(label);checks++;Debug.Log("RIFT_SMOKE PASS "+checks+": "+label);};
             try {
                 check(string.IsNullOrEmpty(fatal) && catalog!=null,"Bridge starts in Windows player");
-                check(catalog.weapons.Length==120 && catalog.arenas.Length==12,"120 weapons and 12 arenas");
+                check(catalog.weapons.Length==140 && catalog.arenas.Length==12,"140 weapons and 12 arenas");
                 check(heroes!=null && bossArt!=null,"Hero and boss atlases load");
                 check(FindObjectsByType<AudioListener>(FindObjectsSortMode.None).Count(l=>l.enabled && l.gameObject.activeInHierarchy)==1,"Exactly one active AudioListener routes sound to output");
                 check(!AudioListener.pause && AudioListener.volume>0 && music.spatialBlend==0,"Audio output is enabled and music is not positional");
@@ -36,6 +36,17 @@ namespace Rift {
                 var supply=state.devices.First(d=>d.kind==9);Act("select",",\"weapon\":6");Act("fire",",\"x\":"+F(supply.x)+",\"y\":"+F(supply.y-3));
                 int medicine=Active.ammo[5];Act("interact");check(state.ok && Active.ammo[5]==medicine+1 && state.phase==0,"World supply crate grants stock without spending attack");
                 var portal=state.devices.First(d=>d.kind==14);Act("fire",",\"x\":"+F(portal.x)+",\"y\":"+F(portal.y-3));Act("interact");check(state.ok && Mathf.Abs(Active.x-2300)<1,"Portal interaction moves the fighter");
+                mode=0;NewBattle();paused=true;
+                int medicalDrone=Array.FindIndex(catalog.weapons,w=>w.name=="Медицинский дрон");Act("select",",\"weapon\":"+medicalDrone);Act("fire",",\"x\":1100,\"y\":700");
+                check(state.phase==0 && Active.ammo[medicalDrone]==1,"Medical drone schedules airdrop and preserves attack");
+                var drop=state.devices.Last(d=>d.kind==19);float initialY=drop.y;
+                for(int i=0;i<20;i++) Send("{\"cmd\":\"tick\",\"steps\":6}");
+                check(state.devices.Last(d=>d.kind==19).y==initialY,"Drop waits for delivery countdown");
+                for(int i=0;i<90;i++) Send("{\"cmd\":\"tick\",\"steps\":6}");
+                drop=state.devices.Last(d=>d.kind==19);check(drop.landed && drop.y>100,"Airdrop descends and lands on terrain (landed="+drop.landed+", y="+drop.y+")");
+                Act("save");Act("load");check(state.devices.Any(d=>d.kind==19 && d.landed),"Supply landing persists in save");
+                Act("select",",\"weapon\":6");Act("fire",",\"x\":"+F(drop.x)+",\"y\":"+F(drop.y-3));Act("interact");
+                check(!state.ok && state.devices.Any(d=>d.kind==19),"Unneeded medical drop remains available");
                 paused=true;bot=false;
                 for(int i=0;i<catalog.arenas.Length;i++) {arena=i;NewBattle();paused=true;check(state.arena==i && state.fighters.All(f=>f.alive),"Arena starts: "+catalog.arenas[i].name);}
                 mode=0;arena=0;NewBattle();paused=true;
@@ -117,6 +128,9 @@ namespace Rift {
             arsenal=true;category=catalog.weapons[63].category;search="Арбуз";yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-04-watermelon.png"));yield return new WaitForSecondsRealtime(.7f);arsenal=false;
             musicPanel=true;yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-05-music.png"));yield return new WaitForSecondsRealtime(.7f);
             musicPanel=false;battle=false;OpenShop();yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-06-shop.png"));yield return new WaitForSecondsRealtime(.7f);shopGroup=2;yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-07-auras.png"));yield return new WaitForSecondsRealtime(.7f);
+            shop=false;battle=true;mode=0;NewBattle();paused=true;var air=state.devices.First(d=>d.airdrop);cameraX=air.x;cameraY=500;zoom=.75f;overview=false;manual=true;
+            for(int i=0;i<60;i++) Send("{\"cmd\":\"tick\",\"steps\":6}");
+            yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot(Path.Combine(folder,"pc-08-airdrop.png"));yield return new WaitForSecondsRealtime(.7f);
             Application.Quit(0);
         }
     }

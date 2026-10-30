@@ -2,25 +2,28 @@ package com.riftartillery.core
 
 import kotlin.math.*
 
-val DeviceKind.interactive get()=ordinal in DeviceKind.SUPPLY.ordinal..DeviceKind.PORTAL.ordinal
+val DeviceKind.interactive get()=ordinal in DeviceKind.SUPPLY.ordinal..DeviceKind.PORTAL.ordinal || airdrop
 val DeviceKind.label get()=when(this) {
     DeviceKind.SUPPLY->"Снабжение";DeviceKind.AMMO_CRATE->"Боеприпасы";DeviceKind.MED_STATION->"Аптечная станция"
     DeviceKind.JUMP_PAD->"Трамплин";DeviceKind.BRIDGE_SWITCH->"Мост";DeviceKind.PORTAL->"Портал"
     DeviceKind.ACID_BARREL->"Кислота";DeviceKind.SHOCK_BARREL->"Электробочка";DeviceKind.ARC_TURRET->"Тесла-турель"
+    DeviceKind.AIRDROP_AMMO->"Дроп патронов";DeviceKind.AIRDROP_MED->"Медицинский дроп";DeviceKind.AIRDROP_ARMOR->"Бронекомплект";DeviceKind.AIRDROP_RARE->"Редкий дроп"
     else->name
 }
 val DeviceKind.tint get()=when(this) {
     DeviceKind.MED_STATION,DeviceKind.ACID_BARREL->0xffb1f070.toInt()
     DeviceKind.JUMP_PAD->0xffff8a70.toInt();DeviceKind.PORTAL->0xffbf8aff.toInt()
+    DeviceKind.AIRDROP_MED->0xffb1f070.toInt();DeviceKind.AIRDROP_ARMOR->0xff65d9ff.toInt();DeviceKind.AIRDROP_RARE->0xffffda65.toInt()
     DeviceKind.SHOCK_BARREL->0xffffda65.toInt();else->0xff65d9ff.toInt()
 }
 fun Game.nearbyInteraction():Device? {
     if(phase!=Phase.AIM || !canControl) return null
-    return devices.filter {it.kind.interactive && it.hp>0 && it.timer<=0 && hypot(it.x-active.x,it.y-active.y)<110}
+    return devices.filter {it.kind.interactive && it.hp>0 && it.timer<=0 && (!it.kind.airdrop || it.triggered) && hypot(it.x-active.x,it.y-active.y)<110}
         .minByOrNull {hypot(it.x-active.x,it.y-active.y)}
 }
 fun Game.interact():Boolean {
     val d=nearbyInteraction() ?: return false;val f=active
+    if(d.kind.airdrop) return collectAirdrop(d)
     fun grant(w:Weapon,n:Int) {if(f.ammo.getValue(w)>=0) f.ammo[w]=(f.ammo.getValue(w)+n).coerceAtMost(99)}
     when(d.kind) {
         DeviceKind.SUPPLY->{grant(Weapon.HEAL,1);grant(Weapon.GRENADE,3);grant(Weapon.BOLT_ROCKET,2);devices.remove(d);say("Снабжение: аптечка, три гранаты и две Иглы.")}
@@ -60,6 +63,7 @@ internal fun Game.populateInteractions() {
 }
 
 internal fun Game.fireExpansion():FireResult? {
+    fire050()?.let {return it}
     val f=active;val r=angle*PI.toFloat()/180;val dx=cos(r);val dy=sin(r)
     when(weapon) {
         Weapon.SHIELD_MINE->{if(f.shield>=120) return FireResult.FAILED;f.shield=min(120f,f.shield+25);say("Щитовой маяк: +25 защиты. Атака сохранена.");return FireResult.FREE}
@@ -89,6 +93,7 @@ internal fun Game.fireExpansion():FireResult? {
     }
 }
 internal fun Game.explodeExpansion(s:Shot):Boolean {
+    if(explode050(s)) return true
     if(s.weapon==Weapon.HEAL_GRENADE) {
         val team=fighters[s.owner].team
         fighters.filter {it.alive && it.team==team && hypot(it.x-s.x,it.y-25-s.y)<130}.forEach {it.hp=min(it.maxHp,it.hp+35);it.effects.fill(0);texts+=DamageText(it.x,it.y-50,"+35 HP")}

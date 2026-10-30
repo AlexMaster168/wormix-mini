@@ -11,3 +11,6 @@ b1726f51a9dc2b2573cfa69b0443f9f69d822b1ad17eff089e0af627a696cb98  RIFT-Artillery
 1ce461e8b840da2269f2b10e106820262d6848fb3e684ced9dbc5e3a1651e9b4  RIFT-Artillery-0.4.0.aab
 92795f054eec152cd5b1b50e8cc247a6b42afbbb866abb366ea97c3c777a1ca9  RIFT-Artillery-0.4.0.apk
 a9bf14bbe70f8b5eceb5898caa716fe372eeabbeeaecd2a4dbf85c8c2166db34  RIFT-Artillery-Windows-0.4.0.zip
+54851d9f1b3d08e45a33a0c5918fe174656db9ed5e1510da40aa25f2f18feda7  RIFT-Artillery-0.5.0.apk
+a879cb058964f1ee2ab863ae7a6ed9212179d67e925f92f6207dc77109ecc28e  RIFT-Artillery-0.5.0.aab
+4905f6ed4fc88f792f31ca027042b63f92a2c67df7bf6d18f70765df2cd4cfa7  RIFT-Artillery-Windows-0.5.0.zip

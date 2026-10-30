@@ -1,0 +1,16 @@
+C:\Projects\wormix-mini\app\src\main\java\com\riftartillery\game\BattleView.kt:149: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+        if(prefs.getBoolean("useSupplies",true)) prefs.edit().putString("shopStock",Market.apply(game!!,prefs.getString("shopStock","").orEmpty())).commit()
+                                                                                                                                                    ~~~~~~~~
+C:\Projects\wormix-mini\app\src\main\java\com\riftartillery\game\BattleView.kt:806: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+                if(owned) Market.equip(old,o.aura)?.let {prefs.edit().putString("shopStock",it).commit();shopNotice="Аура выбрана"}
+                                                                                                ~~~~~~~~
+C:\Projects\wormix-mini\app\src\main\java\com\riftartillery\game\BattleView.kt:809: Warning: Consider using apply() instead; commit writes its data to persistent storage immediately, whereas apply will handle it in the background [ApplySharedPref]
+                    else {prefs.edit().putInt("scrap",p.balance).putString("shopStock",p.inventory).commit();shopNotice="Куплено: ${o.title}";beep()}
+                                                                                                    ~~~~~~~~
+
+   Explanation for issues of type "ApplySharedPref":
+   Consider using apply() instead of commit on shared preferences. Whereas
+   commit blocks and writes its data to persistent storage immediately, apply
+   will handle it in the background.
+
+0 errors, 3 warnings

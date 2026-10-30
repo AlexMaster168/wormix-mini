@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.Regression030Test" tests="17" skipped="0" failures="0" errors="0" timestamp="2026-10-30T20:06:24" hostname="ALEXCOMP" time="0.21">
+  <properties/>
+  <testcase name="walkingOutOfOverlapDoesNotMoveTheOtherUnit" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="vampireHealsOnlyFromEnemyDamage" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="actualVersionThreeSaveMigratesAndReceivesNewInventory" classname="com.riftartillery.core.Regression030Test" time="0.072"/>
+  <testcase name="tripleAndGuidedSwarmFireExactlyThreeShots" classname="com.riftartillery.core.Regression030Test" time="0.006"/>
+  <testcase name="bouncingMineDeploysRealMineRatherThanOnlyExploding" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="smokePreservesTerrainAndLeavesBlindingCloud" classname="com.riftartillery.core.Regression030Test" time="0.005"/>
+  <testcase name="stoppingInsideAnotherUnitDoesNotPushEitherFighter" classname="com.riftartillery.core.Regression030Test" time="0.005"/>
+  <testcase name="watermelonAndFragmentGrenadesCreateTheirDocumentedPayloads" classname="com.riftartillery.core.Regression030Test" time="0.018"/>
+  <testcase name="invalidTeleportStillRejectsGroundUnitsAndRaisedWater" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="medkitDoesNotConsumeTurnAndAttackRemainsAvailable" classname="com.riftartillery.core.Regression030Test" time="0.003"/>
+  <testcase name="elementalClustersProduceDistinctPayloads" classname="com.riftartillery.core.Regression030Test" time="0.011"/>
+  <testcase name="musicLibraryContainsEveryArenaAndFourManualBonusTracks" classname="com.riftartillery.core.Regression030Test" time="0.002"/>
+  <testcase name="walkingDoesNotPushAlliesOrEnemiesInEitherDirection" classname="com.riftartillery.core.Regression030Test" time="0.018"/>
+  <testcase name="empRemovesProtectionAndDisablesNearbyTurret" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="jetboardCanFlyHoverAndPersistWithoutSpendingAttack" classname="com.riftartillery.core.Regression030Test" time="0.039"/>
+  <testcase name="teleportDoesNotConsumeTurnAndCanBeFollowedByAttack" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <testcase name="unnecessaryMedkitDoesNotConsumeStock" classname="com.riftartillery.core.Regression030Test" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -243,6 +243,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             else->Unit
         }
         populateInteractions()
+        if(mode!=GameMode.ROPE_RACE) spawnAirdrop()
         wind = random()*20-10
         lastByTeam[0] = 0
     }
@@ -420,7 +421,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                 }
                 applyWeaponEffect(s.weapon,f)
                 val knock = (if(f.race == Race.CYBORG) .7f else 1f)*(if(large) .25f else 1f)*(if(s.weapon==Weapon.SMOKE) 0f else 1f)
-                if(s.weapon==Weapon.VORTEX) {
+                if(s.weapon in setOf(Weapon.VORTEX,Weapon.VACUUM_ROCKET)) {
                     val distance=max(10f,hypot(f.x-s.x,f.y-24-s.y))
                     f.vx+=(s.x-f.x)/distance*520*factor*knock
                     f.vy+=(s.y-(f.y-24))/distance*520*factor*knock-70
@@ -678,9 +679,10 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                     if(w.kind==Kind.WALKER) {s.vy= -145f;s.x=nx;s.y=ny-4;break}
                     s.bounces++
                     if(w==Weapon.DISC && s.bounces>=6) {detonate=true;break}
+                    if(w==Weapon.MIRROR_BOMB && s.bounces>=10) {detonate=true;break}
                     if(w==Weapon.RICOCHET_ORB && s.bounces>=8) {detonate=true;break}
                     if(w==Weapon.BOUNCER && s.bounces>=3) {detonate=true;break}
-                    val bounce=if(w==Weapon.RICOCHET_ORB) .92f else if(w==Weapon.BANANA) .9f else if(w==Weapon.DISC) 1f else if(hardBounce) .7f else .45f
+                    val bounce=if(w in setOf(Weapon.RICOCHET_ORB,Weapon.MIRROR_BOMB)) .92f else if(w==Weapon.BANANA) .9f else if(w==Weapon.DISC) 1f else if(hardBounce) .7f else .45f
                     if (terrain.at(nx,s.y)) s.vx *= -bounce else s.vx *= if(w==Weapon.DISC) 1f else .78f
                     if (terrain.at(s.x,ny)) s.vy *= -bounce else s.vy *= -bounce
                     if (abs(s.vy)<12) s.vy=0f

@@ -151,16 +151,36 @@ enum class Weapon(val title:String,val damage:Float,val radius:Float,val stock:I
     SHIELD_MINE("Щитовой маяк",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Добавляет 25 защиты без завершения хода"),
     BARRIER("Баррикада",0f,0f,3,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Строит вертикальное укрытие в выбранной точке"),
     HEAL_TOTEM("Медицинский тотем",0f,0f,2,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Станция с тремя зарядами лечения; подойди и активируй"),
-    ARC_TURRET("Тесла-турель",22f,0f,2,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Электрическая турель бьёт видимую цель четыре перехода хода");
-    val targeted get()=this in setOf(TELEPORT,HOMING,SEEKER_SWARM,BUNKER,ION,AIRSTRIKE,NAPALM,CARPET_BOMB,FUEL_AIR,GIRDER,TELEKINESIS,BARRIER,DRONE_STRIKE)
-    val fireEffect get()=this in setOf(FLAME,MOLOTOV,NAPALM,THERMO_ROCKET,PUMPKIN,INCENDIARY,HEAVY_FLAMER,FIRE_CLUSTER,FLARE_GUN,FUEL_AIR,FLAME_ROCKET)
+    ARC_TURRET("Тесла-турель",22f,0f,2,0f,0f,Category.ENGINEER,Kind.DEPLOY,"Электрическая турель бьёт видимую цель четыре перехода хода"),
+    PHOTON_RIFLE("Фотонная винтовка",64f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Точный луч пробивает до трёх бойцов"),
+    TRI_LASER("Тройной лазер",66f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Три луча с фиксированным углом расхождения"),
+    FLECHETTE("Флешетт-пулемёт",72f,0f,2,0f,0f,Category.GUN,Kind.BEAM,"24 иглы с кровотечением и разбросом"),
+    HAND_CANNON("Ручная пушка",68f,0f,3,0f,0f,Category.GUN,Kind.BEAM,"Тяжёлая пуля с мощным отбрасыванием"),
+    SCATTER_PISTOL("Дробовой пистолет",54f,0f,4,0f,0f,Category.GUN,Kind.BEAM,"Шесть дробин широким конусом"),
+    RAIL_BURST("Парный рельсотрон",86f,0f,2,0f,0f,Category.GUN,Kind.BEAM,"Два импульса с проходкой через породу"),
+    FIRE_LANCE("Огненное копьё",58f,0f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Длинная струя огня на 400 пикселей"),
+    VENOM_SPRAYER("Ядомёт",42f,0f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Конус яда и облако перед стрелком"),
+    ACID_SPRAYER("Кислотный распылитель",46f,0f,3,0f,0f,Category.ELEMENTAL,Kind.BEAM,"Струя коррозии размывает укрытие"),
+    NOVA_BOMB("Нова-бомба",55f,180f,2,620f,0f,Category.ELEMENTAL,Kind.IMPACT,"Большой электрический взрыв и оглушение"),
+    SHOCK_CLUSTER("Грозовая кассета",18f,60f,2,640f,2f,Category.GRENADE,Kind.BOUNCE,"Шесть самостоятельных электрических зарядов"),
+    TAR_BOMB("Смоляная бомба",18f,100f,3,600f,2.5f,Category.ELEMENTAL,Kind.BOUNCE,"Горящая смола оставляет замедляющий участок"),
+    METAL_STORM("Металлический шторм",12f,60f,2,610f,2.5f,Category.GRENADE,Kind.BOUNCE,"Двенадцать шрапнельных мини-гранат"),
+    MIRROR_BOMB("Зеркальная бомба",52f,75f,3,800f,5f,Category.GRENADE,Kind.BOUNCE,"До десяти упругих отскоков"),
+    SUN_BOMB("Солнечный заряд",65f,140f,2,700f,0f,Category.ELEMENTAL,Kind.IMPACT,"Огненный взрыв с широкой зоной горения"),
+    VACUUM_ROCKET("Вакуумная ракета",40f,100f,3,840f,0f,Category.BALLISTIC,Kind.IMPACT,"Стягивает бойцов к точке попадания"),
+    COMET("Кометный удар",70f,135f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Три тяжёлых заряда вдоль выбранного участка"),
+    MED_DRONE("Медицинский дрон",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Доставляет медицинский дроп; атака остаётся"),
+    SATELLITE("Спутник «Триада»",50f,22f,1,0f,0f,Category.GLOBAL,Kind.GLOBAL,"Три вертикальных режущих луча"),
+    AIRDROP_BEACON("Маяк снабжения",0f,0f,2,0f,0f,Category.GADGET,Kind.UTILITY,"Выбери район доставки случайного дропа");
+    val targeted get()=this in setOf(TELEPORT,HOMING,SEEKER_SWARM,BUNKER,ION,AIRSTRIKE,NAPALM,CARPET_BOMB,FUEL_AIR,GIRDER,TELEKINESIS,BARRIER,DRONE_STRIKE,COMET,MED_DRONE,SATELLITE,AIRDROP_BEACON)
+    val fireEffect get()=this in setOf(FLAME,MOLOTOV,NAPALM,THERMO_ROCKET,PUMPKIN,INCENDIARY,HEAVY_FLAMER,FIRE_CLUSTER,FLARE_GUN,FUEL_AIR,FLAME_ROCKET,FIRE_LANCE,TAR_BOMB,SUN_BOMB)
     val iceEffect get()=this in setOf(CRYO,FREEZE_GRENADE,FROST_THROWER,ICE_CLUSTER,ICE_SHARDS)
-    val poisonEffect get()=this in setOf(GAS,SKUNK,POISON_DART,MUSHROOM)
-    val bleedEffect get()=this in setOf(SHURIKEN,SPIKE_GRENADE,CROSSBOW,NAILGUN,SHRAPNEL_CANNON)
+    val poisonEffect get()=this in setOf(GAS,SKUNK,POISON_DART,MUSHROOM,VENOM_SPRAYER)
+    val bleedEffect get()=this in setOf(SHURIKEN,SPIKE_GRENADE,CROSSBOW,NAILGUN,SHRAPNEL_CANNON,FLECHETTE)
     val damageType get()=when {
         fireEffect->DamageType.FIRE;poisonEffect->DamageType.POISON
-        this in setOf(TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX,EMP_GRENADE,SHOCK_ROCKET,CHAIN_LIGHTNING,RAILGUN,GAUSS,SONIC,THUNDER_ORB,ARC_THROWER,MIRROR_GUN,LASER_CUTTER,BLACK_HOLE)->DamageType.ELECTRIC
-        this in setOf(ACID,ACID_CLUSTER,ACID_ROCKET)->DamageType.ACID
+        this in setOf(TESLA,ION,STICKY,LASER,REPULSOR,PLASMA_RIFLE,VORTEX,EMP_GRENADE,SHOCK_ROCKET,CHAIN_LIGHTNING,RAILGUN,GAUSS,SONIC,THUNDER_ORB,ARC_THROWER,MIRROR_GUN,LASER_CUTTER,BLACK_HOLE,PHOTON_RIFLE,TRI_LASER,RAIL_BURST,NOVA_BOMB,SHOCK_CLUSTER,SATELLITE,VACUUM_ROCKET)->DamageType.ELECTRIC
+        this in setOf(ACID,ACID_CLUSTER,ACID_ROCKET,ACID_SPRAYER)->DamageType.ACID
         kind==Kind.BEAM->DamageType.BULLET;kind==Kind.MELEE->DamageType.MELEE;else->DamageType.EXPLOSION
     }
 }
@@ -176,6 +196,6 @@ enum class Artifact(val title:String) { NONE("Без артефакта"), GRAVI
 enum class Upgrade(val title:String) { STANDARD("Стандарт"), PLASMA("Плазменная"), TRIPLE("Тройная") }
 data class Loadout(val race:Race=Race.DRAGON,val hat:Hat=Hat.NONE,val artifact:Artifact=Artifact.NONE,val upgrade:Upgrade=Upgrade.STANDARD)
 data class Hazard(var x:Float,var y:Float,val radius:Float,val effect:Effect,var turns:Int,val owner:Int)
-enum class DeviceKind { MINE, SPIDER, TURRET, DOME, BARREL, GENERATOR, GEYSER, MAGNET, DEFENDER, SUPPLY, AMMO_CRATE, MED_STATION, JUMP_PAD, BRIDGE_SWITCH, PORTAL, ACID_BARREL, SHOCK_BARREL, ARC_TURRET }
+enum class DeviceKind { MINE, SPIDER, TURRET, DOME, BARREL, GENERATOR, GEYSER, MAGNET, DEFENDER, SUPPLY, AMMO_CRATE, MED_STATION, JUMP_PAD, BRIDGE_SWITCH, PORTAL, ACID_BARREL, SHOCK_BARREL, ARC_TURRET, AIRDROP_AMMO, AIRDROP_MED, AIRDROP_ARMOR, AIRDROP_RARE }
 data class Device(val kind:DeviceKind,var x:Float,var y:Float,val owner:Int,var hp:Float=60f,var timer:Float=2f,var turns:Int=4,var triggered:Boolean=false)
 data class Beam(val x:Float,val y:Float,val x2:Float,val y2:Float,var life:Float=.4f)

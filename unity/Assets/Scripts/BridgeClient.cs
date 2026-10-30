@@ -9,9 +9,9 @@ namespace Rift {
     [Serializable] public class Catalog { public bool ok; public string version,error; public Entry[] weapons,arenas,categories,races,bosses,hats,artifacts,upgrades,tracks,offers; public int[] auraColors,rewards; }
     [Serializable] public class Patch { public int x,y,width,height; public string png; }
     [Serializable] public class Fighter { public int id,team,race; public string name; public float x,y,vx,vy,hp,maxHp,shield,fuel,drill; public bool alive,grounded,jetboard,parachute,abilityUsed; public int[] effects,ammo; }
-    [Serializable] public class Point { public float x,y,x2,y2,radius,fuse,hp; public int weapon,effect,kind,owner,tint,charges; public bool fragment,interactive; public string label; public float timer; }
+    [Serializable] public class Point { public float x,y,x2,y2,radius,fuse,hp; public int weapon,effect,kind,owner,tint,charges; public bool fragment,interactive,airdrop,landed; public string label; public float timer; }
     [Serializable] public class State {
-        public int shopWallet,selectedAura; public string shopStock,interactLabel; public int[] shopOwned;
+        public int shopWallet,selectedAura; public string shopStock,interactLabel,dropStatus; public int[] shopOwned;
         public bool ok,human,control,hardBounce,saveExists; public string error,message,bossWarning; public long frame;
         public int arena,mode,boss,bossPhase,phase,turn,active,weapon,winner,checkpoints;
         public float time,retreat,angle,power,wind,water,raceElapsed,grenadeTimer;

@@ -11,7 +11,7 @@ class Expansion040Test {
         g.fighters.forEach {it.x=300f+it.id*600;it.y=982f;it.grounded=true};return g
     }
     @Test fun everyNewWeaponFiresAndConsumesExactlyOneRound() {
-        assertEquals(120,Weapon.entries.size)
+        assertEquals(140,Weapon.entries.size)
         for(w in Weapon.entries.drop(100)) {
             val g=game();g.select(w);val before=g.active.ammo.getValue(w)
             assertTrue(w.name,g.fire(if(w.targeted) 1100f else null,if(w.targeted) 700f else null))
@@ -51,7 +51,7 @@ class Expansion040Test {
         assertEquals(20,Market.reward(GameMode.DUEL,1));assertEquals(180,Market.reward(GameMode.BOSS,0))
     }
     @Test fun allCombatMapsHaveInteractiveDevicesAndRaceDoesNot() {
-        for(a in Arena.entries) {val g=Game(a,false);assertEquals(7,g.devices.count {it.kind.interactive});assertTrue(g.devices.all {it.x in 0f..WORLD_W.toFloat()});assertTrue(g.devices.filter {it.kind.interactive}.all {it.y<g.waterLevel-100})}
+        for(a in Arena.entries) {val g=Game(a,false);assertEquals(7,g.devices.count {it.kind.interactive && !it.kind.airdrop});assertTrue(g.devices.all {it.x in 0f..WORLD_W.toFloat()});assertTrue(g.devices.filter {it.kind.interactive && !it.kind.airdrop}.all {it.y<g.waterLevel-100})}
         assertTrue(Game(mode=GameMode.ROPE_RACE).devices.none {it.kind.interactive})
     }
     @Test fun ammoCrateIsSingleUseAndDoesNotSpendAttack() {

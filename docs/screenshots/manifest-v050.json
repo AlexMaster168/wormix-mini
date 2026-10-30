@@ -1,0 +1,24 @@
+{
+  "version": "0.5.0",
+  "capturedAfter": {
+    "android": "Android 15 instrumentation: 218 checks on 1920x1080 and 1280x800",
+    "windows": "Unity Windows player: 231 checks"
+  },
+  "artifacts": {
+    "androidApkSha256": "54851d9f1b3d08e45a33a0c5918fe174656db9ed5e1510da40aa25f2f18feda7",
+    "windowsZipSha256": "4905f6ed4fc88f792f31ca027042b63f92a2c67df7bf6d18f70765df2cd4cfa7"
+  },
+  "screenshots": [
+    {"file":"v050-android-01-menu.png","platform":"Android","sha256":"609c9844e4f5c3785c2d5edc4bb018093014da64334a414b09a1d7f35bc94db4","description":"Меню с 12 аренами и 140 предметами"},
+    {"file":"v050-android-06-aim.png","platform":"Android","sha256":"320b14a8b8817ed50af3f9bd0aaa3a3776a4d190554b908323d96124f04bd23a","description":"Точная настройка прицела в паузе"},
+    {"file":"v050-android-10-music.png","platform":"Android","sha256":"74f5cb6a09231b9f29ddbe3e60f4b834990f6bd6f2ea18c6e8d5c24334281fa2","description":"Выбор одной из 16 музыкальных тем"},
+    {"file":"v050-pc-01-menu.png","platform":"Windows","sha256":"fe1242b41255bd638a4c1054562b7a75f0a808d807edf66ed51894e2d075116b","description":"Меню Unity-клиента"},
+    {"file":"v050-pc-02-battle.png","platform":"Windows","sha256":"a43044f6c1310b01db3a071ad6065bf10d5505212d0d1fe7836ad599eb3e27ee","description":"Бой на разрушаемой арене"},
+    {"file":"v050-pc-03-aim.png","platform":"Windows","sha256":"d3177d96aaf649c278abb4a688410be4568d34a421f6c4726b6ce2ffdc96d5ea","description":"Панель прицела"},
+    {"file":"v050-pc-04-watermelon.png","platform":"Windows","sha256":"f9281a269f8566542a1937bcbbea83120f77581b231897e6cace0c8106d8b784","description":"Поиск оружия"},
+    {"file":"v050-pc-05-music.png","platform":"Windows","sha256":"033158d3d657407369d9274330907dd6b787654cc7a6c4b38116a394286dbbad","description":"Музыкальное меню"},
+    {"file":"v050-pc-06-shop.png","platform":"Windows","sha256":"4ff1ac8b1902c574d1149a02aaca80611a7abeeec38bd670a16f3b38bf333b21","description":"Магазин наборов"},
+    {"file":"v050-pc-07-auras.png","platform":"Windows","sha256":"7b9bd11d95a444c33cbf4e5c805a7ccfbceff74f73a6cf6f773482debcd2c87e","description":"Постоянные ауры"},
+    {"file":"v050-pc-08-airdrop.png","platform":"Windows","sha256":"e760e947e17db112f841128d50fd1a373e87f21024530443996f6882e7492ce6","description":"Статус воздушной доставки и взаимодействие с грузом"}
+  ]
+}

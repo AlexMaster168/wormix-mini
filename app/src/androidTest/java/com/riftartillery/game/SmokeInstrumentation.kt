@@ -31,19 +31,23 @@ class SmokeInstrumentation : Instrumentation() {
         checks++;android.util.Log.i("RiftSmoke","PASS $checks: $message")
     }}
     private fun click(label:String,prefix:Boolean=false) {
-        runOnMainSync {
-            val provider=view.accessibilityNodeProvider ?: error("Accessibility provider missing")
-            val count=provider.createAccessibilityNodeInfo(View.NO_ID)!!.childCount
-            var found=false
-            for(id in 1..count) {
-                val node=provider.createAccessibilityNodeInfo(id) ?: continue
-                val text=node.text?.toString() ?: ""
-                if(if(prefix) text.startsWith(label) else text==label) {
-                    check(provider.performAction(id,AccessibilityNodeInfo.ACTION_CLICK,null));found=true;break
+        val deadline=SystemClock.uptimeMillis()+4000
+        var found=false
+        while(!found && SystemClock.uptimeMillis()<deadline) {
+            runOnMainSync {
+                val provider=view.accessibilityNodeProvider ?: return@runOnMainSync
+                val count=provider.createAccessibilityNodeInfo(View.NO_ID)?.childCount ?: 0
+                for(id in 1..count) {
+                    val node=provider.createAccessibilityNodeInfo(id) ?: continue
+                    val text=node.text?.toString() ?: ""
+                    if(if(prefix) text.startsWith(label) else text==label) {
+                        found=provider.performAction(id,AccessibilityNodeInfo.ACTION_CLICK,null);break
+                    }
                 }
             }
-            check(found) {"Control missing: $label"}
+            if(!found) SystemClock.sleep(50)
         }
+        check(found) {"Control missing after render wait: $label"}
         SystemClock.sleep(170)
     }
     private fun event(action:Int,x:Float,y:Float,down:Long) {runOnMainSync {
@@ -112,6 +116,14 @@ class SmokeInstrumentation : Instrumentation() {
             click("Купить / 30");verify("Shop atomically spends wallet and stores pack") {shopPrefs.getInt("scrap",0)==120 && Market.decode(shopPrefs.getString("shopStock","").orEmpty()).packs[0]==1}
             click("Готово");newBattle()
             verify("Purchased pack applies to new battle once") {game().active.ammo[Weapon.AK47]==Weapon.AK47.stock+3 && Market.decode(shopPrefs.getString("shopStock","").orEmpty()).packs[0]==0}
+            selectThroughArsenal(Weapon.MED_DRONE);tap(800f,400f)
+            verify("Medical drone calls a real delivery and keeps attack") {game().phase==Phase.AIM && game().active.ammo[Weapon.MED_DRONE]==1 && game().devices.any {it.kind==DeviceKind.AIRDROP_MED && !it.triggered}}
+            val delivery=game().devices.last {it.kind==DeviceKind.AIRDROP_MED};click("II  Пауза");val deliveryY=delivery.y;val deliveryDelay=delivery.timer
+            SystemClock.sleep(250);verify("Pause freezes falling supply and delivery delay") {delivery.y==deliveryY && delivery.timer==deliveryDelay}
+            click("Продолжить бой");waitFor("Supply descends after delivery delay",8000) {delivery.timer==0f && delivery.y>75}
+            runOnMainSync {game().active.hp=40f;delivery.x=game().active.x+35;delivery.y=game().terrain.surface(delivery.x)-22;delivery.timer=0f;delivery.triggered=true}
+            click("Использовать: Медицинский дроп")
+            verify("Drop interaction heals once and preserves attack") {game().active.hp==85f && delivery !in game().devices && game().phase==Phase.AIM}
             runOnMainSync {game().active.hp=40f};hold(125f,765f,600)
             click("Использовать: Аптечная станция")
             verify("Interactive medical station heals without consuming turn") {game().active.hp==70f && game().phase==Phase.AIM}
@@ -157,7 +169,7 @@ class SmokeInstrumentation : Instrumentation() {
                 waitFor("New arena starts with safe spawns: $a") {game().arena==a && game().fighters.all {it.alive && it.grounded}}
                 click("II  Пауза");click("Сохранить и в меню")
             }
-            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX,Weapon.HE_ROCKET,Weapon.WATERMELON,Weapon.HEAVY_FLAMER,Weapon.RAILGUN,Weapon.SMOKE,Weapon.TRIPLE_ROCKET,Weapon.EMP_GRENADE,Weapon.MIRROR_GUN,Weapon.AUTO_SHOTGUN,Weapon.HEAL_GRENADE,Weapon.BLACK_HOLE,Weapon.ICE_SHARDS,Weapon.THUNDER_ORB)) {
+            for(w in listOf(Weapon.PLASMA_RIFLE,Weapon.CLUSTER_ROCKET,Weapon.VORTEX,Weapon.HE_ROCKET,Weapon.WATERMELON,Weapon.HEAVY_FLAMER,Weapon.RAILGUN,Weapon.SMOKE,Weapon.TRIPLE_ROCKET,Weapon.EMP_GRENADE,Weapon.MIRROR_GUN,Weapon.AUTO_SHOTGUN,Weapon.HEAL_GRENADE,Weapon.BLACK_HOLE,Weapon.ICE_SHARDS,Weapon.THUNDER_ORB,Weapon.PHOTON_RIFLE,Weapon.TRI_LASER,Weapon.FLECHETTE,Weapon.SUN_BOMB,Weapon.SHOCK_CLUSTER,Weapon.VACUUM_ROCKET)) {
                 newBattle();waitFor("Ready to test $w") {game().active.grounded}
                 selectThroughArsenal(w);verify("New weapon selected through arsenal: $w") {game().weapon==w}
                 val stock=game().active.ammo.getValue(w);tap(1300f,765f)

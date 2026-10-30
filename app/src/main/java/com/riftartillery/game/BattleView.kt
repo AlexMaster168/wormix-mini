@@ -428,6 +428,7 @@ class BattleView(context: Context) : View(context) {
             text(c,"ОПАСНО: МИНА",d.x-42,d.y-Weapon.MINE.radius-10,11f,coral,mono)
         }
         for(d in g.devices) {
+            if(d.kind.airdrop && d.timer>0) continue
             if(d.kind==DeviceKind.DOME) {paint.color=cyan;paint.style=Paint.Style.STROKE;paint.strokeWidth=3f;c.drawCircle(d.x,d.y,135f,paint);paint.style=Paint.Style.FILL}
             else {rect(c,d.x-18,d.y-27,36f,40f,when(d.kind) {DeviceKind.BARREL->Color.rgb(110,145,54);DeviceKind.GENERATOR->cyan;DeviceKind.GEYSER->coral;DeviceKind.ACID_BARREL,DeviceKind.SHOCK_BARREL,DeviceKind.ARC_TURRET->d.kind.tint;else->muted},5f)
                 text(c,when(d.kind) {DeviceKind.MINE->"!";DeviceKind.SPIDER->"Ж";DeviceKind.TURRET->"T";DeviceKind.GENERATOR->"⚡";DeviceKind.MAGNET->"U";DeviceKind.ACID_BARREL->"A";DeviceKind.SHOCK_BARREL->"⚡";DeviceKind.ARC_TURRET->"T";else->"×"},d.x-8,d.y,20f,bg,mono)
@@ -447,10 +448,14 @@ class BattleView(context: Context) : View(context) {
             points.zipWithNext().forEach {(p,q)->line(c,p.x,p.y,q.x,q.y,white,2f)}
             val tip=points.last();line(c,g.active.x,g.active.y-20,tip.x,tip.y,white,2f);circle(c,a.x,a.y,6f,lime)
         }
-        for(d in g.devices.filter {it.kind.interactive}) {
+        for(d in g.devices.filter {it.kind.interactive && (!it.kind.airdrop || it.timer<=0)}) {
+            if(d.kind.airdrop && !d.triggered) {
+                paint.color=d.kind.tint;paint.style=Paint.Style.STROKE;paint.strokeWidth=3f;c.drawArc(d.x-48,d.y-115,d.x+48,d.y-55,180f,180f,false,paint);paint.style=Paint.Style.FILL
+                line(c,d.x-48,d.y-85,d.x-12,d.y-25,white,2f);line(c,d.x+48,d.y-85,d.x+12,d.y-25,white,2f)
+            }
             val color=if(d.timer>0) muted else d.kind.tint
             circle(c,d.x,d.y-10,28f,Color.argb(70,101,217,255));rect(c,d.x-17,d.y-28,34f,36f,color,6f)
-            text(c,when(d.kind) {DeviceKind.MED_STATION->"+";DeviceKind.JUMP_PAD->"↑";DeviceKind.PORTAL->"O";DeviceKind.BRIDGE_SWITCH->"=";else->"▣"},d.x-9,d.y,24f,bg,mono)
+            text(c,when {d.kind.airdrop->"↓";d.kind==DeviceKind.MED_STATION->"+";d.kind==DeviceKind.JUMP_PAD->"↑";d.kind==DeviceKind.PORTAL->"O";d.kind==DeviceKind.BRIDGE_SWITCH->"=";else->"▣"},d.x-9,d.y,24f,bg,mono)
             if(abs(d.x-g.active.x)<180) text(c,d.kind.label,d.x-75,d.y-42,17f,color)
         }
         for(f in g.fighters.filter {it.alive || it.reviveIn>0}) {
@@ -542,6 +547,7 @@ class BattleView(context: Context) : View(context) {
         val interactive=g.nearbyInteraction()
         if(interactive!=null) button(c,"Использовать: ${interactive.kind.label}",670f,163f,746f,40f,lime,bg) {g.interact();clearInput()}
         else if(g.mode==GameMode.BOSS) {rect(c,670f,163f,746f,40f,panel,8f);fittedText(c,g.bossWarning,683f,191f,720f,22f,coral)}
+        if(interactive==null && g.mode!=GameMode.BOSS && g.airdropStatus().isNotEmpty()) fittedText(c,g.airdropStatus(),670f,191f,746f,22f,cyan)
         if(g.mode==GameMode.ROPE_RACE) text(c,"ТОЧКИ ${g.checkpoints}/5  •  ${g.raceElapsed.toInt()} с",1040f,188f,17f,lime)
         if(g.active.fuel>0) text(c,"ТОПЛИВО ${g.active.fuel.toInt()}",30f,230f,14f,cyan)
         if(g.active.drillFuel>0) text(c,"БУР ${g.active.drillFuel.toInt()}% / прицел + движение",30f,252f,14f,lime)
@@ -616,7 +622,7 @@ class BattleView(context: Context) : View(context) {
         Category.entries.forEachIndexed {i,cat->
             button(c,cat.title,198f+(i%5)*210,185f+(i/5)*48,198f,39f,if(cat==arsenalCategory && !arsenalNew) lime else Color.rgb(32,46,63),if(cat==arsenalCategory && !arsenalNew) bg else white) {arsenalCategory=cat;arsenalPage=0;arsenalNew=false}
         }
-        button(c,"Новинки / 60",1038f,233f,198f,39f,if(arsenalNew) lime else bg,if(arsenalNew) bg else white) {arsenalNew=true;arsenalPage=0}
+        button(c,"Новинки / 80",1038f,233f,198f,39f,if(arsenalNew) lime else bg,if(arsenalNew) bg else white) {arsenalNew=true;arsenalPage=0}
         val weapons=if(arsenalNew) Weapon.entries.drop(60) else Weapon.entries.filter {it.category==arsenalCategory}
         val pageCount=max(1,(weapons.size+5)/6);arsenalPage=arsenalPage.coerceIn(0,pageCount-1)
         weapons.drop(arsenalPage*6).take(6).forEachIndexed {i,w ->

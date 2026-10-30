@@ -1,7 +1,7 @@
-param([string]$PlayerDirectory='', [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.4.0')
+param([string]$PlayerDirectory='', [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.5.0')
 $ErrorActionPreference='Stop'
 $root=Split-Path -Parent $PSScriptRoot
-if(-not $PlayerDirectory) {$PlayerDirectory=Join-Path $root '.tmp/pc040'}
+if(-not $PlayerDirectory) {$PlayerDirectory=Join-Path $root '.tmp/pc050'}
 $playerRoot=(Resolve-Path -LiteralPath $PlayerDirectory).Path
 foreach($relative in @('RIFT-Artillery.exe','UnityPlayer.dll','Engine/runtime/bin/java.exe','RIFT-Artillery_Data/StreamingAssets/Engine/rift-sim.jar')) {
     if(-not (Test-Path -LiteralPath (Join-Path $playerRoot $relative))) {throw "Incomplete player: $relative"}

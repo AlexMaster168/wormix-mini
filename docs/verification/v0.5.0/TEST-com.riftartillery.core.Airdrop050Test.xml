@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.Airdrop050Test" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-10-30T20:06:15" hostname="ALEXCOMP" time="0.946">
+  <properties/>
+  <testcase name="newPayloadsAndLaserPatternsAreDistinct" classname="com.riftartillery.core.Airdrop050Test" time="0.3"/>
+  <testcase name="rareDropGrantsAndSelectsItsSavedWeapon" classname="com.riftartillery.core.Airdrop050Test" time="0.253"/>
+  <testcase name="armorDropCapsShieldAndLeavesFullPlayerDropUntouched" classname="com.riftartillery.core.Airdrop050Test" time="0.007"/>
+  <testcase name="rareDropCannotInterruptShotgunsSecondAttack" classname="com.riftartillery.core.Airdrop050Test" time="0.009"/>
+  <testcase name="newCatalogHas140UniqueItemsAndEveryAddedItemExecutes" classname="com.riftartillery.core.Airdrop050Test" time="0.204"/>
+  <testcase name="scheduledSupplyDoesNotDuplicateOnRepeatedTurnProcessing" classname="com.riftartillery.core.Airdrop050Test" time="0.013"/>
+  <testcase name="dropWaitsFallsLandsAndResumesFallingIfSupportIsDestroyed" classname="com.riftartillery.core.Airdrop050Test" time="0.012"/>
+  <testcase name="destroyedAndSubmergedDropsDisappearAndRaceHasNoDrops" classname="com.riftartillery.core.Airdrop050Test" time="0.008"/>
+  <testcase name="medicalDropChecksNeedAndClearsStatuses" classname="com.riftartillery.core.Airdrop050Test" time="0.004"/>
+  <testcase name="fallingDropCannotBeCollected" classname="com.riftartillery.core.Airdrop050Test" time="0.004"/>
+  <testcase name="fourDropLimitAndFailedBeaconPreserveAmmo" classname="com.riftartillery.core.Airdrop050Test" time="0.005"/>
+  <testcase name="fallingStateSurvivesSaveWithoutChangingLootOrTrajectory" classname="com.riftartillery.core.Airdrop050Test" time="0.118"/>
+  <testcase name="ammunitionDropIsSingleUseAndKeepsAttack" classname="com.riftartillery.core.Airdrop050Test" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+RIFT Artillery 0.5.0 delivery verification
+
+Core JVM tests: 119 passed, 0 failures
+Desktop bridge tests: 7 passed, 0 failures
+Android instrumentation: 218 passed (phone profile), 218 passed (tablet profile)
+Windows Unity player smoke: 231 passed
+Android APK signature: verified with APK Signature Scheme v2
+Release artifacts: APK, AAB, Windows ZIP present
+Screenshots: 11 final PNG files listed in docs/screenshots/manifest-v050.json
+Checksum file: dist/SHA256SUMS.txt includes all 0.5.0 release files
