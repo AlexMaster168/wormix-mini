@@ -1,0 +1,3 @@
+PASS: signed 0.3.0 creates a resumable battle
+PASS: signed 0.3.1 upgrades 0.3.0 without uninstall, restores saved battle, aim and music controls
+PASS: signed 0.3.1 upgrades 0.3.0 without uninstall, restores saved battle, aim and music controls

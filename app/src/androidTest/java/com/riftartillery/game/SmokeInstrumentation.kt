@@ -153,7 +153,14 @@ class SmokeInstrumentation : Instrumentation() {
             val aimTime=game().timeLeft;SystemClock.sleep(250);verify("Aim panel freezes battle") {game().timeLeft==aimTime}
             val oldAngle=game().angle;click("+1°");verify("Aim one-degree button") {kotlin.math.abs(game().angle-oldAngle-1)<.01f}
             tap(520f,280f);tap(960f,490f);verify("Long aim and power sliders") {kotlin.math.abs(game().angle+90)<1 && kotlin.math.abs(game().power-.8f)<.01f}
+            val sliderDrag=SystemClock.uptimeMillis();event(MotionEvent.ACTION_DOWN,520f,280f,sliderDrag);event(MotionEvent.ACTION_MOVE,920f,280f,sliderDrag);event(MotionEvent.ACTION_UP,920f,280f,sliderDrag)
+            verify("Aim slider follows finger continuously") {kotlin.math.abs(game().angle-90)<1}
+            val aimStock=game().active.ammo.toMap();val aimActor=game().active.x
+            tap(1300f,765f);hold(125f,765f,160)
+            verify("Aim overlay blocks fire and movement underneath") {game().active.ammo==aimStock && game().active.x==aimActor && game().move==0f}
             click("Готово");verify("Aim panel closes") {field("aimPanel")==false}
+            val cancelled=SystemClock.uptimeMillis();event(MotionEvent.ACTION_DOWN,125f,765f,cancelled);event(MotionEvent.ACTION_CANCEL,125f,765f,cancelled)
+            verify("Cancelled touch releases movement") {game().move==0f && field("movePointer")==-1}
             val drag=SystemClock.uptimeMillis();event(MotionEvent.ACTION_DOWN,800f,400f,drag);val dragAngle=game().angle
             event(MotionEvent.ACTION_MOVE,860f,430f,drag);event(MotionEvent.ACTION_UP,860f,430f,drag)
             verify("Field drag finely adjusts direction") {kotlin.math.abs(game().angle-dragAngle-10.8f)<.5f}
@@ -166,7 +173,7 @@ class SmokeInstrumentation : Instrumentation() {
             menu();newBattle();waitFor("Ready to test unit collision") {game().active.grounded}
             runOnMainSync {game().fighters[1].apply {x=game().active.x+65;y=game().active.y;vx=0f;vy=0f}}
             val otherX=game().fighters[1].x;hold(125f,765f,1200)
-            verify("Walking touch does not drag nearby ally") {kotlin.math.abs(game().fighters[1].x-otherX)<.1f && game().active.x<otherX-33}
+            verify("Walking touch passes through ally without pushing") {kotlin.math.abs(game().fighters[1].x-otherX)<.1f && game().active.x>otherX+33}
             menu()
             click("Отряд / кузница");verify("Loadout opens") {field("loadoutOpen")==true}
             click("Фантом");click("Сохранить отряд");verify("Race selection persists") {(field("squad") as Loadout).race==Race.PHANTOM}
@@ -240,6 +247,9 @@ class SmokeInstrumentation : Instrumentation() {
             verify("Save retains drill and defender") {game().active.drillFuel>0 && game().devices.any {it.kind==DeviceKind.DEFENDER}}
             click("II  Пауза");click("Выбор музыки");click(MusicTrack.RETRO.title)
             waitFor("Music picker previews track while paused") {music().currentTrack==MusicTrack.RETRO && music().isPlaying}
+            val musicTime=game().timeLeft;val musicAngle=game().angle;val musicStock=game().active.ammo.toMap()
+            tap(1300f,765f);hold(125f,765f,160)
+            verify("Music overlay blocks battle controls and timer") {game().timeLeft==musicTime && game().angle==musicAngle && game().active.ammo==musicStock && game().move==0f}
             click("Готово");waitFor("Closing picker restores paused audio state") {!music().isPlaying};click("Продолжить бой")
             val performance=(activity as MainActivity).performanceReport()
             runOnMainSync {view.suspendGame()}

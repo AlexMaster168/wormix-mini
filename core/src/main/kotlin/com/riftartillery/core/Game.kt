@@ -531,12 +531,7 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
             }
         }
         val dx = f.vx*dt
-        val walkingIntoUnit=controlled && move!=0f && anchor==null && fighters.any {
-            it.alive && it.id!=f.id && !(it.race==Race.PHANTOM && !it.grounded) &&
-            abs(it.x-(f.x+dx))<34 && abs(it.y-f.y)<80 && abs(it.x-(f.x+dx))<abs(it.x-f.x)
-        }
-        if(walkingIntoUnit) f.vx=0f
-        else if (!bodyBlocked(f.x+dx,f.y)) f.x += dx
+        if (!bodyBlocked(f.x+dx,f.y)) f.x += dx
         else if ((wasGrounded || f.grounded) && f.vy>=0 && !bodyBlocked(f.x+dx,f.y-7)) { f.x += dx; f.y -= 7 }
         else f.vx = 0f
         f.vx *= if (f.grounded) (if(arena==Arena.ARCTIC || hazards.any {it.effect==Effect.FREEZE && hypot(it.x-f.x,it.y-f.y)<it.radius}) .98f else .82f) else .995f
@@ -611,16 +606,12 @@ class Game(val arena: Arena = Arena.NEON, val againstBot: Boolean = true, val se
                 val overlapX=34-abs(a.x-b.x);val overlapY=80-abs(a.y-b.y)
                 if(overlapX<=0 || overlapY<=0) continue
                 val horizontal=overlapX<overlapY
+                // Ground-level fighters can pass each other and stop side by side without pushing.
+                if(horizontal && (a.grounded || b.grounded || bodyBlocked(a.x,a.y+5) || bodyBlocked(b.x,b.y+5))) continue
                 val direction=if((if(horizontal) a.x-b.x else a.y-b.y)<=0) -1f else 1f
                 val shift=(if(horizontal) overlapX else overlapY)+.1f
                 val dx=if(horizontal) shift*direction else 0f
                 val dy=if(horizontal) 0f else shift*direction
-                if(horizontal && canControl && move!=0f && (a.id==active.id || b.id==active.id)) {
-                    val moving=if(a.id==active.id) a else b
-                    displace(moving,if(moving===a) dx else -dx,0f)
-                    moving.vx=0f
-                    continue
-                }
                 val movedA=displace(a,dx/2,dy/2)
                 val movedB=displace(b,if(movedA) -dx/2 else -dx,if(movedA) -dy/2 else -dy)
                 if(!movedB && movedA) displace(a,dx/2,dy/2)

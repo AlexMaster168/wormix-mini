@@ -1,0 +1,80 @@
+{
+  "version": "0.3.1",
+  "artifacts": {
+    "RIFT-Artillery-0.3.1.aab": "079a64ca1293ad646797c74970891573f3737919c854edf0d6bce90b3531ea4a",
+    "RIFT-Artillery-0.3.1.apk": "f7e8bf075e2185c25fe9700215c103ff4d91e95e6b95686f4f491e5d2a959245",
+    "RIFT-Artillery-Windows-0.3.1.zip": "b1726f51a9dc2b2573cfa69b0443f9f69d822b1ad17eff089e0af627a696cb98"
+  },
+  "engineSha256": "923463db32dc4dc0e9cbd48e6dbc71ce1f5d9d23837d77dfdace8e223db7736a",
+  "windowsAssemblySha256": "74faba88f26cca4b9cbbec6af02910388a594bc9af4298052bc123cbb0aa7f0c",
+  "platformTestsCompletedUtc": {
+    "android": "2026-10-30T09:55:44.787622+00:00",
+    "windows": "2026-10-30T09:52:42.3106266Z"
+  },
+  "images": [
+    {
+      "file": "v031-android-01-menu.png",
+      "platform": "android",
+      "sha256": "7b683781b4503c7e3da89df861768de69d0929e5a41f25e2a7d0ab8dc488fc91",
+      "capturedUtc": "2026-10-30T10:00:35.447968+00:00",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "v031-android-06-aim.png",
+      "platform": "android",
+      "sha256": "73e1714a9f7903fbfb99ba1963f3d5df210218784f8959f103c5bcf5f549edff",
+      "capturedUtc": "2026-10-30T10:00:42.925806+00:00",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "v031-android-10-music.png",
+      "platform": "android",
+      "sha256": "f62af8dd6ba34ca9ded071a77eb2b2056e0c22a3ad579c4c2bde8cd38a2c045b",
+      "capturedUtc": "2026-10-30T10:00:56.734502+00:00",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "v031-pc-01-menu.png",
+      "platform": "windows",
+      "sha256": "8707307d1f2a8e8405dc00b3cb12cadc61ef6a559b88bcbd1441378913d757d0",
+      "capturedUtc": "2026-10-30T09:52:42.441739+00:00",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "v031-pc-02-battle.png",
+      "platform": "windows",
+      "sha256": "0bc5ae0c5bfb41f3f23525b5b8b0aa084161478a550b510a53bde5329dbecdf4",
+      "capturedUtc": "2026-10-30T09:52:43.109364+00:00",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "v031-pc-03-aim.png",
+      "platform": "windows",
+      "sha256": "b9f1fdc66fa12637ab6fbb91389eb10d443835abc111641acb78bab7f5088335",
+      "capturedUtc": "2026-10-30T09:52:43.860427+00:00",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "v031-pc-04-watermelon.png",
+      "platform": "windows",
+      "sha256": "8769af0c6b6b5e97d44b4c32fdf0a55343315cfdc627cabe08919a12db855cb6",
+      "capturedUtc": "2026-10-30T09:52:44.614719+00:00",
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "file": "v031-pc-05-music.png",
+      "platform": "windows",
+      "sha256": "778f71fb2e023d32d8b87097a5b0e41b5216cc638ea9cc853f464e3600ed264d",
+      "capturedUtc": "2026-10-30T09:52:45.380481+00:00",
+      "width": 1280,
+      "height": 720
+    }
+  ]
+}

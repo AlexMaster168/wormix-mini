@@ -25,11 +25,13 @@ namespace Rift {
         void Awake() {
             Application.runInBackground=true;Application.targetFrameRate=60;
             if(Camera.main==null) {var c=new GameObject("Camera").AddComponent<Camera>();c.tag="MainCamera";c.backgroundColor=Bg;c.clearFlags=CameraClearFlags.SolidColor;}
+            if(FindFirstObjectByType<AudioListener>()==null) Camera.main.gameObject.AddComponent<AudioListener>();
+            AudioListener.pause=false;AudioListener.volume=1;
             heroes=Resources.Load<Texture2D>("Art/heroes-atlas");bossArt=Resources.Load<Texture2D>("Art/bosses-atlas");
             dot=new Texture2D(32,32,TextureFormat.RGBA32,false);var pixels=new Color32[1024];
             for(int y=0;y<32;y++) for(int x=0;x<32;x++) pixels[y*32+x]=new Color32(255,255,255,(byte)((x-15.5f)*(x-15.5f)+(y-15.5f)*(y-15.5f)<240?255:0));
             dot.SetPixels32(pixels);dot.Apply();
-            music=gameObject.AddComponent<AudioSource>();music.loop=true;music.volume=.22f;
+            music=gameObject.AddComponent<AudioSource>();music.loop=true;music.volume=Mathf.Clamp01(PlayerPrefs.GetFloat("musicVolume",.35f));music.spatialBlend=0;
             effects=gameObject.AddComponent<AudioSource>();beep=AudioClip.Create("button",2400,1,24000,false);
             float[] samples=new float[2400];for(int i=0;i<samples.Length;i++) samples[i]=Mathf.Sin(i*2*Mathf.PI*660/24000)*.12f*(1-i/2400f);beep.SetData(samples,0);
             race=PlayerPrefs.GetInt("race");hat=PlayerPrefs.GetInt("hat");artifact=PlayerPrefs.GetInt("artifact");upgrade=PlayerPrefs.GetInt("upgrade");
@@ -67,17 +69,16 @@ namespace Rift {
         void CommitAim() {Send("{\"cmd\":\"tick\",\"steps\":0,\"angle\":"+F(angle)+",\"power\":"+F(power)+"}");}
         void Update() {
             if(engine==null || catalog==null || !string.IsNullOrEmpty(fatal)) return;
+            UpdatePointer();
             if(Input.GetKeyDown(KeyCode.Escape)) {if(musicPanel) musicPanel=false;else if(aimPanel) {CommitAim();aimPanel=false;} else if(arsenal) arsenal=false;else if(forge) forge=false;else if(help) help=false;else if(battle) paused=!paused;else help=true;}
             if(battle && !Modal && state.phase!=3) {
                 if(state.control) {
-                    if(Input.GetKeyDown(KeyCode.Space)) Act("jump");if(Input.GetKeyDown(KeyCode.Q)) Act("rope");if(Input.GetKeyDown(KeyCode.E)) Act("ability");
-                    if(Input.GetKeyDown(KeyCode.Tab)) {var ally=state.fighters.FirstOrDefault(f=>f.alive && f.team==Active.team && f.id!=state.active);if(ally!=null) Act("switch",",\"id\":"+ally.id);}
-                    if(Input.GetKeyDown(KeyCode.R) && state.phase==0 && state.human) {arsenal=true;category=catalog.weapons[state.weapon].category;page=0;}
-                    if(Input.GetKeyDown(KeyCode.Return) && !catalog.weapons[state.weapon].targeted) Act("fire");
+                    // Discrete keys are handled by IMGUI events, including Russian layout characters.
                     float wheel=Input.mouseScrollDelta.y;if(Input.GetKey(KeyCode.LeftShift)) zoom=Mathf.Clamp(zoom+wheel*.1f,.42f,1.6f);else power=Mathf.Clamp01(power+wheel*.025f);
                 }
-                float move=state.control?Mathf.Clamp(mouseMove+(Input.GetKey(KeyCode.D)?1:0)-(Input.GetKey(KeyCode.A)?1:0),-1,1):0;
-                float reel=state.control?Mathf.Clamp(mouseReel+(Input.GetKey(KeyCode.S)?1:0)-(Input.GetKey(KeyCode.W)?1:0),-1,1):0;
+                float move=state.control?Mathf.Clamp(mouseMove+(Input.GetKey(KeyCode.RightArrow)||heldRight?1:0)-(Input.GetKey(KeyCode.LeftArrow)||heldLeft?1:0),-1,1):0;
+                float reel=state.control?Mathf.Clamp(mouseReel+(heldDown?1:0)-(heldUp?1:0),-1,1):0;
+                if(state.control) {angle=Mathf.Clamp(angle+((Input.GetKey(KeyCode.DownArrow)?1:0)-(Input.GetKey(KeyCode.UpArrow)?1:0))*45*Time.unscaledDeltaTime,-180,180);power=Mathf.Clamp01(power+((Input.GetKey(KeyCode.Equals)||Input.GetKey(KeyCode.KeypadPlus)?1:0)-(Input.GetKey(KeyCode.Minus)||Input.GetKey(KeyCode.KeypadMinus)?1:0))*Time.unscaledDeltaTime*.4f);}
                 accumulator+=Mathf.Min(Time.unscaledDeltaTime,.1f);int steps=Mathf.Min(6,(int)(accumulator*60));
                 if(steps>0) {accumulator-=steps/60f;Send("{\"cmd\":\"tick\",\"steps\":"+steps+",\"move\":"+F(move)+",\"reel\":"+F(reel)+",\"angle\":"+F(angle)+",\"power\":"+F(power)+"}");}
                 if(state.turn!=lastTurn) {lastTurn=state.turn;manual=false;cameraX=Active.x;cameraY=Active.y-110;Act("save");}
@@ -94,6 +95,7 @@ namespace Rift {
             else if(!music.isPlaying && music.clip!=null) {music.UnPause();if(!music.isPlaying) music.Play();}
         }
         void ChooseMusic(int selection) {track=Mathf.Clamp(selection,-1,catalog.tracks.Length-1);PlayerPrefs.SetInt("musicTrack",track);PlayerPrefs.Save();}
+        void OnApplicationFocus(bool focused) {if(!focused) {heldLeft=heldRight=heldUp=heldDown=false;mouseMove=mouseReel=0;}}
         void OnApplicationPause(bool value) {if(value && battle) {paused=true;Act("save");} if(value && music!=null) music.Pause();}
         void OnApplicationQuit() {if(engine!=null) {try {if(battle && state.phase!=3) Act("save");} catch(Exception) {} engine.Dispose();engine=null;}}
     }

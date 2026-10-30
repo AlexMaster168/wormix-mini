@@ -14,6 +14,7 @@ import java.io.IOException
 
 /** All coordinates are in the game's logical 1440 × 810 viewport. */
 class BattleView(context: Context) : View(context) {
+    private val versionName=context.packageManager.getPackageInfo(context.packageName,0).versionName.orEmpty()
     private val prefs = context.getSharedPreferences("rift",Context.MODE_PRIVATE)
     private var sound = prefs.getBoolean("sound",true)
     private var musicEnabled = prefs.getBoolean("music",true)
@@ -340,7 +341,7 @@ class BattleView(context: Context) : View(context) {
         text(c,"ТВОЙ ПОСЛУЖНОЙ СПИСОК",840f,721f,12f,muted,mono)
         text(c,"${prefs.getInt("wins",0)} ПОБЕД",840f,758f,26f,lime,titleFont)
         text(c,"${prefs.getInt("matches",0)} завершённых боёв",1050f,755f,16f,muted)
-        text(c,"RIFT  /  0.3.0",62f,792f,22f,muted,mono)
+        text(c,"RIFT  /  $versionName",62f,792f,22f,muted,mono)
         text(c,"ОФЛАЙН · БЕЗ ПОКУПОК",1030f,792f,22f,muted,mono)
     }
     private fun fighter(c:Canvas,x:Float,y:Float,team:Int,race:Race,active:Boolean,s:Float=1f) {

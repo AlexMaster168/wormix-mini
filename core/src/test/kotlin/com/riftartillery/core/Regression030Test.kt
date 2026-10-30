@@ -20,14 +20,21 @@ class Regression030Test {
             val g=flat();val other=g.fighters[id];other.x=300+direction*60;val start=other.x
             g.move=direction;repeat(240) {g.update()}
             assertEquals("Stationary unit stays put: $id/$direction",start,other.x,.01f)
-            assertTrue(abs(g.active.x-other.x)>=33.9f)
-            assertTrue(abs(g.active.x-300)<27)
+            assertTrue("Walked completely past unit: $id/$direction",(g.active.x-other.x)*direction>100)
+            assertTrue(other.grounded && other.alive)
         }
     }
-    @Test fun existingSmallOverlapIsResolvedByMovingTheWalkingUnitOnly() {
+    @Test fun walkingOutOfOverlapDoesNotMoveTheOtherUnit() {
         val g=flat();g.fighters[1].x=330f;g.move=1f
         repeat(60) {g.update()};assertEquals(330f,g.fighters[1].x,.01f)
-        assertTrue(g.active.x<297)
+        assertTrue(g.active.x>400)
+    }
+    @Test fun stoppingInsideAnotherUnitDoesNotPushEitherFighter() {
+        val g=flat();val other=g.fighters[1];other.x=330f
+        g.move=1f;repeat(12) {g.update()};g.move=0f;repeat(90) {g.update()}
+        assertEquals(330f,other.x,.01f);assertTrue(abs(g.active.x-other.x)<34)
+        val x=g.active.x;repeat(90) {g.update()};assertEquals(x,g.active.x,.01f)
+        g.move=-1f;repeat(45) {g.update()};assertTrue(g.active.x<other.x-50);assertEquals(330f,other.x,.01f)
     }
     @Test fun medkitDoesNotConsumeTurnAndAttackRemainsAvailable() {
         val g=flat();repeat(80) {g.update()};g.active.hp=30f

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.riftartillery.core.ExpansionTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-30T09:50:54" hostname="ALEXCOMP" time="0.201">
+  <properties/>
+  <testcase name="versionTwoSaveRetainsStateAndReceivesNewAmmo" classname="com.riftartillery.core.ExpansionTest" time="0.053"/>
+  <testcase name="plasmaChargeTravelsHitsAndConsumesOneRound" classname="com.riftartillery.core.ExpansionTest" time="0.004"/>
+  <testcase name="singularityPullsBothSidesTowardItsExplosion" classname="com.riftartillery.core.ExpansionTest" time="0.003"/>
+  <testcase name="newArenasHaveDistinctTerrainAndPreserveItInSaves" classname="com.riftartillery.core.ExpansionTest" time="0.126"/>
+  <testcase name="clusterRocketProducesSixBoundedIndependentFragments" classname="com.riftartillery.core.ExpansionTest" time="0.014"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -6,8 +6,8 @@ android {
         applicationId = "com.riftartillery.game"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.3.0"
+        versionCode = 6
+        versionName = "0.3.1"
         testInstrumentationRunner = "com.riftartillery.game.SmokeInstrumentation"
     }
     val signingFile=System.getenv("RIFT_SIGNING_FILE")

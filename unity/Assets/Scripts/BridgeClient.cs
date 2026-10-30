@@ -27,6 +27,8 @@ namespace Rift {
             if(!File.Exists(jar)) throw new FileNotFoundException("Не найден игровой движок. Запустите tools/Build-Unity.ps1.",jar);
             Directory.CreateDirectory(saveDirectory);
             process=new Process {StartInfo=new ProcessStartInfo(runtime,"-Xmx512m -Dfile.encoding=UTF-8 -Djava.awt.headless=true -jar "+Quote(jar)+" "+Quote(saveDirectory)) {UseShellExecute=false,RedirectStandardInput=true,RedirectStandardOutput=true,RedirectStandardError=true,CreateNoWindow=true,StandardInputEncoding=new UTF8Encoding(false),StandardOutputEncoding=Encoding.UTF8,StandardErrorEncoding=Encoding.UTF8}};
+            // Bundled Java must not inherit developer agents or incompatible machine-wide JVM flags.
+            foreach(string key in new[]{"JAVA_TOOL_OPTIONS","JDK_JAVA_OPTIONS","_JAVA_OPTIONS"}) process.StartInfo.EnvironmentVariables.Remove(key);
             process.ErrorDataReceived+=(s,e)=>{if(e.Data!=null) lock(diagnostics) {if(diagnostics.Length<16000) diagnostics.AppendLine(e.Data);}};
             process.Start();process.BeginErrorReadLine();
         }

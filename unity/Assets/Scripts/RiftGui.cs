@@ -21,7 +21,7 @@ namespace Rift {
             bool hit=GUI.Button(new Rect(x,y,w,h),label,buttonStyle);GUI.backgroundColor=GUI.contentColor=Color.white;
             if(hit && soundEnabled && effects!=null) effects.PlayOneShot(beep);return hit;
         }
-        bool Hold(string label,float x,float y,float w,float h=78) {GUI.backgroundColor=Panel;GUI.contentColor=Color.white;bool pressed=GUI.RepeatButton(new Rect(x,y,w,h),label,buttonStyle);GUI.backgroundColor=Color.white;return pressed;}
+        void Hold(string label,float x,float y,float w,float h=78) {GUI.backgroundColor=Panel;GUI.contentColor=Color.white;GUI.Box(new Rect(x,y,w,h),label,buttonStyle);GUI.backgroundColor=Color.white;}
         void Circle(Vector2 p,float radius,Color color) {GUI.color=color;GUI.DrawTexture(new Rect(p.x-radius,p.y-radius,radius*2,radius*2),dot);GUI.color=Color.white;}
         void Line(Vector2 a,Vector2 b,Color color,float width=2) {var matrix=GUI.matrix;Vector2 d=b-a;GUIUtility.RotateAroundPivot(Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg,a);Fill(new Rect(a.x,a.y,d.magnitude,width),color);GUI.matrix=matrix;}
         void OnGUI() {
@@ -30,8 +30,11 @@ namespace Rift {
             Fill(new Rect(0,0,1440,810),Bg);
             if(!string.IsNullOrEmpty(fatal)) {Text("Не удалось запустить игру",80,150,1250,Coral,titleStyle);Text(fatal,80,240,1250,Color.white,smallStyle);if(B("Выход",80,500,300)) Application.Quit();return;}
             if(catalog==null || state==null) {Text("Загрузка…",80,200);return;}
+            HandleKey(Event.current);
+            GUI.enabled=!Modal;
             if(battle) DrawBattle();else DrawMenu();
-            if(arsenal) DrawArsenal();if(forge) DrawForge();if(paused) DrawPause();if(aimPanel) DrawAim();if(help) DrawHelp();if(musicPanel) DrawMusic();
+            GUI.enabled=true;
+            if(musicPanel) DrawMusic();else if(help) DrawHelp();else if(aimPanel) DrawAim();else if(arsenal) DrawArsenal();else if(forge) DrawForge();else if(paused) DrawPause();
             if(!string.IsNullOrEmpty(toast)) Text(toast,30,780,1250,Coral,smallStyle);
         }
         Color ArenaColor(int id) {Color[] colors={new Color(.05f,.11f,.18f),new Color(.22f,.09f,.13f),new Color(.08f,.09f,.22f),new Color(.07f,.2f,.13f),new Color(.1f,.23f,.32f),new Color(.2f,.15f,.1f),new Color(.33f,.15f,.13f),new Color(.05f,.2f,.26f),new Color(.03f,.22f,.13f),new Color(.24f,.19f,.22f),new Color(.1f,.13f,.24f),new Color(.2f,.1f,.3f)};return colors[id%colors.Length];}
@@ -42,9 +45,10 @@ namespace Rift {
         }
         void Hero(Rect rect,int id,int team=0) {if(heroes==null) {Fill(rect,Lime);return;}GUI.DrawTextureWithTexCoords(rect,heroes,new Rect(id/7f,team==0?.5f:0,1/7f,.5f),true);}
         void DrawMenu() {
-            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.3.0 · 12 КАРТ · 100 ПРЕДМЕТОВ",58,105,900,Muted);
+            Backdrop(arena);Text("RIFT / ARTILLERY",55,42,800,Lime,titleStyle);Text("WINDOWS · 0.3.1 · 12 КАРТ · 100 ПРЕДМЕТОВ",58,105,900,Muted);
             if(B(musicEnabled?"Музыка: вкл":"Музыка: выкл",1020,35,180,46)) {musicEnabled=!musicEnabled;PlayerPrefs.SetInt("music",musicEnabled?1:0);}
             if(B("Треки",1212,35,165,46)) musicPanel=true;
+            if(B(Screen.fullScreen?"Оконный / F11":"На весь экран / F11",1020,92,357,46)) ToggleFullscreen();
             Text("Маленький отряд. Большой разлом.",58,171,1100,Color.white,titleStyle);
             Text("A / D — ходьба · пробел — прыжок · мышь — прицел · Enter — огонь",60,230,1200,Muted);
             for(int i=0;i<catalog.arenas.Length;i++) if(B(catalog.arenas[i].name,58+i%4*236,290+i/4*77,220,65,arena==i)) arena=i;
@@ -102,18 +106,11 @@ namespace Rift {
             if(!overview && enemy!=null && Mathf.Abs((enemy.x-cameraX)*zoom)>690 && B("Противник →",1160,220,255,50)) {manual=true;overview=false;cameraX=enemy.x;cameraY=enemy.y-110;}
             if(terrain!=null) GUI.DrawTexture(new Rect(1100,580,316,95),terrain,ScaleMode.StretchToFill,true);
             foreach(var f in state.fighters.Where(f=>f.alive)) Circle(new Vector2(1100+f.x/2880*316,580+f.y/1440*95),3,f.team==0?Lime:Coral);
-            Fill(new Rect(0,690,1440,120),Bg);mouseMove=(Hold("→",95,710,65)?1:0)-(Hold("←",20,710,65)?1:0);mouseReel=(Hold("↓",470,710,45)?1:0)-(Hold("↑",420,710,45)?1:0);
+            Fill(new Rect(0,690,1440,120),Bg);Hold("→",95,710,65);Hold("←",20,710,65);Hold("↓",470,710,45);Hold("↑",420,710,45);
             if(B("Прыжок",175,710,110,78)) Act("jump");if(B(state.rope.Length>0?"Отцепить":"Канат",295,710,115,78)) Act("rope");
             if(B("Прицел "+Mathf.RoundToInt(angle)+"° / "+Mathf.RoundToInt(power*100)+"%",530,710,360,78) && state.control) aimPanel=true;
             if(B(catalog.weapons[state.weapon].name,905,710,185,78) && state.phase==0 && state.human) {arsenal=true;category=catalog.weapons[state.weapon].category;page=0;search="";}
             if(B("Навык",1100,710,100,78)) Act("ability");if(B(catalog.weapons[state.weapon].targeted?"Цель на карте":"ОГОНЬ",1210,710,205,78,true) && !catalog.weapons[state.weapon].targeted) Act("fire");
-            Event ev=Event.current;Vector2 m=ev.mousePosition;
-            if(!Modal && ev.type==EventType.MouseDown && new Rect(1100,580,316,95).Contains(m)) {overview=false;manual=true;cameraX=(m.x-1100)/316*2880;cameraY=(m.y-580)/95*1440;ev.Use();}
-            if(!Modal && m.y>215 && m.y<680 && state.control) {
-                if(ev.type==EventType.MouseDown && ev.button==0) {float wx=cameraX+(m.x-720)/zoom,wy=cameraY+(m.y-411)/zoom;if(catalog.weapons[state.weapon].targeted) Act("fire",",\"x\":"+F(wx)+",\"y\":"+F(wy));else angle=Mathf.Atan2(wy-(Active.y-20),wx-Active.x)*Mathf.Rad2Deg;ev.Use();}
-                if(ev.type==EventType.MouseDrag && ev.button==0 && !catalog.weapons[state.weapon].targeted) {angle=Mathf.Atan2(cameraY+(m.y-411)/zoom-(Active.y-20),cameraX+(m.x-720)/zoom-Active.x)*Mathf.Rad2Deg;ev.Use();}
-                if(ev.type==EventType.MouseDrag && ev.button==1) {manual=true;overview=false;cameraX=Mathf.Clamp(cameraX-ev.delta.x/zoom,0,2880);cameraY=Mathf.Clamp(cameraY-ev.delta.y/zoom,0,1440);ev.Use();}
-            }
             if(state.phase==3) {PanelBox("БОЙ ЗАВЕРШЁН");Text(state.winner==0?"Победа Искры":state.winner==1?"Победа Фантома":"Ничья",260,270,900,Lime,titleStyle);if(B("Реванш",260,410,920,65,true)) NewBattle();if(B("В меню",260,505,920,60)) SaveMenu();}
         }
         void PanelBox(string title) {Fill(new Rect(0,0,1440,810),new Color(0,.02f,.05f,.88f));Fill(new Rect(160,90,1120,650),Panel);Text(title,200,120,1040,Lime,titleStyle);}
@@ -134,8 +131,8 @@ namespace Rift {
             if(B("−5%",210,475,95)) power=Mathf.Max(0,power-.05f);if(B("+5%",1140,475,95)) power=Mathf.Min(1,power+.05f);
             Text("Мышь на поле — направление, колесо — сила.",210,565,990,Muted);if(B("Готово",940,650,280,60,true)) {CommitAim();aimPanel=false;}
         }
-        void DrawPause() {PanelBox("ПАУЗА");if(B("Продолжить бой",420,250,600,60,true)) paused=false;if(B("Пропустить ход",420,325,600,55)) {Act("skip");paused=false;}if(B("Сохранить и в меню",420,395,600,55)) SaveMenu();if(B("Выбор музыки",420,465,600,55)) musicPanel=true;if(B(soundEnabled?"Эффекты: вкл":"Эффекты: выкл",420,535,600,55)) {soundEnabled=!soundEnabled;PlayerPrefs.SetInt("sound",soundEnabled?1:0);}if(B("Правила",420,605,600,55)) help=true;}
-        void DrawMusic() {PanelBox("МУЗЫКА / "+catalog.tracks.Length);if(B("По локации",200,180,1040,50,track<0)) {ChooseMusic(-1);}for(int i=0;i<catalog.tracks.Length;i++) if(B(catalog.tracks[i].name,200+i%4*265,245+i/4*82,250,65,track==i)) {ChooseMusic(i);}if(B("Предыдущий",200,605,300)) {ChooseMusic(((track<0?arena:track)-1+catalog.tracks.Length)%catalog.tracks.Length);}if(B("Следующий",520,605,300)) {ChooseMusic(((track<0?arena:track)+1)%catalog.tracks.Length);}if(B("Готово",940,665,300,55,true)) musicPanel=false;}
+        void DrawPause() {PanelBox("ПАУЗА");if(B(Screen.fullScreen?"Оконный / F11":"На весь экран / F11",880,120,360,45)) ToggleFullscreen();if(B("Продолжить бой",420,250,600,60,true)) paused=false;if(B("Пропустить ход",420,325,600,55)) {Act("skip");paused=false;}if(B("Сохранить и в меню",420,395,600,55)) SaveMenu();if(B("Выбор музыки",420,465,600,55)) musicPanel=true;if(B(soundEnabled?"Эффекты: вкл":"Эффекты: выкл",420,535,600,55)) {soundEnabled=!soundEnabled;PlayerPrefs.SetInt("sound",soundEnabled?1:0);}if(B("Правила",420,605,600,55)) help=true;}
+        void DrawMusic() {PanelBox("МУЗЫКА / "+catalog.tracks.Length);if(B("По локации",200,180,1040,50,track<0)) {ChooseMusic(-1);}for(int i=0;i<catalog.tracks.Length;i++) if(B(catalog.tracks[i].name,200+i%4*265,245+i/4*82,250,65,track==i)) {ChooseMusic(i);}if(B("Предыдущий",200,605,300)) {ChooseMusic(((track<0?arena:track)-1+catalog.tracks.Length)%catalog.tracks.Length);}if(B("Следующий",520,605,300)) {ChooseMusic(((track<0?arena:track)+1)%catalog.tracks.Length);}Text("Громкость "+Mathf.RoundToInt(music.volume*100)+"%",200,660,300,Muted,smallStyle);float volume=GUI.HorizontalSlider(new Rect(200,705,590,25),music.volume,0,1);if(Mathf.Abs(volume-music.volume)>.001f) {music.volume=volume;PlayerPrefs.SetFloat("musicVolume",volume);}if(B(musicEnabled?"Выкл. музыку":"Вкл. музыку",610,650,270,45)) {musicEnabled=!musicEnabled;PlayerPrefs.SetInt("music",musicEnabled?1:0);}if(B("Готово",940,665,300,55,true)) {PlayerPrefs.Save();musicPanel=false;}}
         bool Buy(string key,int index,int price) {int bits=PlayerPrefs.GetInt(key,1);if((bits&(1<<index))!=0) return true;int scrap=PlayerPrefs.GetInt("scrap",150);if(scrap<price) {toast="Не хватает материалов";return false;}PlayerPrefs.SetInt("scrap",scrap-price);PlayerPrefs.SetInt(key,bits|(1<<index));return true;}
         void DrawForge() {
             PanelBox("ОТРЯД / КУЗНИЦА");Text("Материалы: "+PlayerPrefs.GetInt("scrap",150),900,130,340,Muted);
@@ -145,6 +142,6 @@ namespace Rift {
             for(int i=0;i<catalog.upgrades.Length;i++) if(B(catalog.upgrades[i].name,200+i*350,575,335,50,upgrade==i) && Buy("ownedUpgrades",i,60)) upgrade=i;
             if(B("Сохранить отряд",200,660,1040,55,true)) {PlayerPrefs.SetInt("race",race);PlayerPrefs.SetInt("hat",hat);PlayerPrefs.SetInt("artifact",artifact);PlayerPrefs.SetInt("upgrade",upgrade);PlayerPrefs.Save();forge=false;}
         }
-        void DrawHelp() {PanelBox("УПРАВЛЕНИЕ");string[] lines={"A / D или ← → на экране — движение; пробел — прыжок.","Мышь на поле — прицел; колесо — сила; Enter — огонь.","Кнопка «Прицел» — длинные ползунки, шаг 1° и 5°.","Q — канат; W / S — длина троса и тяга леталки; E — навык.","R — арсенал; Tab — союзник; правая кнопка мыши — камера.","Телепорт и аптечка расходуют запас, но оставляют атаку.","На ход 59 секунд. После атаки — три секунды на отход.","Shift + колесо — масштаб; Esc — пауза. Сохранения локальные."};for(int i=0;i<lines.Length;i++) Text(lines[i],200,210+i*53,1040,Color.white);if(B("Понятно",200,665,1040,55,true)) help=false;}
+        void DrawHelp() {PanelBox("УПРАВЛЕНИЕ");string[] lines={"A / D, стрелки ← → или кнопки — движение; пробел — прыжок.","Мышь / ↑ ↓ — прицел; колесо / + − — сила; Enter — огонь.","Кнопка «Прицел» — длинные ползунки, шаг 1° и 5°.","Q — канат; W / S — длина троса и тяга леталки; E — навык.","R — арсенал; Tab — союзник; правая кнопка мыши — камера.","Телепорт и аптечка расходуют запас, но оставляют атаку.","На ход 59 секунд. После атаки — три секунды на отход.","F11 / Alt+Enter — полный экран; Esc — пауза. Shift+колесо — масштаб."};for(int i=0;i<lines.Length;i++) Text(lines[i],200,210+i*53,1040,Color.white);if(B("Понятно",200,665,1040,55,true)) help=false;}
     }
 }
